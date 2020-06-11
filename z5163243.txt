@@ -1,0 +1,11 @@
+Week 1
+
+- Formed a group and chose to use MealMatch as the project of choice.
+- Determined tech stack to use: React, Python and Flask, MySQL.
+- Created user stories on a google doc which will be later migrated to Jira. I created 3 of the recipe explorer user stories
+
+Week 2
+
+- Aim to create the UI design (Figma), UI flow diagram and system architecture design (draw.io)
+- Coming up with rough dot points and ideas for UI structure/flow in preparation for meeting on 13th June on how we should do the UI
+- Clarified project objective translation into user stories with tutor

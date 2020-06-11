@@ -11,3 +11,18 @@ From the lecture:
 Business Layer - units of code that deal with business logic
 Data Layer - units of code that deal with data persistence
 Presentation Layer - units of code that deal with the interface presented to users.
+
+Thursday (Lab)
+We were confused about this sentence:
+
+"The system must be able
+to suggest a category for each ingredient added by contributors, based on categories previously associated on
+other recipes with that ingredient."
+
+Our tutor clarified:
+Assuming the category of an entered ingredient is already in the database, the system will bring up the category upon the entry of the ingredient. This is enough to satisfy the specifications.
+
+Extra features will be rewarded. You can't go over full marks but it may compensate for marks lost elsewhere.
+
+
+We decided to do a UI design session together over the weekend (currently scheduled for Saturday). 

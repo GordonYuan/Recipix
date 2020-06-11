@@ -1,0 +1,13 @@
+Week 1
+
+Our group was formed, and we decided to do the MealMatch project. Our group discussed our
+technology stack and tasked ourselves with creating user stories and epics for this week.
+Gordon, David and I worked on the stories for the Recipe Explorer. At the end of the week,
+our group has a call meeting to check through everyone's user stories and making sure our
+user stories covered the project description and objectives sufficiently. We had a few
+questions, one of them regarding a line in the project description. We will ask Xin (our
+mentor) during the tutorial next week.
+
+Week 2
+
+...

@@ -1,0 +1,13 @@
+Week 1
+We formed our group and decided that we were doing MealMatch as our project. We created our Jira page and discussed some technologies we
+could use for our project. We decided (pending further exploration) to use Python+Flask,MySQL and React. We wrote the user stories for our
+project but these may be subject to change later. The user stories have not been uploaded to Jira yet.
+
+Gordon and I were responsible for the recipe contributor portion of the user stories. 
+
+Week 2
+Tuesday
+From the lecture:
+Business Layer - units of code that deal with business logic
+Data Layer - units of code that deal with data persistence
+Presentation Layer - units of code that deal with the interface presented to users.

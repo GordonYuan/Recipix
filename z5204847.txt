@@ -1,0 +1,5 @@
+Week 1 
+ - I proposed a meeting to discuss project selection, reading through project objectives and descriptions to clear up obscurities and possible questions we need to pose to the tutor
+ - At the end of the meeting, we decided to complete user stories in the next meeting. 
+ - The team created user stories. I helped look over the user stories, refining the wording of stories and acceptance criterias. 
+ - Showed team what possible tech stack we can use to create the project with.

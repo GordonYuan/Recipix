@@ -3,3 +3,10 @@ Week 1
  - At the end of the meeting, we decided to complete user stories in the next meeting. 
  - The team created user stories. I helped look over the user stories, refining the wording of stories and acceptance criterias. 
  - Showed team what possible tech stack we can use to create the project with.
+
+Week 2 
+ - Proposed meeting for after tutorial 
+ - Proposed another meeting on saturday
+ - Wrote up notes and agendas for the meeting on saturday 
+ - I completed software architecture diagram and sent to team members to review
+ 

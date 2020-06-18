@@ -27,4 +27,4 @@ Extra features will be rewarded. You can't go over full marks but it may compens
 
 We decided to do a UI design session together over the weekend (currently scheduled for Saturday). 
 
-On Saturday, we spent some time designing the UI elements. We will need to have the proposal done by Sunday and that is our goal for this week. We're also not sure about how the feature of recommending sets of ingredients without a matching recipe is meant to be implemented so we'll need to ask our tutor about that.
+On Saturday, we spent some time designing the UI elements. We will need to have the proposal done by Sunday and that is our goal for this week. We're also not sure about how the feature of recommending sets of ingredients without a matching recipe is meant to be implemented so we'll need to ask our tutor about that. I will be helping with report writing and designing the remaining wireframes.

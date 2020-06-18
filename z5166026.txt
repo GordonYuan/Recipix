@@ -9,4 +9,11 @@ roles in development.
 Week 2
 
 Clarified various concerns in tutorial, split tasks with relation to all proposal specs. All members had a meeting after the tutorial, 
-with the agenda to meet up on Saturday to discuss and work on the UI design and diagrams, as well as the report for the proposal.
+with the agenda to meet up on Saturday to discuss and work on the UI design and diagrams, as well as the report for the proposal. 
+
+Saturday 
+4 hour meeting on doing System architechture design diagram, confirming and clarifying ideas around implementation and features to include, extra features, collaborative effort in using figma to construct UI storyboards. 
+
+
+Week 3
+Andrew and I are finalising user stories, will go through these with the group. Other members of the group are assigned different parts of the proposal.

@@ -9,3 +9,13 @@ Week 2
 - Aim to create the UI design (Figma), UI flow diagram and system architecture design (draw.io)
 - Coming up with rough dot points and ideas for UI structure/flow in preparation for meeting on 13th June on how we should do the UI
 - Clarified project objective translation into user stories with tutor
+
+Week 3
+
+Work done
+- Wrote out rough dot points on what components are necessary and created rough wireframes in figma with the group on the meeting
+- Allocated priority and points to story cards
+
+Goals
+- Aiming to flesh out the figma wireframes with assets to complete it and put it all together in a ui flow diagram by end of saturday
+- Place stories into jira board

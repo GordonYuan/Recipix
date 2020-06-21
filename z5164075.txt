@@ -28,3 +28,8 @@ Extra features will be rewarded. You can't go over full marks but it may compens
 We decided to do a UI design session together over the weekend (currently scheduled for Saturday). 
 
 On Saturday, we spent some time designing the UI elements. We will need to have the proposal done by Sunday and that is our goal for this week. We're also not sure about how the feature of recommending sets of ingredients without a matching recipe is meant to be implemented so we'll need to ask our tutor about that. I will be helping with report writing and designing the remaining wireframes.
+
+Week 3
+On Thursday, our tutor clarified that having explorers request a recipe to be made with their running last was a valid way of implementing the feature where contributors are shown the most commonly entered set of ingredients without a matching recipe. Gordon and I decided we would be doing the wireframe/storyboard diagrams and the flow diagrams.
+
+On Saturday night/Sunday morning, Gordon and I completed the wireframes and flow diagrams. On Sunday night, we put the finishing touches on our proposal and decided what we will be doing next week in terms of user stories. We will be implementing searching through the catalogue of ingredients, creating a running list and seeing what recipes can be made from our running list, but we will first need to learn how to use our tech stack before we assign roles in more detail. The first sprint is due at the end of week 4 (so at the end of next week). 

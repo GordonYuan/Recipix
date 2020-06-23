@@ -16,3 +16,6 @@ Week 3
  - Team clarified the system design with the tutor 
  - David and I finalised user stories
  - We will have a meeting to look over the artifacts for the project proposal and finalised everything
+
+Week 4 
+ - I added boilerplate code for the backend swagger api look and formatting

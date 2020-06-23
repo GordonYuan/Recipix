@@ -9,4 +9,10 @@ Week 2
  - Proposed another meeting on saturday
  - Wrote up notes and agendas for the meeting on saturday 
  - I completed software architecture diagram and sent to team members to review
+ - Had meeting for members to discuss and delegate roles to finalise project proposal 
+ - David and I will be in charge of finalising user stories
  
+Week 3 
+ - Team clarified the system design with the tutor 
+ - David and I finalised user stories
+ - We will have a meeting to look over the artifacts for the project proposal and finalised everything

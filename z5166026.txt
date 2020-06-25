@@ -32,4 +32,10 @@ out by contributing the to discussion, deciding what novel features we should ac
 is probably try to discuss in detail how to start on the coding, flesh out our understanding of how to implement our system in practice
 further, so that everyone is on the same page before starting.
 
+Week 4
+
+Tuesday
+2 and a half hour meeting to figure out the techstack, we brainstormed some of the HTTP requests, came up with a database schema, and managed to install various packages so 
+everyone can get started. We started another github, acting as a sandbox for us to familiarise ourselves with various aspects of the techstack, and we figured its better to do
+it this way rather than cluster up the main project github. 
 

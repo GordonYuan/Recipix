@@ -10,4 +10,12 @@ mentor) during the tutorial next week.
 
 Week 2
 
-...
+I worked together with the rest of the group to form the basic storyboards. Everyone
+except Andrew worked on the storyboards meanwhile Andrew worked on the system architecture
+diagram.
+
+Week 3
+
+I wrote the background section for the project proposal as well as compiled the report
+and provided some basic formatting. After submitting the proposal, our group discussed
+how we would approach developing our web app.

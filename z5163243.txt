@@ -19,3 +19,13 @@ Work done
 Goals
 - Aiming to flesh out the figma wireframes with assets to complete it and put it all together in a ui flow diagram by end of saturday
 - Place stories into jira board
+
+Week 4
+Work done
+- Created detailed wireframes in Figma detailing how the final system should look and also created UI flow diagrams
+with Andy, covering all user stories
+- Collaborated with others to compile the proposal report
+
+Goals
+- Set up boilerplate for tech stack on everyones computer and have a simple end to end scenario where backend talks to the frontend
+- Begin picking up cards from the Jira board, after setup is complete

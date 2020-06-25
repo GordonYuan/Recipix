@@ -15,7 +15,11 @@ Week 2
 Week 3 
  - Team clarified the system design with the tutor 
  - David and I finalised user stories
- - We will have a meeting to look over the artifacts for the project proposal and finalised everything
+ - We had a meeting to look over the artifacts for the project proposal and finalised everything
+ - Everyone took part into chipping in their opinions as to what action to take and what pieces to include for each specific artifact
 
 Week 4 
  - I added boilerplate code for the backend swagger api look and formatting
+ - discussed with david the backend schema and ways to represent data in database, and how the backend api will interact with it 
+ - discussed with david whether we would use a database api/interface to make code cleaner so as to not include messy queries in backend api code.
+ 

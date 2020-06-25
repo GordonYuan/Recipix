@@ -10,6 +10,7 @@ class Login(Resource):
     @auth.response(200, 'Success', token_model)
     @auth.response(400, 'Missing Username/Password')
     @auth.response(403, 'Invalid Username/Password')
+    
     @auth.expect(login_model)
     @auth.doc(description='''
     	Authenticate an account in the database

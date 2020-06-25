@@ -10,8 +10,53 @@ login_model = api.model('login_model', {
   'password': fields.String(required=True, example='password123'),
 })
 
-signup_model = api.model('signup_model', {
+register_model = api.model('register_model', {
   'username': fields.String(required=True, example='hotmario258'),
   'password': fields.String(required=True, example='password123'),
 })
 
+ingredient_model = api.model('ingredient_model', {
+  'name': fields.String(required=True, example='cheese'),
+  'category': fields.String(required=True, example='dairy')
+})
+
+ingredient_list_model = api.model('ingredients_model', {
+  'ingredients': fields.List(fields.Nested(ingredient_model)),
+})
+
+ingredients_recipe_model = api.model('ingredients_recipe_model', {
+  'name': fields.String(required=True, example='cheese'),
+  'amount': fields.String(required=True, example='500'),
+  'units': fields.String(required=True, example='grams')
+})
+
+recipe_id_model = api.model('recipe_id_model', {
+  'recipe_id' : fields.Integer(required=True, min=0)
+})
+
+meal_type_model = api.model('meal_type', {
+  'meal_type' : fields.String(required=True, example='entree')
+})
+
+recipe_method_model = api.model('meal_type', {
+  'step_number' : fields.Integer(required=True, min=1),
+  'instruction' : fields.String(required=True, example='Boil the water for 50 minutes until evaporated')
+})
+
+recipe_complete_model = api.model('recipe_complete_model', {
+  'recipe_id' : fields.Integer(required=True, min=0), 
+  'recipeCreator' : fields.String(required=True, example='hotmario258'),
+  'recipeName' : fields.String(required=True, example='eggs and Cheese ham'),
+  'image' : fields.String(required=True, example='base64String'),
+  'tag' : fields.Nested(meal_type_model),
+  'ingredients' : fields.Nested(ingredients_recipe_model),
+  'servings' : fields.Integer(required=True, min=0),
+  'method' : fields.Nested(recipe_method_model),
+  'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings')
+})
+
+recipe_list_model = api.model('recipe_list_model', {
+  'recipes': fields.List(fields.Nested(recipe_complete_model)),
+})
+
+auth_model = api.parser().add_argument('Authorization', help="Authorization token given from logging in",location='headers')

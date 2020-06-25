@@ -40,4 +40,7 @@ everyone can get started. We started another github, acting as a sandbox for us 
 it this way rather than cluster up the main project github. 
 
 Thurdsay
-I had a meeting with Andrew for about 2 hours, finishing off the templates for the API for all the user stories and polishing the database schema, so we can discuss these changes with the team at our next group meeting.
+I had a meeting with Andrew for about 2 hours, finishing off the templates for the API for all the user stories and polishing the database schema, so we can discuss these changes with the team at our next group meeting. 
+
+Friday
+I had a meeting with Andrew for about 2 hours, discussing the backend architechture and how the database will interact with the rest of the system. A lot of time was spent on whether or not we needed an API for the database, so that the backend code would be cleaner and be more easily scalable if we were to add additional features, etc. 

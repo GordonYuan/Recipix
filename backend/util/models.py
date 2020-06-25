@@ -1,16 +1,16 @@
 from app import api
 from flask_restplus import fields
 
-token_details = api.model('token_details',{
+token_model = api.model('token_model',{
     'token': fields.String()
 }) 
 
-login_details = api.model('login_details', {
+login_model = api.model('login_model', {
   'username': fields.String(required=True, example='Jamal'),
   'password': fields.String(required=True, example='password123'),
 })
 
-signup_details = api.model('signup_details', {
+signup_model = api.model('signup_model', {
   'username': fields.String(required=True, example='hotmario258'),
   'password': fields.String(required=True, example='password123'),
 })

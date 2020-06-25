@@ -12,8 +12,24 @@ Clarified various concerns in tutorial, split tasks with relation to all proposa
 with the agenda to meet up on Saturday to discuss and work on the UI design and diagrams, as well as the report for the proposal. 
 
 Saturday 
-4 hour meeting on doing System architechture design diagram, confirming and clarifying ideas around implementation and features to include, extra features, collaborative effort in using figma to construct UI storyboards. 
+4 hour meeting on doing System architechture design diagram, confirming and clarifying ideas around implementation and features to
+include, extra features, collaborative effort in using figma to construct UI storyboards. 
 
 
 Week 3
-Andrew and I are finalising user stories, will go through these with the group. Other members of the group are assigned different parts of the proposal.
+Andrew and I are finalising user stories, will go through these with the group. Other members of the group are assigned different parts
+of the proposal.
+
+Saturday
+User stories in relation to novel functionalities, finishing touches and revision over all user stories were done by Andrew and I over a
+2 hour meeting. A lot of discussion went into fleshing out how the implementation for the system was going to be like, gaining a better
+holistic overview of the system, etc. Lastly, we did a part of the report writing, which involved relating the user stories to the novel
+functionalities, as well as explaining how the user stories contributed to project objectives
+
+Sunday
+A 4 hour meeting was took place, which finalised all our changes for the proposal by putting together all the different parts. I helped 
+out by contributing the to discussion, deciding what novel features we should actually include in our proposal. Our goal for the meeting
+is probably try to discuss in detail how to start on the coding, flesh out our understanding of how to implement our system in practice
+further, so that everyone is on the same page before starting.
+
+

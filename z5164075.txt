@@ -33,3 +33,6 @@ Week 3
 On Thursday, our tutor clarified that having explorers request a recipe to be made with their running last was a valid way of implementing the feature where contributors are shown the most commonly entered set of ingredients without a matching recipe. Gordon and I decided we would be doing the wireframe/storyboard diagrams and the flow diagrams.
 
 On Saturday night/Sunday morning, Gordon and I completed the wireframes and flow diagrams. On Sunday night, we put the finishing touches on our proposal and decided what we will be doing next week in terms of user stories. We will be implementing searching through the catalogue of ingredients, creating a running list and seeing what recipes can be made from our running list, but we will first need to learn how to use our tech stack before we assign roles in more detail. The first sprint is due at the end of week 4 (so at the end of next week). 
+
+Week 4
+So far, we've added some boiler plate code but nothing substantial. We need to decide who will be working on which parts of the assignment, and also whether or not we need to modify the user stories to be implemented in the first sprint.

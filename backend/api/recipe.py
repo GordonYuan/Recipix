@@ -55,8 +55,7 @@ class Request(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.expect(auth_model)
-    @recipe.expect(ingredient_list_model)
+    @recipe.expect(auth_model, ingredient_list_model)
     @recipe.doc(description='''
         Requests for recipe to be made with the ingredients sent
         into the backend
@@ -72,8 +71,7 @@ class Add(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.expect(auth_model)
-    @recipe.expect(recipe_complete_model)
+    @recipe.expect(auth_model, recipe_complete_model)
     @recipe.doc(description='''
         Adds recipe into the API
     ''')
@@ -86,8 +84,7 @@ class Add(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.expect(auth_model)
-    @recipe.expect(recipe_complete_model)
+    @recipe.expect(auth_model, recipe_complete_model)
     @recipe.doc(description='''
         Updates the recipe given with the information given
     ''')

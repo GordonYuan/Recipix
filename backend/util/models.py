@@ -38,7 +38,7 @@ meal_type_model = api.model('meal_type', {
   'meal_type' : fields.String(required=True, example='entree')
 })
 
-recipe_method_model = api.model('meal_type', {
+recipe_method_model = api.model('recipe_method_model', {
   'step_number' : fields.Integer(required=True, min=1),
   'instruction' : fields.String(required=True, example='Boil the water for 50 minutes until evaporated')
 })

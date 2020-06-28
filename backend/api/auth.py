@@ -17,12 +17,16 @@ class Login(Resource):
     	Authentication token verifies the user
     ''')
     def post(self):
+        j = request.parse
+        user = j.username 
+        password = j.password
+        token = database.gettoken(user,password)
         if False:
             abort(400,'Malformed Request')
         if False:
             abort(403,'Invalid Username/Password')
         return {
-            'token': 123478912789
+            'token': token
         }
 
 @auth.route('/register', strict_slashes=False)

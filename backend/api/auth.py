@@ -8,7 +8,7 @@ auth = api.namespace('auth', description='Login and Signup')
 @auth.route('/login', strict_slashes=False)
 class Login(Resource):
     @auth.response(200, 'Success', token_model)
-    @auth.response(400, 'Missing Username/Password')
+    @auth.response(400, 'Malformed Request')
     @auth.response(403, 'Invalid Username/Password')
     @auth.expect(login_model)
     @auth.doc(description='''
@@ -17,16 +17,24 @@ class Login(Resource):
     	Authentication token verifies the user
     ''')
     def post(self):
-        j = request.parse
-        user = j.username 
-        password = j.password
-        token = database.gettoken(user,password)
-        if False:
-            abort(400,'Malformed Request')
-        if False:
-            abort(403,'Invalid Username/Password')
+
+        j = request.json
+        username = j['username']
+        password = j['password']
+        # print(username + password)
+        
+        # username, dbpw = database.getUser(username)
+
+        # if not username:
+        #     abort(403,'Invalid Username/Password')
+
+        # if dbpw != password 
+        #     abort(403,'Invalid Username/Password')
+
+        # token = database.getToken(username, password)
+
         return {
-            'token': token
+            'token': username + password
         }
 
 @auth.route('/register', strict_slashes=False)

@@ -22,3 +22,16 @@ class Add(Resource):
         return {
             'message': 'success'
         }
+
+@ingredients.route('/all', strict_slashes=False)
+class All(Resource):
+    @ingredients.response(200, 'Success', ingredient_model)
+    @ingredients.doc(description='''
+    	get list of all ingredients from the database
+    ''')
+    def post(self):
+        ### TODO 
+
+        # ingredients = database.getIngredients()
+        ingredients = {'name' : "cheese"}
+        return ingredients

@@ -32,12 +32,7 @@ class Search(Resource):
         # ingredient = request.json
         # process ingredients into a list 
         # find top 20 recipes that match the highest number of ingredients
-
-
-
-
-        return the top 20 recipes 
-
+        #return the top 20 recipes 
 
         latest_recipes = ''
         return {

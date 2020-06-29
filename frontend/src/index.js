@@ -8,33 +8,17 @@ import {
   BrowserRouter as Router,
   Switch,
 } from "react-router-dom";
-import App from "./App";
-import Users from "./components/users";
-import Contact from "./components/contact";
-import Notfound from "./components/notfound";
-import Navbar from "./components/navbar";
+import HomePage from "./pages/HomePage";
+import Notfound from "./components/Notfound";
+import Navbar from "./components/Navbar";
 
 const routing = (
   <Router>
     <Navbar />
     <div>
-      <ul>
-        <li>
-          <NavLink activeClassName="active" to="/users">
-            Users
-          </NavLink>
-        </li>
-        <li>
-          <NavLink activeClassName="active" to="/contact">
-            Contact
-          </NavLink>
-        </li>
-      </ul>
       {/* Switch component helps us to render the components only when path matches otherwise it fallbacks to the not found component. */}
       <Switch>
-        <Route exact path="/" component={App} />
-        <Route exact path="/users" component={Users} />
-        <Route path="/contact" component={Contact} />
+        <Route exact path="/" component={HomePage} />
         <Route component={Notfound} />
       </Switch>
     </div>

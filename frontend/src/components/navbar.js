@@ -26,13 +26,9 @@ export default function NavBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Link exact to="/">
-              RECIPIX
-            </Link>
+            RECIPIX
           </Typography>
-          <Link to="/users">
-            <Button color="inherit">SEARCH RECIPES</Button>
-          </Link>
+          <Button color="inherit">SEARCH RECIPES</Button>
           <Button color="inherit">ADD RECIPE</Button>
           <Button color="inherit">LOGIN</Button>
         </Toolbar>

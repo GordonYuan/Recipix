@@ -48,3 +48,13 @@ I had a meeting with Andrew for about 2 hours, discussing the backend architecht
 system. A lot of time was spent on whether or not we needed an API for the database, so that the backend code would be cleaner and be more 
 easily scalable if we were to add additional features, etc. 
 
+Saturday
+Meeting with the test to keep everyone on the same page with the backend/database. Gordon did some demonstration with how to use reactJS, since he 
+some prior experience with the framework. Since the boilerplate code still needs to be fully setup, we decided to split into two groups - 
+Anrew and I on the backend + database and Andy, Kevin and Gordon on the frontend, although it is flexible since people would like to learn different
+things. 
+
+Monday
+2-3 hour meeting with andrew to complete the sql schema and try it out in a database with some sample data. We decided to switch from mySQL to sqlite3 
+because it is more lightweight and more suitable for this project, since we will not be managing huge amounts of data in our database that we need a
+database server.

@@ -25,7 +25,7 @@ class Add(Resource):
 
 @ingredients.route('/all', strict_slashes=False)
 class All(Resource):
-    @ingredients.response(200, 'Success', ingredient_model)
+    @ingredients.response(200, 'Success', ingredient_list_model)
     @ingredients.doc(description='''
     	get list of all ingredients from the database
     ''')
@@ -33,5 +33,22 @@ class All(Resource):
         ### TODO 
 
         # ingredients = database.getIngredients()
-        ingredients = {'name' : "cheese"}
+        ingredients = [
+            {
+                "name": "cheese",
+                "category": "dairy"
+            },
+            {
+                "name": "ham",
+                "category": "meat"
+            },
+            {
+                "name": "egg",
+                "category": "poultry"
+            },
+            {
+                "name": "ice Cream",
+                "category": "Dairy"
+            }
+        ]
         return ingredients

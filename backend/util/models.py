@@ -48,10 +48,10 @@ recipe_complete_model = api.model('recipe_complete_model', {
   'recipeCreator' : fields.String(required=True, example='hotmario258'),
   'recipeName' : fields.String(required=True, example='eggs and Cheese ham'),
   'image' : fields.String(required=True, example='base64String'),
-  'tag' : fields.Nested(meal_type_model),
-  'ingredients' : fields.Nested(ingredients_recipe_model),
+  'tag' : fields.List(fields.Nested(meal_type_model)),
+  'ingredients' : fields.List(fields.Nested(ingredients_recipe_model)),
   'servings' : fields.Integer(required=True, min=0),
-  'method' : fields.Nested(recipe_method_model),
+  'method' : fields.List(fields.Nested(recipe_method_model)),
   'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings')
 })
 

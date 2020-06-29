@@ -14,8 +14,81 @@ class All(Resource):
     def get(self):
         ### TODO
         latest_recipes = ''
+        #generate hard coded recipes 
         return {
-            'recipes': latest_recipes
+            "recipes": [
+                {
+                    "recipe_id": 0,
+                    "recipeCreator": "hotmario258",
+                    "recipeName": "eggs and Cheese ham",
+                    "image": "base64String",
+                    "tag": {
+                        "meal_type": "entree"
+                    },
+                    "ingredients": [
+                        {
+                            "name": "cheese",
+                            "amount": "500",
+                            "units": "grams"
+                        },
+                        {
+                            "name": "eggs",
+                            "amount": "2",
+                            "units": "whole"
+                        },
+                        {
+                            "name": "ham",
+                            "amount": "200",
+                            "units": "grams"
+                        },
+                    ],
+                    "servings": 1,
+                    "method": [
+                        {
+                            "step_number": 1,
+                            "instruction": "Crack the eggs and place into a bowl"
+                        },
+                        {
+                            "step_number": 2,
+                            "instruction": "Cut the ham into strips and place into egg mixture"
+                        },
+                        {
+                            "step_number": 3,
+                            "instruction": "Put the cheese into egg and ham mixture"
+                        },
+                        {
+                            "step_number": 4,
+                            "instruction": "Fry it "
+                        },
+                    ],
+                    "description": "Eggs and cheese ham is a deluxe meal served for kings"
+                },
+                {
+                    "recipe_id": 1,
+                    "recipeCreator": "bigDave",
+                    "recipeName": "Ice cream",
+                    "image": "base64String",
+                    "tag": {
+                        "meal_type": "Dessert"
+                    },
+                    "ingredients": [
+                        {
+                            "name": "Ice Cream",
+                            "amount": "500",
+                            "units": "grams"
+                        }
+                    ],
+                    "servings": 2,
+                    "method": [
+                        {
+                            "step_number": 1,
+                            "instruction": "Scoop ice cream from container and place into a bowl"
+                        }
+                    ],
+                    "description": "i Scream u Scream "
+                },
+                
+            ]
         }
 
 @recipe.route('/search', strict_slashes=False)
@@ -27,7 +100,7 @@ class Search(Resource):
         Retrieves the latest 20 freshest and latest recipes
         that contain the ingredients sent into the api
     ''')
-    def get(self):
+    def post(self):
         ### TODO
         # ingredient = request.json
         # process ingredients into a list 
@@ -36,7 +109,79 @@ class Search(Resource):
 
         latest_recipes = ''
         return {
-            'recipes': latest_recipes
+            "recipes": [
+                {
+                    "recipe_id": 0,
+                    "recipeCreator": "hotmario258",
+                    "recipeName": "eggs and Cheese ham",
+                    "image": "base64String",
+                    "tag": {
+                        "meal_type": "entree"
+                    },
+                    "ingredients": [
+                        {
+                            "name": "cheese",
+                            "amount": "500",
+                            "units": "grams"
+                        },
+                        {
+                            "name": "eggs",
+                            "amount": "2",
+                            "units": "whole"
+                        },
+                        {
+                            "name": "ham",
+                            "amount": "200",
+                            "units": "grams"
+                        },
+                    ],
+                    "servings": 1,
+                    "method": [
+                        {
+                            "step_number": 1,
+                            "instruction": "Crack the eggs and place into a bowl"
+                        },
+                        {
+                            "step_number": 2,
+                            "instruction": "Cut the ham into strips and place into egg mixture"
+                        },
+                        {
+                            "step_number": 3,
+                            "instruction": "Put the cheese into egg and ham mixture"
+                        },
+                        {
+                            "step_number": 4,
+                            "instruction": "Fry it "
+                        },
+                    ],
+                    "description": "Eggs and cheese ham is a deluxe meal served for kings"
+                },
+                {
+                    "recipe_id": 1,
+                    "recipeCreator": "bigDave",
+                    "recipeName": "Ice cream",
+                    "image": "base64String",
+                    "tag": {
+                        "meal_type": "Dessert"
+                    },
+                    "ingredients": [
+                        {
+                            "name": "Ice Cream",
+                            "amount": "500",
+                            "units": "grams"
+                        }
+                    ],
+                    "servings": 2,
+                    "method": [
+                        {
+                            "step_number": 1,
+                            "instruction": "Scoop ice cream from container and place into a bowl"
+                        }
+                    ],
+                    "description": "i Scream u Scream "
+                },
+                
+            ]
         }
 
 @recipe.route('/User', strict_slashes=False)

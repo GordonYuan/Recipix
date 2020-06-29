@@ -20,6 +20,8 @@ def main(host='127.0.0.1', port=None):
 def run(host, port):
     from app import app
     import api.auth
+    import api.recipe
+    import api.ingredients
     app.run(debug=True, host=host, port=port)
 
 def usage():

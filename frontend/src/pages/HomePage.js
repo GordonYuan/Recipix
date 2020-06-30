@@ -1,5 +1,4 @@
 import React from "react";
-import RecipeCard from "../components/RecipeCard";
 import Select from "react-select";
 import { colourOptions, groupedOptions } from "./data/data";
 

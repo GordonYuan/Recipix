@@ -9,8 +9,8 @@ import {
   Switch,
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Notfound from "./components/Notfound";
-import Navbar from "./components/Navbar";
+import Notfound from "./components/notfound";
+import Navbar from "./components/navbar";
 
 const routing = (
   <Router>

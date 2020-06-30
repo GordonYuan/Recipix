@@ -3,6 +3,7 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { groupedIngredients } from "./data/data";
 import getIngredientsApi from "../apis/getIngredientsApi";
+import getRecipesApi from "../apis/getRecipesApi";
 
 const groupStyles = {
   display: "flex",
@@ -28,24 +29,33 @@ const formatGroupLabel = (data) => (
     <span style={groupBadgeStyles}>{data.options.length}</span>
   </div>
 );
-
+/*
 const recipes = [
   { id: 1, title: "Pancakes", imagePath: "pancake.png" },
   { id: 2, title: "Pancakes", imagePath: "pancake.png" },
   { id: 3, title: "Pancakes", imagePath: "pancake.png" },
   { id: 4, title: "Pancakes", imagePath: "pancake.png" },
 ];
-
+*/
 const HomePage = () => {
   const animatedComponents = makeAnimated();
 
   const [ingredients, setIngredients] = useState([]);
+  const [runningList, setRunningList] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+
   useEffect(() => {
     async function fetchIngredients() {
       const response = await getIngredientsApi();
       setIngredients(response.data);
     }
+    async function fetchRecipes() {
+      const response = await getRecipesApi();
+      setRecipes(response.data);
+      console.log(recipes);
+    }
     fetchIngredients();
+    fetchRecipes();
   }, []);
 
   return (
@@ -64,6 +74,7 @@ const HomePage = () => {
         components={animatedComponents}
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
+        onChange={(e) => console.log(e)}
         isMulti
       />
     </div>

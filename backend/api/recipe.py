@@ -3,6 +3,7 @@ from util.models import *
 from flask_restplus import Resource, fields
 from flask import request
 import sqlite3
+import json
 
 recipe = api.namespace('recipe', description='Recipe information')
 
@@ -255,10 +256,14 @@ class Tags(Resource):
     ''')
     def get(self):
         ### TODO add the request into backend
-        conn = sqlite3.connect('recipix.db')
+        conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        return {
-            'message' : 'success'
-        }
+        c.execute('SELECT * from tag;')
+        t = c.fetchall()
+        d = {"tags": []}
+        for x in t:
+            d['tags'].append({
+                'tag' : x
+            })
+        return json.dumps(d)
 

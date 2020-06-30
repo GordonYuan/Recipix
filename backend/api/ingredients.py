@@ -31,7 +31,16 @@ class All(Resource):
     ''')
     def get(self):
         ### TODO 
-
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
+        c.execute('SELECT * from ingredients;')
+        t = c.fetchall()
+        ret = {"categories": []}
+        ing = {}
+        for x,y in t:
+            print(x + y)
+            ing[y].append(x)
+        # return json.dumps(d)
         # ingredients = database.getIngredients()
         ingredients = [
             {

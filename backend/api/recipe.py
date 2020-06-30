@@ -93,7 +93,7 @@ class All(Resource):
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
-    @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.response(200, 'Success', category_ingredient_model)
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredient_list_model)
     @recipe.doc(description='''
@@ -210,7 +210,7 @@ class Request(Resource):
         Requests for recipe to be made with the ingredients sent
         into the backend
     ''')
-    def get(self):
+    def post(self):
         ### TODO add the request into backend
         return {
             'message' : 'success'

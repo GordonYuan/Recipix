@@ -25,30 +25,43 @@ class Add(Resource):
 
 @ingredients.route('/all', strict_slashes=False)
 class All(Resource):
-    @ingredients.response(200, 'Success', ingredient_list_model)
+    @ingredients.response(200, 'Success', categories_model)
     @ingredients.doc(description='''
     	get list of all ingredients from the database
     ''')
-    def post(self):
+    def get(self):
         ### TODO 
 
         # ingredients = database.getIngredients()
         ingredients = [
             {
-                "name": "cheese",
-                "category": "dairy"
+                "category": "dairy",
+                "ingredients": [
+                    {
+                        "name" : "mozzarella cheese"
+                    }, 
+                    {
+                        "name" : "milk"
+                    }, 
+                    {
+                        "name" : "cheddar cheese"
+                    }
+                ]
             },
             {
-                "name": "ham",
-                "category": "meat"
-            },
-            {
-                "name": "egg",
-                "category": "poultry"
-            },
-            {
-                "name": "ice Cream",
-                "category": "Dairy"
-            }
+                "category": "vegetables",
+                "ingredients": [
+                    {
+                        "name" : "spinach"
+                    }, 
+                    {
+                        "name" : "cabbage"
+                    }, 
+                    {
+                        "name" : "broccoli"
+                    }
+                ]
+                
+            }   
         ]
         return ingredients

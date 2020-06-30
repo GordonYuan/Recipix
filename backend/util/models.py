@@ -24,6 +24,19 @@ ingredient_list_model = api.model('ingredients_model', {
   'ingredients': fields.List(fields.Nested(ingredient_model)),
 })
 
+ingredient_name_model = api.model('ingredient_name_model', {
+  'name': fields.String(required=True, example='cheese'),
+})
+
+category_ingredient_model = api.model('category_ingredient_model', {
+  'category': fields.String(required=True, example='dairy'),
+  'ingredients': fields.List(fields.Nested(ingredient_name_model))
+})
+
+categories_model = api.model('categories_model', {
+  'categories' : fields.List(fields.Nested(category_ingredient_model)), 
+})
+
 ingredients_recipe_model = api.model('ingredients_recipe_model', {
   'name': fields.String(required=True, example='cheese'),
   'amount': fields.String(required=True, example='500'),

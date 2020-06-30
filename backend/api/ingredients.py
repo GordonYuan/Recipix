@@ -2,6 +2,8 @@ from app import api
 from util.models import *
 from flask_restplus import Resource, fields
 from flask import request
+import sqlite3
+import json
 
 ingredients = api.namespace('ingredients', description='adding ingredients')
 
@@ -38,39 +40,21 @@ class All(Resource):
         ret = {"categories": []}
         ing = {}
         for x,y in t:
-            print(x + y)
+            if y not in ing:
+                ing[y] = []
             ing[y].append(x)
-        # return json.dumps(d)
-        # ingredients = database.getIngredients()
-        ingredients = [
-            {
-                "category": "dairy",
-                "ingredients": [
-                    {
-                        "name" : "mozzarella cheese"
-                    }, 
-                    {
-                        "name" : "milk"
-                    }, 
-                    {
-                        "name" : "cheddar cheese"
-                    }
-                ]
-            },
-            {
-                "category": "vegetables",
-                "ingredients": [
-                    {
-                        "name" : "spinach"
-                    }, 
-                    {
-                        "name" : "cabbage"
-                    }, 
-                    {
-                        "name" : "broccoli"
-                    }
-                ]
-                
-            }   
-        ]
-        return ingredients
+        print(ing)
+        
+        for key in ing:
+            cat = {
+                "category": key, 
+                "ingredients": []
+            }
+            for ingredient in ing[key]:
+                ingred = {
+                    "name": ingredient
+                }
+                cat['ingredients'].append(ingred)
+            ret['categories'].append(cat)
+        
+        return json.dumps(ret)

@@ -1,19 +1,12 @@
 import React from "react";
-import axios from "axios";
 import ReactDOM from "react-dom";
 import "./index.css";
-import {
-  Route,
-  Link,
-  NavLink,
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Notfound from "./components/notfound";
 import Navbar from "./components/navbar";
 
-const routing = (
+const App = (
   <Router>
     <Navbar />
     <div>
@@ -25,4 +18,4 @@ const routing = (
     </div>
   </Router>
 );
-ReactDOM.render(routing, document.getElementById("root"));
+ReactDOM.render(App, document.getElementById("root"));

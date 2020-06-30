@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { colourOptions, groupedOptions } from "./data/data";
+import makeAnimated from "react-select/animated";
+import { groupedIngredients } from "./data/data";
+import getIngredientsApi from "../apis/getIngredientsApi";
 
 const groupStyles = {
   display: "flex",
@@ -34,22 +36,37 @@ const recipes = [
   { id: 4, title: "Pancakes", imagePath: "pancake.png" },
 ];
 
-class HomePage extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Home</h1>
-        {/* {recipes.map((recipe) => (
+const HomePage = () => {
+  const animatedComponents = makeAnimated();
+
+  const [ingredients, setIngredients] = useState([]);
+  useEffect(() => {
+    async function fetchIngredients() {
+      const response = await getIngredientsApi();
+      setIngredients(response.data);
+    }
+    fetchIngredients();
+  }, []);
+
+  return (
+    <div>
+      <h1>Home</h1>
+      {ingredients.map((ingredient) => (
+        <p>{ingredient.name}</p>
+      ))}
+      {/* need to map ingredients to what select takes in */}
+      {/* {recipes.map((recipe) => (
         <RecipeCard title={recipe.title} imagePath={recipe.imagePath} />
       ))} */}
-        <Select
-          defaultValue={colourOptions[1]}
-          options={groupedOptions}
-          formatGroupLabel={formatGroupLabel}
-          isMulti
-        />
-      </div>
-    );
-  }
-}
+      <Select
+        defaultValue={""}
+        closeMenuOnSelect={false}
+        components={animatedComponents}
+        options={groupedIngredients}
+        formatGroupLabel={formatGroupLabel}
+        isMulti
+      />
+    </div>
+  );
+};
 export default HomePage;

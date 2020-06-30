@@ -29,7 +29,7 @@ class All(Resource):
     @ingredients.doc(description='''
     	get list of all ingredients from the database
     ''')
-    def post(self):
+    def get(self):
         ### TODO 
 
         # ingredients = database.getIngredients()

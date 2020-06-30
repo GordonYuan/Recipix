@@ -4,7 +4,7 @@
 // }
 
 export const DairyOptions = [
-  { value: "egg", label: "Egg" },
+  { value: "eggs", label: "Eggs" },
   { value: "butter", label: "Butter" },
 ];
 
@@ -12,7 +12,13 @@ export const VegetableOptions = [
   { value: "cabbage", label: "Cabbage" },
   { value: "onion", label: "Onion" },
   { value: "tomato", label: "Tomato" },
-  { value: "andy", label: "Andy" },
+  { value: "celery", label: "Celery" },
+  { value: "lettuce", label: "Lettuce" },
+];
+
+export const MeatOptions = [
+  { value: "ham", label: "Ham" },
+  { value: "salami", label: "Salami" },
 ];
 
 export const groupedIngredients = [
@@ -23,5 +29,9 @@ export const groupedIngredients = [
   {
     label: "Vegetables",
     options: VegetableOptions,
+  },
+  {
+    label: "Meats",
+    options: MeatOptions,
   },
 ];

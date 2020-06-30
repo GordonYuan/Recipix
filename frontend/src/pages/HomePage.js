@@ -52,7 +52,6 @@ const HomePage = () => {
     async function fetchRecipes() {
       const response = await getRecipesApi();
       setRecipes(response.data);
-      console.log(recipes);
     }
     fetchIngredients();
     fetchRecipes();
@@ -60,14 +59,11 @@ const HomePage = () => {
 
   return (
     <div>
-      <h1>Home</h1>
-      {ingredients.map((ingredient) => (
+      {/* {ingredients.map((ingredient) => (
         <p>{ingredient.name}</p>
       ))}
-      {/* need to map ingredients to what select takes in */}
-      {/* {recipes.map((recipe) => (
-        <RecipeCard title={recipe.title} imagePath={recipe.imagePath} />
-      ))} */}
+      {console.log({ recipes, ingredients })} */}
+      <h1 style={{ textAlign: "center" }}>ADD INGREDIENTS, GET RECIPES</h1>
       <Select
         defaultValue={""}
         closeMenuOnSelect={false}

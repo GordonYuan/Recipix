@@ -15,22 +15,26 @@ register_model = api.model('register_model', {
   'password': fields.String(required=True, example='password123'),
 })
 
-ingredient_model = api.model('ingredient_model', {
+ingredient_detail_model = api.model('ingredient_detail_model', {
   'name': fields.String(required=True, example='cheese'),
   'category': fields.String(required=True, example='dairy')
 })
 
-ingredient_list_model = api.model('ingredients_model', {
-  'ingredients': fields.List(fields.Nested(ingredient_model)),
+ingredient_list_detail_model = api.model('ingredient_list_detail_model', {
+  'ingredients': fields.List(fields.Nested(ingredient_detail_model)),
 })
 
-ingredient_name_model = api.model('ingredient_name_model', {
+ingredient_model = api.model('ingredient_model', {
   'name': fields.String(required=True, example='cheese'),
+})
+
+ingredient_list_model = api.model('ingredient_list_model', {
+  'ingredients': fields.List(fields.Nested(ingredient_model)),
 })
 
 category_ingredient_model = api.model('category_ingredient_model', {
   'category': fields.String(required=True, example='dairy'),
-  'ingredients': fields.List(fields.Nested(ingredient_name_model))
+  'ingredients': fields.List(fields.Nested(ingredient_model))
 })
 
 categories_model = api.model('categories_model', {

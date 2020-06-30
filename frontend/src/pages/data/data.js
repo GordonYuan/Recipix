@@ -116,3 +116,26 @@ export const groupedOptions = [
     options: flavourOptions,
   },
 ];
+
+export const groupedIngredients = [
+  {
+    label: "Dairy",
+    options: DairyOptions,
+  },
+  {
+    label: "Vegetables",
+    options: VegetableOptions,
+  },
+];
+
+const DairyOptions = [
+  { value: "egg", label: "Egg" },
+  { value: "butter", label: "Butter" },
+];
+
+const VegetableOptions = [
+  { value: "cabbage", label: "Cabbage" },
+  { value: "onion", label: "Onion" },
+  { value: "tomato", label: "Tomato" },
+  { value: "andy", label: "Andy" },
+];

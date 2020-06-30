@@ -2,6 +2,7 @@ from app import api
 from util.models import *
 from flask_restplus import Resource, fields
 from flask import request
+import sqlite3
 
 recipe = api.namespace('recipe', description='Recipe information')
 
@@ -184,7 +185,7 @@ class Search(Resource):
             ]
         }
 
-@recipe.route('/User', strict_slashes=False)
+@recipe.route('/user', strict_slashes=False)
 class User(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
@@ -243,3 +244,21 @@ class Add(Resource):
         return {
             'message' : 'success'
         }
+
+@recipe.route('/tags', strict_slashes=False)
+class Tags(Resource):
+    @recipe.response(200, 'Success', tags_model)
+    @recipe.response(400, 'Malformed Request')
+    @recipe.response(403, 'Invalid Authentication Token')
+    @recipe.doc(description='''
+        Get Recipe tags
+    ''')
+    def get(self):
+        ### TODO add the request into backend
+        conn = sqlite3.connect('recipix.db')
+        c = conn.cursor()
+        c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        return {
+            'message' : 'success'
+        }
+

@@ -50,15 +50,6 @@ create table Users (
 	primary key (username)
 );
 
--- (username, recipe_id) tuples
-create table Owns (
-	username 	text,
-	recipe_id	integer,
-	primary key (username, recipe_id),
-	foreign key (recipe_id) references Recipes(id),
-	foreign key (username) references Users(username)
-);
-
 -- recipe tag/category 
 create table Tag (
 	name text,
@@ -75,25 +66,25 @@ create table Recipe_tag (
 );
 
 -- ingredient category
-create table Category (
-	name text,
-	primary key(name)
-);
+-- create table Category (
+-- 	name text,
+-- 	primary key(name)
+-- );
 
 -- recipe requests
-create table Requests (
-	id		integer,
-	name 	text,
-	count	integer,
-	primary key (id, name)
-);
+-- create table Requests (
+-- 	id		integer,
+-- 	name 	text,
+-- 	count	integer,
+-- 	primary key (id, name)
+-- );
 
 -- (request_id, ingredient_name) tuples
-create table Request_Has (
-	request_id		integer,
-	ingredient_name text,
-	primary key (request_id, ingredient_name),
-	foreign key (request_id) references Requests(id),
-	foreign key (ingredient_name) references Ingredients(name)
-);
+-- create table Request_Has (
+-- 	request_id		integer,
+-- 	ingredient_name text,
+-- 	primary key (request_id, ingredient_name),
+-- 	foreign key (request_id) references Requests(id),
+-- 	foreign key (ingredient_name) references Ingredients(name)
+-- );
 

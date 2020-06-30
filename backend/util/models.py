@@ -52,9 +52,12 @@ recipe_id_model = api.model('recipe_id_model', {
 })
 
 meal_type_model = api.model('meal_type', {
-  'meal_type' : fields.String(required=True, example='entree')
+  'tag' : fields.String(required=True, example='entree')
 })
 
+tags_model = api.model('tags_model', {
+  'tags' : fields.List(fields.Nested(meal_type_model))
+})
 recipe_method_model = api.model('recipe_method_model', {
   'step_number' : fields.Integer(required=True, min=1),
   'instruction' : fields.String(required=True, example='Boil the water for 50 minutes until evaporated')

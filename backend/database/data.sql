@@ -45,7 +45,7 @@ VALUES
 
 INSERT INTO recipe_has (recipe_id, ingredient_name, amount, units)
 VALUES 
-    (1, "cheese", 500, "grams")
-    (1, "eggs", 2, "whole")
-    (1, "ham", 200, "grams")
-    (2, "ice Cream", 500, "mL")
+    (1, "cheese", 500, "grams"),
+    (1, "eggs", 2, "whole"),
+    (1, "ham", 200, "grams"),
+    (2, "ice Cream", 500, "mL");

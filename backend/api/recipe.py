@@ -108,8 +108,13 @@ class Search(Resource):
         # process ingredients into a list 
         # find top 20 recipes that match the highest number of ingredients
         #return the top 20 recipes 
-
-        latest_recipes = ''
+        e = request.json
+        ingredients = []
+        for x in e['ingredients']:
+            ingredients.append(x['name'])
+        print(ingredients)
+        # now we have all ingredients, 
+        # we have to make sql query to filter out ingredients
         return {
             "recipes": [
                 {

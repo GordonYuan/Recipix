@@ -32,6 +32,32 @@ const formatGroupLabel = (data) => (
   </div>
 );
 
+const titleCase = (str) => {
+  var splitStr = str.toLowerCase().split(" ");
+  for (var i = 0; i < splitStr.length; i++) {
+    // You do not need to check if i is larger than splitStr length, as your for does that for you
+    // Assign it back to the array
+    splitStr[i] =
+      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+  }
+  // Directly return the joined string
+  return splitStr.join(" ");
+};
+
+const mapToOptions = (data) => {
+  console.log({ data });
+  if (!!data) {
+    return data.map((entry) => {
+      return {
+        label: entry.category,
+        options: entry.ingredients.map((ingredient) => {
+          return { value: ingredient.name, label: titleCase(ingredient.name) };
+        }),
+      };
+    });
+  }
+};
+
 const HomePage = (props) => {
   const [ingredients, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
@@ -39,8 +65,7 @@ const HomePage = (props) => {
   useEffect(() => {
     async function fetchIngredients() {
       const response = await getIngredientsApi();
-      setIngredients(response.data);
-      console.log({ ingredients });
+      setIngredients(response.data.categories);
     }
     fetchIngredients();
   }, []);
@@ -53,20 +78,22 @@ const HomePage = (props) => {
         defaultValue={""}
         closeMenuOnSelect={false}
         components={makeAnimated()}
-        options={groupedIngredients}
+        options={mapToOptions(ingredients)}
         formatGroupLabel={formatGroupLabel}
         onChange={async (e) => {
           if (!!e) {
             const response = await searchRecipesApi(e);
             const data = response.data;
             setRecipes(data.recipes);
-            console.log({ e, data, recipes });
+            // console.log({ e, data, recipes });
           } else {
             setRecipes([]);
           }
         }}
       />
       <br />
+      {/* {console.log({ ingredients })};
+      {console.log({ optionsArray: mapToOptions(ingredients) })} */}
       <Grid container justify="space-between" spacing={2}>
         {recipes &&
           recipes.map((recipe) => (

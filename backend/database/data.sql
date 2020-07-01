@@ -19,7 +19,7 @@ INSERT INTO recipes (username, name, servings, description)
 VALUES
     ("jeff", "eggs, ham, and cheese 1", 3, "Eggs ham and cheese is deluxe meal"),
     ("bigdave", "ice cream", 2, "I scream"),
-        ("jeff", "eggs, ham, and cheese 2", 3, "Eggs ham and cheese is deluxe meal"),
+    ("jeff", "eggs, ham, and cheese 2", 3, "Eggs ham and cheese is deluxe meal"),
     ("jeff", "eggs, ham, and cheese 3", 3, "Eggs ham and cheese is deluxe meal");
 
 INSERT INTO methods (recipe_id, step, instruction)

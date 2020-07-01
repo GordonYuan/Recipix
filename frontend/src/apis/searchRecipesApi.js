@@ -10,19 +10,17 @@ const searchRecipesApi = async (ingredients) => {
     return transformedIngredient;
   }
   const payload = ingredients.map(transformIngredient);
-  console.log(payload);
+  // console.log(payload);
   const config = {
     headers: {
       Accept: "application/json",
     },
   };
 
-  try {
-    const response = await axios.post(baseUrl, payload, config);
-    return response;
-  } catch (error) {
-    return error.response;
-  }
+  return axios
+    .post(baseUrl, payload, config)
+    .then((response) => response)
+    .catch((error) => error.response);
 };
 
 export default searchRecipesApi;

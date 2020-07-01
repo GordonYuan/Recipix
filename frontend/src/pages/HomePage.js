@@ -52,12 +52,7 @@ const HomePage = (props) => {
       const response = await getIngredientsApi();
       setIngredients(response.data);
     }
-    async function fetchRecipes() {
-      const response = await getRecipesApi();
-      setRecipes(response.data);
-    }
     fetchIngredients();
-    fetchRecipes();
   }, []);
 
   return (
@@ -74,25 +69,23 @@ const HomePage = (props) => {
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
         onChange={async (e) => {
-          const response = await searchRecipesApi(e);
-          const retrievedRecipes = response.data;
-          setRecipes(retrievedRecipes);
+          if (e) {
+            const response = await searchRecipesApi(e);
+            const data = response.data;
+            setRecipes(data.recipes);
+            // console.log({ response, recipes });
+          }
         }}
         isMulti
       />
-      {console.log({ recipes })}
-      <br />
-      <Grid container spacing={2}>
-        {testRecipes.map((recipes) => (
-          <Grid item xs={4}>
-            <RecipeCard
-              title={recipes.title}
-              imagePath={recipes.imagePath}
-              recipeId={recipes.id}
-            />
-          </Grid>
+      {recipes &&
+        recipes.map((recipe) => (
+          <RecipeCard
+            title={recipe.recipeName}
+            imagePath={"pancake.png"}
+            recipeId={recipe.recipe_id}
+          />
         ))}
-      </Grid>
     </div>
   );
 };

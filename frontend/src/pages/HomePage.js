@@ -75,7 +75,7 @@ const HomePage = (props) => {
         formatGroupLabel={formatGroupLabel}
         onChange={async (e) => {
           const response = await searchRecipesApi(e);
-          const { retrievedRecipes } = response.data;
+          const retrievedRecipes = response.data;
           setRecipes(retrievedRecipes);
         }}
         isMulti

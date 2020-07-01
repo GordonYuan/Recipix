@@ -33,20 +33,20 @@ class All(Resource):
             ret["recipes"].append({})
             curr = ret["recipes"][i]
             curr["recipe_id"] = t[0]
-            curr["recipeCreator"] = t[1]
-            curr["recipeName"] = t[2]
+            curr["recipe_creator"] = t[1]
+            curr["recipe_name"] = t[2]
             curr["servings"] = t[3]
             curr["description"] = t[4]
             curr["image"] = t[5]
 
-            curr["tag"] = []
+            curr["tags"] = []
             curr["ingredients"] = []
             curr["method"] = []
 
             for i, t in enumerate(tag_t):
-                curr["tag"].append({})
-                curr_tag = curr["tag"][i]
-                curr_tag["meal_type"] = t[0]    
+                curr["tags"].append({})
+                curr_tag = curr["tags"][i]
+                curr_tag["tag"] = t[0]    
 
             for i, t in enumerate(ingredient_t):
                 curr["ingredients"].append({})
@@ -64,8 +64,11 @@ class All(Resource):
         c.close()
         conn.close()
 
+<<<<<<< HEAD
         json_ret = json.dumps(ret)
         print(json_ret)
+=======
+>>>>>>> 7e02d8f6ea9e6eba25ddc408492a1347d113ae00
         return ret
 
             
@@ -165,6 +168,8 @@ class Search(Resource):
 
         # extract ingredients into list
         e = request.json
+        if len(e) == 0:
+            abort(400, 'Malformed Request')
         ingredients = []
         for x in e['ingredients']:
             ingredients.append(x['name'])
@@ -203,20 +208,20 @@ class Search(Resource):
             ret["recipes"].append({})
             curr = ret["recipes"][i]
             curr["recipe_id"] = t[0]
-            curr["recipeCreator"] = t[1]
-            curr["recipeName"] = t[2]
+            curr["recipe_creator"] = t[1]
+            curr["recipe_name"] = t[2]
             curr["servings"] = t[3]
             curr["description"] = t[4]
             curr["image"] = t[5]
 
-            curr["tag"] = []
+            curr["tags"] = []
             curr["ingredients"] = []
             curr["method"] = []
 
             for i, t in enumerate(tag_t):
-                curr["tag"].append({})
-                curr_tag = curr["tag"][i]
-                curr_tag["meal_type"] = t[0]    
+                curr["tags"].append({})
+                curr_tag = curr["tags"][i]
+                curr_tag["tag"] = t[0]      
 
             for i, t in enumerate(ingredient_t):
                 curr["ingredients"].append({})
@@ -234,9 +239,7 @@ class Search(Resource):
         c.close()
         conn.close()
 
-        json_ret = json.dumps(ret)
-        print(json_ret)
-        return json_ret
+        return ret
 
         # return {
         #     "recipes": [

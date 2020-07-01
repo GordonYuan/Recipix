@@ -6,6 +6,7 @@ import getIngredientsApi from "../apis/getIngredientsApi";
 import getRecipesApi from "../apis/getRecipesApi";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
+import Grid from "@material-ui/core/Grid";
 
 const groupStyles = {
   display: "flex",
@@ -80,13 +81,18 @@ const HomePage = (props) => {
         isMulti
       />
       {console.log({ recipes })}
-      {/* {recipes.recipes.map((recipe) => (
-        <RecipeCard
-          title={recipe.title}
-          imagePath={recipe.imagePath}
-          recipeId={recipe.id}
-        />
-      ))} */}
+      <br />
+      <Grid container spacing={2}>
+        {testRecipes.map((recipes) => (
+          <Grid item xs={4}>
+            <RecipeCard
+              title={recipes.title}
+              imagePath={recipes.imagePath}
+              recipeId={recipes.id}
+            />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

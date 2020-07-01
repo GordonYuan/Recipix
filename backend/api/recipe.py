@@ -234,7 +234,7 @@ class Search(Resource):
         c.close()
         conn.close()
 
-        return json_ret
+        return ret
 
         # return {
         #     "recipes": [

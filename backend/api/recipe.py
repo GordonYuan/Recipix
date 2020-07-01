@@ -39,14 +39,14 @@ class All(Resource):
             curr["description"] = t[4]
             curr["image"] = t[5]
 
-            curr["tag"] = []
+            curr["tags"] = []
             curr["ingredients"] = []
             curr["method"] = []
 
             for i, t in enumerate(tag_t):
-                curr["tag"].append({})
-                curr_tag = curr["tag"][i]
-                curr_tag["meal_type"] = t[0]    
+                curr["tags"].append({})
+                curr_tag = curr["tags"][i]
+                curr_tag["tag"] = t[0]    
 
             for i, t in enumerate(ingredient_t):
                 curr["ingredients"].append({})
@@ -209,14 +209,14 @@ class Search(Resource):
             curr["description"] = t[4]
             curr["image"] = t[5]
 
-            curr["tag"] = []
+            curr["tags"] = []
             curr["ingredients"] = []
             curr["method"] = []
 
             for i, t in enumerate(tag_t):
-                curr["tag"].append({})
-                curr_tag = curr["tag"][i]
-                curr_tag["meal_type"] = t[0]    
+                curr["tags"].append({})
+                curr_tag = curr["tags"][i]
+                curr_tag["tag"] = t[0]      
 
             for i, t in enumerate(ingredient_t):
                 curr["ingredients"].append({})

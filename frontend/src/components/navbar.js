@@ -29,6 +29,7 @@ const NavBar = ({ history }) => {
             variant="h6"
             className={classes.title}
             onClick={() => history.push("/")}
+            style={{ cursor: "pointer" }}
           >
             RECIPIX
           </Typography>

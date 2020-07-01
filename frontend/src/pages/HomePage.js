@@ -40,8 +40,6 @@ const testRecipes = [
 ];
 
 const HomePage = (props) => {
-  const animatedComponents = makeAnimated();
-
   const [ingredients, setIngredients] = useState([]);
   const [runningList, setRunningList] = useState([]);
   const [recipes, setRecipes] = useState([]);
@@ -64,7 +62,7 @@ const HomePage = (props) => {
       <Select
         defaultValue={""}
         closeMenuOnSelect={false}
-        components={animatedComponents}
+        components={makeAnimated()}
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
         onChange={async (e) => {
@@ -72,7 +70,7 @@ const HomePage = (props) => {
             const response = await searchRecipesApi(e);
             const data = response.data;
             setRecipes(data.recipes);
-            // console.log({ response, recipes });
+            console.log({ data, recipes });
           }
         }}
         isMulti

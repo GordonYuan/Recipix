@@ -4,7 +4,7 @@ import makeAnimated from "react-select/animated";
 import { groupedIngredients } from "./data/data";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import getRecipesApi from "../apis/getRecipesApi";
-import searchRecipesApi from "../apis/searchRecipesApi";
+import RecipeCard from "../components/RecipeCard";
 
 const groupStyles = {
   display: "flex",
@@ -30,25 +30,20 @@ const formatGroupLabel = (data) => (
     <span style={groupBadgeStyles}>{data.options.length}</span>
   </div>
 );
-/*
-const recipes = [
+
+const testRecipes = [
   { id: 1, title: "Pancakes", imagePath: "pancake.png" },
   { id: 2, title: "Pancakes", imagePath: "pancake.png" },
   { id: 3, title: "Pancakes", imagePath: "pancake.png" },
   { id: 4, title: "Pancakes", imagePath: "pancake.png" },
 ];
-*/
-const HomePage = () => {
+
+const HomePage = (props) => {
   const animatedComponents = makeAnimated();
 
   const [ingredients, setIngredients] = useState([]);
   const [runningList, setRunningList] = useState([]);
   const [recipes, setRecipes] = useState([]);
-
-  const testIngredients = [
-    { value: "cabbage", label: "Cabbage", category: "Vegetables" },
-    { value: "onion", label: "Onion", category: "Vegetables" },
-  ];
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -59,12 +54,8 @@ const HomePage = () => {
       const response = await getRecipesApi();
       setRecipes(response.data);
     }
-    async function searchRecipes(ingredients) {
-      const response = await searchRecipesApi(ingredients);
-    }
     fetchIngredients();
     fetchRecipes();
-    //searchRecipes(testIngredients);
   }, []);
 
   return (
@@ -80,9 +71,16 @@ const HomePage = () => {
         components={animatedComponents}
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
-        onChange={(e) => console.log(searchRecipesApi(e))}
+        onChange={(e) => console.log(e)}
         isMulti
       />
+      {testRecipes.map((recipe) => (
+        <RecipeCard
+          title={recipe.title}
+          imagePath={recipe.imagePath}
+          recipeId={recipe.id}
+        />
+      ))}
     </div>
   );
 };

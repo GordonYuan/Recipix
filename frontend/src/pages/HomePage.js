@@ -40,6 +40,7 @@ const HomePage = (props) => {
     async function fetchIngredients() {
       const response = await getIngredientsApi();
       setIngredients(response.data);
+      console.log({ ingredients });
     }
     fetchIngredients();
   }, []);

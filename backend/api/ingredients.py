@@ -57,4 +57,4 @@ class All(Resource):
                 cat['ingredients'].append(ingred)
             ret['categories'].append(cat)
         
-        return json.dumps(ret)
+        return ret

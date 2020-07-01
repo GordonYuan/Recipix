@@ -20,7 +20,7 @@ VALUES
     ("jeff", "eggs, ham, and cheese 1", 3, "Eggs ham and cheese is deluxe meal"),
     ("bigdave", "ice cream", 2, "I scream"),
     ("jeff", "eggs, ham, and cheese 2", 3, "Eggs ham and cheese is deluxe meal"),
-    ("jeff", "eggs, ham, and cheese 3", 3, "Eggs ham and cheese is deluxe meal");
+    ("kevin", "vegetable salad", 2, "Vegetable salad is a very healthy meal for all people")
 
 INSERT INTO methods (recipe_id, step, instruction)
 VALUES
@@ -51,9 +51,12 @@ VALUES
     (1, "eggs", 2, "whole"),
     (1, "ham", 200, "grams"),
     (2, "ice Cream", 500, "mL"),
-    (3, "cheese", 500, "grams"),
-    (3, "cheddar", 20, "grams"),
-    (3, "ham", 200, "grams"),
     (4, "cheese", 500, "grams"),
     (4, "eggs", 2, "whole"),
     (4, "ham", 200, "grams");
+    (5, "cheddar", 30, "grams")
+    (5, "cabbage", 100, "grams")
+    (5, "spinach", 100, "grams")
+    (5, "broccoli", 50, "grams")
+    (5, "avocado", 80, "grams")
+

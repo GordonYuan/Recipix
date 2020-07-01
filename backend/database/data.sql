@@ -17,8 +17,10 @@ VALUES
 
 INSERT INTO recipes (username, name, servings, description)
 VALUES
-    ("jeff", "eggs, ham, and cheese", 3, "Eggs ham and cheese is deluxe meal"),
-    ("bigdave", "ice cream", 2, "I scream");
+    ("jeff", "eggs, ham, and cheese 1", 3, "Eggs ham and cheese is deluxe meal"),
+    ("bigdave", "ice cream", 2, "I scream"),
+        ("jeff", "eggs, ham, and cheese 2", 3, "Eggs ham and cheese is deluxe meal"),
+    ("jeff", "eggs, ham, and cheese 3", 3, "Eggs ham and cheese is deluxe meal");
 
 INSERT INTO methods (recipe_id, step, instruction)
 VALUES
@@ -48,4 +50,10 @@ VALUES
     (1, "cheese", 500, "grams"),
     (1, "eggs", 2, "whole"),
     (1, "ham", 200, "grams"),
-    (2, "ice Cream", 500, "mL");
+    (2, "ice Cream", 500, "mL"),
+    (3, "cheese", 500, "grams"),
+    (3, "cheddar", 20, "grams"),
+    (3, "ham", 200, "grams"),
+    (4, "cheese", 500, "grams"),
+    (4, "eggs", 2, "whole"),
+    (4, "ham", 200, "grams");

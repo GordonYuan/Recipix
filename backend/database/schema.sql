@@ -6,7 +6,7 @@
 create table Recipes (
 	id 	     		integer,
 	username 		text,
-	name	 		text,
+	name	 		text collate nocase,
 	servings 		integer,
 	description  	text,
 	thumbnail   	blob,
@@ -26,17 +26,17 @@ create table Methods (
 
 -- List of Ingredients
 create table Ingredients (
-	name 	 text,
-	category text,
+	name 	 text collate nocase,
+	category text collate nocase,
 	primary key (name)
 );
 
 -- (recipe_id, ingredient_name) tuples
 create table Recipe_Has (
 	recipe_id		integer,
-	ingredient_name text,
+	ingredient_name text collate nocase,
 	amount			integer,
-	units			text,
+	units			text collate nocase,
 	primary key (recipe_id, ingredient_name),
 	foreign key (recipe_id) references Recipes(id),
 	foreign key (ingredient_name) references Ingredients(name)
@@ -52,14 +52,14 @@ create table Users (
 
 -- recipe tag/category 
 create table Tag (
-	name text,
+	name text collate nocase,
 	primary key(name)
 );
 
 -- (recipe_id, tag) tuples
 create table Recipe_tag (
 	recipe_id	integer,
-	tag		 	text,
+	tag		 	text collate nocase,
 	primary key (recipe_id, tag),
 	foreign key (recipe_id) references Recipes(id),
 	foreign key (tag) references Tag(name)

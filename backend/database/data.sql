@@ -55,9 +55,5 @@ VALUES
     (1, "eggs", 2, "whole"),
     (1, "ham", 200, "grams"),
     (2, "ice Cream", 500, "mL"),
-    (3, "cheese", 500, "grams"),
-    (3, "cheddar", 20, "grams"),
-    (3, "ham", 200, "grams"),
-    (4, "cheese", 500, "grams"),
-    (4, "eggs", 2, "whole"),
-    (4, "ham", 200, "grams");
+    (3, "avocado", 500, "grams"),
+    (3, "toast", 20, "whole");

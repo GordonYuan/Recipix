@@ -74,26 +74,19 @@ const HomePage = (props) => {
         formatGroupLabel={formatGroupLabel}
         onChange={async (e) => {
           const response = await searchRecipesApi(e);
-          const result = response.data;
-          console.log(result);
-          { {result.map((recipe) => (
-            <RecipeCard
-              title={recipe.title}
-              imagePath={recipe.imagePath}
-              recipeId={recipe.id}
-            />
-          ))} }
+          const { retrievedRecipes } = response.data;
+          setRecipes(retrievedRecipes);
         }}
         isMulti
       />
-      
-      {/* { {result.map((recipe) => (
+      {console.log({ recipes })}
+      {/* {recipes.recipes.map((recipe) => (
         <RecipeCard
           title={recipe.title}
           imagePath={recipe.imagePath}
           recipeId={recipe.id}
         />
-      ))} } */}
+      ))} */}
     </div>
   );
 };

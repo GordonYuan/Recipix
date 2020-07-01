@@ -18,11 +18,9 @@ const searchRecipesApi = async (ingredients) => {
   };
 
   try {
-    const response = await axios
-      .post(baseUrl, payload, config);
+    const response = await axios.post(baseUrl, payload, config);
     return response;
-  }
-  catch (error) {
+  } catch (error) {
     return error.response;
   }
 };

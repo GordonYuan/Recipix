@@ -63,7 +63,6 @@ class All(Resource):
         
         c.close()
         conn.close()
-
         return ret
 
             
@@ -147,7 +146,7 @@ class All(Resource):
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
-    @recipe.response(200, 'Success', category_ingredient_model)
+    @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredient_list_model)
     @recipe.doc(description='''

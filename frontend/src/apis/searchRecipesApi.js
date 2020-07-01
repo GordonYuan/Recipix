@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const searchRecipesApi = (ingredients) => {
+const searchRecipesApi = async (ingredients) => {
   let baseUrl = "http://127.0.0.1:5000/recipe/search";
 
   function transformIngredient(ingredient) {
@@ -17,10 +17,14 @@ const searchRecipesApi = (ingredients) => {
     },
   };
 
-  return axios
-    .post(baseUrl, payload, config)
-    .then((response) => response)
-    .catch((error) => error.response);
+  try {
+    const response = await axios
+      .post(baseUrl, payload, config);
+    return response;
+  }
+  catch (error) {
+    return error.response;
+  }
 };
 
 export default searchRecipesApi;

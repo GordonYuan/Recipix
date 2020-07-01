@@ -5,6 +5,7 @@ import { groupedIngredients } from "./data/data";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import getRecipesApi from "../apis/getRecipesApi";
 import RecipeCard from "../components/RecipeCard";
+import searchRecipesApi from "../apis/searchRecipesApi";
 
 const groupStyles = {
   display: "flex",
@@ -71,16 +72,28 @@ const HomePage = (props) => {
         components={animatedComponents}
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
-        onChange={(e) => console.log(e)}
+        onChange={async (e) => {
+          const response = await searchRecipesApi(e);
+          const result = response.data;
+          console.log(result);
+          { {result.map((recipe) => (
+            <RecipeCard
+              title={recipe.title}
+              imagePath={recipe.imagePath}
+              recipeId={recipe.id}
+            />
+          ))} }
+        }}
         isMulti
       />
-      {testRecipes.map((recipe) => (
+      
+      {/* { {result.map((recipe) => (
         <RecipeCard
           title={recipe.title}
           imagePath={recipe.imagePath}
           recipeId={recipe.id}
         />
-      ))}
+      ))} } */}
     </div>
   );
 };

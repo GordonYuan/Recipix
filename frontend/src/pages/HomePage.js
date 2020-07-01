@@ -66,11 +66,11 @@ const HomePage = (props) => {
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
         onChange={async (e) => {
-          if (e) {
+          if (!!e) {
             const response = await searchRecipesApi(e);
             const data = response.data;
             setRecipes(data.recipes);
-            console.log({ data, recipes });
+            console.log({ e, data, recipes });
           }
         }}
         isMulti
@@ -78,7 +78,7 @@ const HomePage = (props) => {
       {recipes &&
         recipes.map((recipe) => (
           <RecipeCard
-            title={recipe.recipeName}
+            title={recipe.recipe_name}
             imagePath={"pancake.png"}
             recipeId={recipe.recipe_id}
           />

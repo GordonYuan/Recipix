@@ -33,8 +33,8 @@ class All(Resource):
             ret["recipes"].append({})
             curr = ret["recipes"][i]
             curr["recipe_id"] = t[0]
-            curr["recipeCreator"] = t[1]
-            curr["recipeName"] = t[2]
+            curr["recipe_creator"] = t[1]
+            curr["recipe_name"] = t[2]
             curr["servings"] = t[3]
             curr["description"] = t[4]
             curr["image"] = t[5]
@@ -165,6 +165,8 @@ class Search(Resource):
 
         # extract ingredients into list
         e = request.json
+        if len(e) == 0:
+            abort(400, 'Malformed Request')
         ingredients = []
         for x in e['ingredients']:
             ingredients.append(x['name'])
@@ -203,8 +205,8 @@ class Search(Resource):
             ret["recipes"].append({})
             curr = ret["recipes"][i]
             curr["recipe_id"] = t[0]
-            curr["recipeCreator"] = t[1]
-            curr["recipeName"] = t[2]
+            curr["recipe_creator"] = t[1]
+            curr["recipe_name"] = t[2]
             curr["servings"] = t[3]
             curr["description"] = t[4]
             curr["image"] = t[5]

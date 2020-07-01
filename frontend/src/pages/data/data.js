@@ -4,21 +4,21 @@
 // }
 
 export const DairyOptions = [
-  { value: "eggs", label: "Eggs" },
-  { value: "butter", label: "Butter" },
+  { value: "eggs", label: "Eggs", category: "Dairy" },
+  { value: "butter", label: "Butter", category: "Dairy" },
 ];
 
 export const VegetableOptions = [
-  { value: "cabbage", label: "Cabbage" },
-  { value: "onion", label: "Onion" },
-  { value: "tomato", label: "Tomato" },
-  { value: "celery", label: "Celery" },
-  { value: "lettuce", label: "Lettuce" },
+  { value: "cabbage", label: "Cabbage", category: "Vegetables" },
+  { value: "onion", label: "Onion", category: "Vegetables" },
+  { value: "tomato", label: "Tomato", category: "Vegetables" },
+  { value: "celery", label: "Celery", category: "Vegetables" },
+  { value: "lettuce", label: "Lettuce", category: "Vegetables" },
 ];
 
 export const MeatOptions = [
-  { value: "ham", label: "Ham" },
-  { value: "salami", label: "Salami" },
+  { value: "ham", label: "Ham", category: "Meats" },
+  { value: "salami", label: "Salami", category: "Meats" },
 ];
 
 export const groupedIngredients = [

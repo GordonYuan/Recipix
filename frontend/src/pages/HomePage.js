@@ -4,6 +4,7 @@ import makeAnimated from "react-select/animated";
 import { groupedIngredients } from "./data/data";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import getRecipesApi from "../apis/getRecipesApi";
+import searchRecipesApi from "../apis/searchRecipesApi";
 
 const groupStyles = {
   display: "flex",
@@ -44,6 +45,11 @@ const HomePage = () => {
   const [runningList, setRunningList] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
+  const testIngredients = [
+    { value: "cabbage", label: "Cabbage", category: "Vegetables" },
+    { value: "onion", label: "Onion", category: "Vegetables" },
+  ];
+
   useEffect(() => {
     async function fetchIngredients() {
       const response = await getIngredientsApi();
@@ -53,8 +59,12 @@ const HomePage = () => {
       const response = await getRecipesApi();
       setRecipes(response.data);
     }
+    async function searchRecipes(ingredients) {
+      const response = await searchRecipesApi(ingredients);
+    }
     fetchIngredients();
     fetchRecipes();
+    //searchRecipes(testIngredients);
   }, []);
 
   return (
@@ -70,7 +80,7 @@ const HomePage = () => {
         components={animatedComponents}
         options={groupedIngredients}
         formatGroupLabel={formatGroupLabel}
-        onChange={(e) => console.log(e)}
+        onChange={(e) => console.log(searchRecipesApi(e))}
         isMulti
       />
     </div>

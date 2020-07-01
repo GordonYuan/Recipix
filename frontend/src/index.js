@@ -4,7 +4,7 @@ import "./index.css";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Notfound from "./components/notfound";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar";
 import CentreColumn from "./components/CentreColumn";
 
 const App = (

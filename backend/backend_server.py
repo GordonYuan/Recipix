@@ -24,6 +24,13 @@ def run(host, port):
     import api.ingredients
     app.run(debug=True, host=host, port=port)
 
+def create_db():
+    database_dir = os.path.join('database')
+    database_file = os.path.join(database_dir, 'test.sqlite3')
+    if not os.path.exists(database_dir):
+        print('[DATABASE] Creating new database directory.', database_dir)
+        os.mkdir(database_dir)
+
 def usage():
     print('Usage: {} '.format(sys.argv[0]))
 

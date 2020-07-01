@@ -10,7 +10,7 @@ const searchRecipesApi = async (ingredients) => {
     return transformedIngredient;
   }
   const payload = { ingredients: ingredients.map(transformIngredient) };
-  // console.log(payload);
+  console.log(payload);
   const config = {
     headers: {
       Accept: "application/json",

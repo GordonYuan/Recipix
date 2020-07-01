@@ -3,7 +3,6 @@ import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { groupedIngredients } from "./data/data";
 import getIngredientsApi from "../apis/getIngredientsApi";
-import getRecipesApi from "../apis/getRecipesApi";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
 import Grid from "@material-ui/core/Grid";
@@ -33,16 +32,8 @@ const formatGroupLabel = (data) => (
   </div>
 );
 
-const testRecipes = [
-  { id: 1, title: "Pancakes", imagePath: "pancake.png" },
-  { id: 2, title: "Pancakes", imagePath: "pancake.png" },
-  { id: 3, title: "Pancakes", imagePath: "pancake.png" },
-  { id: 4, title: "Pancakes", imagePath: "pancake.png" },
-];
-
 const HomePage = (props) => {
   const [ingredients, setIngredients] = useState([]);
-  const [runningList, setRunningList] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -55,12 +46,9 @@ const HomePage = (props) => {
 
   return (
     <div>
-      {/* {ingredients.map((ingredient) => (
-        <p>{ingredient.name}</p>
-      ))}
-      {console.log({ recipes, ingredients })} */}
       <h1 style={{ textAlign: "center" }}>ADD INGREDIENTS, GET RECIPES</h1>
       <Select
+        isMulti
         defaultValue={""}
         closeMenuOnSelect={false}
         components={makeAnimated()}
@@ -72,9 +60,10 @@ const HomePage = (props) => {
             const data = response.data;
             setRecipes(data.recipes);
             console.log({ e, data, recipes });
+          } else {
+            setRecipes([]);
           }
         }}
-        isMulti
       />
       <br />
       <Grid container spacing={2}>

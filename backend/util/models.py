@@ -65,10 +65,10 @@ recipe_method_model = api.model('recipe_method_model', {
 
 recipe_complete_model = api.model('recipe_complete_model', {
   'recipe_id' : fields.Integer(required=True, min=0), 
-  'recipeCreator' : fields.String(required=True, example='hotmario258'),
-  'recipeName' : fields.String(required=True, example='eggs and Cheese ham'),
+  'recipe_creator' : fields.String(required=True, example='hotmario258'),
+  'recipe_name' : fields.String(required=True, example='eggs and Cheese ham'),
   'image' : fields.String(required=True, example='base64String'),
-  'tag' : fields.List(fields.Nested(meal_type_model)),
+  'tags' : fields.List(fields.Nested(meal_type_model)),
   'ingredients' : fields.List(fields.Nested(ingredients_recipe_model)),
   'servings' : fields.Integer(required=True, min=0),
   'method' : fields.List(fields.Nested(recipe_method_model)),

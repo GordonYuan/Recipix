@@ -9,7 +9,7 @@ const searchRecipesApi = async (ingredients) => {
     };
     return transformedIngredient;
   }
-  const payload = ingredients.map(transformIngredient);
+  const payload = { ingredients: ingredients.map(transformIngredient) };
   // console.log(payload);
   const config = {
     headers: {

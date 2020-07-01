@@ -63,12 +63,6 @@ class All(Resource):
         
         c.close()
         conn.close()
-
-<<<<<<< HEAD
-        json_ret = json.dumps(ret)
-        print(json_ret)
-=======
->>>>>>> 7e02d8f6ea9e6eba25ddc408492a1347d113ae00
         return ret
 
             

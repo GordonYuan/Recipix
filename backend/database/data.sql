@@ -12,15 +12,17 @@ VALUES
 
 INSERT INTO users (username, password)
 VALUES 
-    ("jeff", "password123")
-    ("bigdave", "hello123")
+    ("jeff", "password123"),
+    ("bigdave", "hello123");
 
 INSERT INTO recipes (username, name, servings, description)
 VALUES
-    ("jeff", "eggs, ham, and cheese", 3, "Eggs ham and cheese is deluxe meal"),
-    ("bigdave", "ice cream", 2, "I scream");
+    ("jeff", "eggs, ham, and cheese 1", 3, "Eggs ham and cheese is deluxe meal"),
+    ("bigdave", "ice cream", 2, "I scream"),
+        ("jeff", "eggs, ham, and cheese 2", 3, "Eggs ham and cheese is deluxe meal"),
+    ("jeff", "eggs, ham, and cheese 3", 3, "Eggs ham and cheese is deluxe meal");
 
-INSERT INTO methods (id, step, instruction)
+INSERT INTO methods (recipe_id, step, instruction)
 VALUES
     (1, 1, "Crack the eggs and place into a bowl"),
     (1, 2, "Cut the ham into strips and place into egg mixture"),
@@ -28,7 +30,7 @@ VALUES
     (1, 4, "Fry it"),
     (2, 1, "Scoop ice cream from container and place into a bowl");
 
-INSERT INTO Tag 
+INSERT INTO Tag (name)
 VALUES 
     ("Entree"),
     ("Breakfast"),
@@ -36,7 +38,7 @@ VALUES
     ("Dinner"),
     ("Desert");
 
-INSERT INTO recipe_tag 
+INSERT INTO recipe_tag (recipe_id, tag)
 VALUES
     (1, "Breakfast"),
     (1, "Lunch"),
@@ -48,4 +50,10 @@ VALUES
     (1, "cheese", 500, "grams"),
     (1, "eggs", 2, "whole"),
     (1, "ham", 200, "grams"),
-    (2, "ice Cream", 500, "mL");
+    (2, "ice Cream", 500, "mL"),
+    (3, "cheese", 500, "grams"),
+    (3, "cheddar", 20, "grams"),
+    (3, "ham", 200, "grams"),
+    (4, "cheese", 500, "grams"),
+    (4, "eggs", 2, "whole"),
+    (4, "ham", 200, "grams");

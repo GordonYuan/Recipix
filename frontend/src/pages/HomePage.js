@@ -66,7 +66,7 @@ const HomePage = (props) => {
         }}
       />
       <br />
-      <Grid container spacing={2}>
+      <Grid container justify="space-between" spacing={2}>
         {recipes &&
           recipes.map((recipe) => (
             <Grid item xs={4}>

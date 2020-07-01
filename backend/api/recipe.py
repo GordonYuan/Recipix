@@ -64,9 +64,7 @@ class All(Resource):
         c.close()
         conn.close()
 
-        json_ret = json.dumps(ret)
-        print(json_ret)
-        return json_ret
+        return ret
 
             
         
@@ -236,8 +234,6 @@ class Search(Resource):
         c.close()
         conn.close()
 
-        json_ret = json.dumps(ret)
-        print(json_ret)
         return json_ret
 
         # return {

@@ -2,6 +2,8 @@ from app import api
 from util.models import *
 from flask_restplus import Resource, fields
 from flask import request
+import sqlite3
+import json
 
 recipe = api.namespace('recipe', description='Recipe information')
 
@@ -93,7 +95,7 @@ class All(Resource):
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
-    @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.response(200, 'Success', category_ingredient_model)
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredient_list_model)
     @recipe.doc(description='''
@@ -106,8 +108,13 @@ class Search(Resource):
         # process ingredients into a list 
         # find top 20 recipes that match the highest number of ingredients
         #return the top 20 recipes 
-
-        latest_recipes = ''
+        e = request.json
+        ingredients = []
+        for x in e['ingredients']:
+            ingredients.append(x['name'])
+        print(ingredients)
+        # now we have all ingredients, 
+        # we have to make sql query to filter out ingredients
         return {
             "recipes": [
                 {
@@ -184,7 +191,7 @@ class Search(Resource):
             ]
         }
 
-@recipe.route('/User', strict_slashes=False)
+@recipe.route('/user', strict_slashes=False)
 class User(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
@@ -210,7 +217,7 @@ class Request(Resource):
         Requests for recipe to be made with the ingredients sent
         into the backend
     ''')
-    def get(self):
+    def post(self):
         ### TODO add the request into backend
         return {
             'message' : 'success'
@@ -243,3 +250,25 @@ class Add(Resource):
         return {
             'message' : 'success'
         }
+
+@recipe.route('/tags', strict_slashes=False)
+class Tags(Resource):
+    @recipe.response(200, 'Success', tags_model)
+    @recipe.response(400, 'Malformed Request')
+    @recipe.response(403, 'Invalid Authentication Token')
+    @recipe.doc(description='''
+        Get Recipe tags
+    ''')
+    def get(self):
+        ### TODO add the request into backend
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
+        c.execute('SELECT * from tag;')
+        t = c.fetchall()
+        d = {"tags": []}
+        for x in t:
+            d['tags'].append({
+                'tag' : x
+            })
+        return json.dumps(d)
+

@@ -3,8 +3,9 @@
 
 .read rmdb.sql
 
-.read schema2.sql
+.read schema.sql
 
+.read data.sql
 -- Add functions+triggers to maintain assets
 
 -- \i assets.sql

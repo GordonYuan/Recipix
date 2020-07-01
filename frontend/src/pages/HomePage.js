@@ -76,14 +76,19 @@ const HomePage = (props) => {
         }}
         isMulti
       />
-      {recipes &&
-        recipes.map((recipe) => (
-          <RecipeCard
-            title={recipe.recipe_name}
-            imagePath={"pancake.png"}
-            recipeId={recipe.recipe_id}
-          />
-        ))}
+      <br />
+      <Grid container spacing={2}>
+        {recipes &&
+          recipes.map((recipe) => (
+            <Grid item xs={4}>
+              <RecipeCard
+                title={recipe.recipe_name}
+                imagePath={"pancake.png"}
+                recipeId={recipe.recipe_id}
+              />
+            </Grid>
+          ))}
+      </Grid>
     </div>
   );
 };

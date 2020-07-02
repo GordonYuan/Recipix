@@ -29,3 +29,9 @@ with Andy, covering all user stories
 Goals
 - Set up boilerplate for tech stack on everyones computer and have a simple end to end scenario where backend talks to the frontend
 - Begin picking up cards from the Jira board, after setup is complete
+
+Week 5
+Work done
+- Created homepage ui with search bar and recipe cards
+- Hooked up api calls to allow for retrieval of ingredients and hits the api when adding ingredients to retrieve relevant recipes
+- Created routing with mock pages

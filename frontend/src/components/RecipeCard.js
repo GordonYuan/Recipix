@@ -36,7 +36,7 @@ const RecipeCard = (props) => {
           image={require("./images/" + imagePath)}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6">
             {title}
           </Typography>
         </CardContent>

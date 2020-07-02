@@ -94,7 +94,7 @@ const HomePage = (props) => {
       <br />
       {/* {console.log({ ingredients })};
       {console.log({ optionsArray: mapToOptions(ingredients) })} */}
-      <Grid container justify="space-between" spacing={2}>
+      <Grid container spacing={2}>
         {recipes &&
           recipes.map((recipe) => (
             <Grid key={recipe.recipe_id} item xs={4}>

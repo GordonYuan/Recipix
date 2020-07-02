@@ -48,3 +48,30 @@ I had a meeting with Andrew for about 2 hours, discussing the backend architecht
 system. A lot of time was spent on whether or not we needed an API for the database, so that the backend code would be cleaner and be more 
 easily scalable if we were to add additional features, etc. 
 
+Saturday
+Meeting with the test to keep everyone on the same page with the backend/database. Gordon did some demonstration with how to use reactJS, since he 
+some prior experience with the framework. Since the boilerplate code still needs to be fully setup, we decided to split into two groups - 
+Anrew and I on the backend + database and Andy, Kevin and Gordon on the frontend, although it is flexible since people would like to learn different
+things. 
+
+Week 5
+
+The plan is to finish off the sprint (or most of the sprint) by the demo, which includes getting the boilerplate code done so the project can get off
+the ground. In addition, a few key user stories will be implemented so that we have a decent show at the demo on Thrusday
+
+Monday
+2-3 hour meeting with andrew to complete the sql schema and try it out in a database with some sample data. We decided to switch from mySQL to sqlite3 
+because it is more lightweight and more suitable for this project, since we will not be managing huge amounts of data in our database that we need a
+database server.
+
+Tuesday
+Group chat with Andrew to work on the backend. Since my experience of backend/web development is not that great, I spent quite a lot of time learning before
+getting start on actually implementing functions.
+
+Wednesday
+Group chat with the team, finalising most of the changes and seeing the backend and frontend connect. I wrote the get all recipes and search recipes based on 
+running list in recipe.py, as well as fix up code across the backend, add new data to the database and modify the schema slightly. Later, everyone contributed
+in helping each other with finishing off each other's parts if people needed help. We realised that some of our user stories may have been too large in scale,
+and should have been broken down into smaller user stories since the acceptance criteria was quite heavy. Thus for next sprint, we would probably look for ways
+to re-evaluate some of our existing user-stories and decide if they needed to be broken up into smaller cards so that it is easier to assign indiviuals work
+and increase the overall workflow and productivity of the group. It would also be easier to get feedback and make things more organised.

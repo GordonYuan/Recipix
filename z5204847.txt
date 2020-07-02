@@ -20,6 +20,14 @@ Week 3
 
 Week 4 
  - I added boilerplate code for the backend swagger api look and formatting
+ - Added in what models the api would accept and return
  - discussed with david the backend schema and ways to represent data in database, and how the backend api will interact with it 
  - discussed with david whether we would use a database api/interface to make code cleaner so as to not include messy queries in backend api code.
- 
+
+Week 5 
+ - Added in test data into the database
+ - visually inspected correct functionality of the api
+ - Demonstrated to frontend team how API works and how they would interface with it 
+ - In the backend api, I added in the functionality for getting tags and getting ingredients so that the frontend people can use it 
+ - Had meeting with David to see what the database schema would look like, overall structure of database
+ - Double checked correct functionality with David

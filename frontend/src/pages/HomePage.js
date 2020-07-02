@@ -97,7 +97,7 @@ const HomePage = (props) => {
       <Grid container justify="space-between" spacing={2}>
         {recipes &&
           recipes.map((recipe) => (
-            <Grid item xs={4}>
+            <Grid key={recipe.recipe_id} item xs={4}>
               <RecipeCard
                 title={recipe.recipe_name}
                 imagePath={"pancake.png"}

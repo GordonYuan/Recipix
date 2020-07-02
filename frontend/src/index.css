@@ -1,14 +1,11 @@
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"),
+    url(./fonts/Montserrat-Regular.ttf) format("truetype");
+}
+
 body {
   margin: 0;
   /* padding: 2rem; */
-  font-family: sans-serif;
-}
-
-.active {
-  color: red;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: Montserrat;
 }

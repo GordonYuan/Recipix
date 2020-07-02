@@ -100,7 +100,7 @@ const HomePage = (props) => {
             <Grid key={recipe.recipe_id} item xs={4}>
               <RecipeCard
                 title={recipe.recipe_name}
-                imagePath={"pancake.png"}
+                imagePath={recipe.image}
                 recipeId={recipe.recipe_id}
               />
             </Grid>

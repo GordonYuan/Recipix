@@ -33,7 +33,7 @@ const RecipeCard = (props) => {
         <CardMedia
           style={{ height: 150 }}
           className={classes.media}
-          image={require("./images/" + imagePath)}
+          image = {"data:image/png;base64," + imagePath}
         />
         <CardContent>
           <Typography gutterBottom variant="h6">

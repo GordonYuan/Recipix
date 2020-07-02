@@ -36,3 +36,8 @@ On Saturday night/Sunday morning, Gordon and I completed the wireframes and flow
 
 Week 4
 So far, we've added some boiler plate code but nothing substantial. We need to decide who will be working on which parts of the assignment, and also whether or not we need to modify the user stories to be implemented in the first sprint.
+
+Week 5
+
+Monday-Wednesday
+After spending several days setting up my development environment and learning javascript with Gordon's assitance, I managed to implement part of the frontend recipe search functionality. Progress was slow for me this week due to having to get used to a new language, but things should be faster from now on. We realised this week that two of our user stories were too large to be completed - that is, the main functionality was successfully implemented but the accpetance criteria included substantial other requirements which would've been better to split off into separate user stories. We are mostly in agreement that this failure to get things done in time is due to placing too many requirements into too few user stories, but that said our system will mostly be functional for the demo. 

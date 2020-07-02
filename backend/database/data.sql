@@ -1,6 +1,6 @@
 INSERT INTO ingredients 
 VALUES 
-    ("mozzarella cheese", "dairy"), 
+    ("cheese", "dairy"), 
     ("milk", "dairy"), 
     ("cheddar", "dairy"), 
     ("spinach", "vegetable"), 
@@ -16,8 +16,8 @@ VALUES
     ("gordo", "password123"),
     ("bigdave", "hello123"),
     ("yungkev", "hey"),
-    ("andgry", "no"),
-    ("andre", "pease");
+    ("andwgery", "no"),
+    ("axndznrek", "pease");
 
 INSERT INTO recipes (username, name, servings, description, thumbnail)
 VALUES
@@ -33,7 +33,7 @@ VALUES
     (1, 2, "Cut the ham into strips and place into egg mixture"),
     (1, 3, "Put the cheese into egg and ham mixture"),
     (1, 4, "Fry it"),
-    (2, 1, "Scoop ice cream from container and place into a bowl");
+    (2, 1, "hit the milk 10 times in a bowl");
 
 INSERT INTO Tag (name)
 VALUES 
@@ -55,7 +55,7 @@ VALUES
     (1, "cheese", 500, "grams"),
     (1, "eggs", 2, "whole"),
     (1, "ham", 200, "grams"),
-    (2, "ice Cream", 500, "mL"),
+    (2, "Milk", 500, "mL"),
     (3, "avocado", 500, "grams"),
     (3, "toast", 20, "whole"),
     (4, "cheddar", 50, "grams"),

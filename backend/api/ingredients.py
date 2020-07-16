@@ -1,6 +1,6 @@
 from app import api
 from util.models import *
-from flask_restplus import Resource, fields
+from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
 import json
@@ -37,6 +37,7 @@ class All(Resource):
         c = conn.cursor()
         c.execute('SELECT * from ingredients;')
         t = c.fetchall()
+        c.close()
         ret = {"categories": []}
         ing = {}
         for x,y in t:

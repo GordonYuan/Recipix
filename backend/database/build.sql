@@ -6,12 +6,3 @@
 .read schema.sql
 
 .read data.sql
--- Add functions+triggers to maintain assets
-
--- \i assets.sql
-
--- Insert tuples
-
--- \i populate.sql
-
-

@@ -44,9 +44,9 @@ create table Recipe_Has (
 
 -- List of Users
 create table Users (
-	username	 	text,
-	password	 	text,
-	token			integer,
+	username	 	text collate nocase,
+	salt	 		text,
+	hash	 			text,
 	primary key (username)
 );
 

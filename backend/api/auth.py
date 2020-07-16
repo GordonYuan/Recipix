@@ -33,12 +33,16 @@ class Login(Resource):
         c = conn.cursor()
         user_exist_sql = 'SELECT username, salt, hash FROM users where username = "{}"'.format(username)
         c.execute(user_exist_sql)
-        [(username, salt, stored_hash)] = c.fetchall()
-        if not username:
+        res = c.fetchall()
+        if not res:
             abort(403, 'Invalid Username/Password')
+        [(username, salt, stored_hash)] = res
+
+        
 
         salted_password = password + salt
         gen_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+
         if stored_hash != gen_hash:
             abort(403, 'Invalid Username/Password')
         return {

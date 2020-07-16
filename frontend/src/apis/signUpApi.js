@@ -17,4 +17,4 @@ const signUpApi = async (values) => {
     .catch((error) => error.response);
 };
 
-export default loginApi;
+export default signUpApi;

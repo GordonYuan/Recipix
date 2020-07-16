@@ -183,10 +183,6 @@ class Search(Resource):
         c.execute(sql_str)
         recipe_t = c.fetchall()
 
-        print('**********')
-        print(recipe_t)
-        print(sql_str)
-
         # the below code is repeated in get all recipes
         # basically, anytime we need to return recipes, we use this block of code
         # can generalise into function

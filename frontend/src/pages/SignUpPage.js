@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik } from "formik";
 import SignUpForm from "./SignUpForm";
+import signUpApi from "../apis/signUpApi";
 
 const SignUpPage = () => {
   return (
@@ -8,6 +9,8 @@ const SignUpPage = () => {
       initialValues={{ username: "", password: "" }}
       onSubmit={(values) => {
         console.log(values);
+        // await signUpApi(values);
+        // do something with token
       }}
     >
       {(props) => <SignUpForm {...props} />}

@@ -19,3 +19,19 @@ Week 3
 I wrote the background section for the project proposal as well as compiled the report
 and provided some basic formatting. After submitting the proposal, our group discussed
 how we would approach developing our web app.
+
+Week 4
+
+It was decided that along with Gordon and Andy, we would work on the front end while David and Andrew would work on the backend. Andy and I only had pretty much no prior knowledge with how to code in Javascript or using React. This week mostly involved spending time learning how to use these tools.
+
+Week 5
+
+With help from Gordon who is more proficient in Javascript React, I was able to help write the code for recipe cards that would appear on the front page, as well as linking the recipes stored in the backend to the front end. 
+
+Week 6
+
+This was Flex week and most of us (me included) spent the week focusing on other subjects. Nothing much happened this week for our project.
+
+Week 7
+
+…

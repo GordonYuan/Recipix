@@ -11,6 +11,7 @@ import MyRecipesPage from "./pages/MyRecipesPage";
 import AddRecipePage from "./pages/AddRecipePage";
 import LoginPage from "./pages/LoginPage";
 import Recipe from "./pages/Recipe";
+import SignUpPage from "./pages/SignUpPage";
 
 const App = (
   <Router>
@@ -23,6 +24,7 @@ const App = (
         <Route exact path="/add-recipe" component={AddRecipePage} />
         <Route exact path="/my-recipes" component={MyRecipesPage} />
         <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/signup" component={SignUpPage} />
         <Route exact path="/recipe/:id" component={Recipe} />
         <Route component={Notfound} />
       </Switch>

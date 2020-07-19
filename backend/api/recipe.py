@@ -189,12 +189,73 @@ class Add(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.expect(auth_model, recipe_complete_model)
+    @recipe.expect(auth_model, recipe_add_model)
     @recipe.doc(description='''
         Adds recipe into the API
     ''')
     def post(self):
         ### TODO add the request into backend
+        token = request.headers.get('Authorization')
+        if not token:
+            abort(403, 'Invalid Authentication Token')
+
+        r = request.json
+        print(r)
+        print(token)
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
+
+        # find user
+        c.execute('SELECT username from users where hash = "{}"'.format(token))
+        res = c.fetchone()
+        if not res: 
+            abort(403, 'Invalid Authentication Token')
+
+        user, = res
+        name = r['recipe_name']
+        image = r['image']
+        servings = r['servings']
+        description = r['description']
+
+        #add recipe in 
+        sql = 'INSERT INTO recipes (username, name, servings, description, thumbnail) VALUES ("{}", "{}", "{}", "{}", "{}")'.format(user, name, servings, description, image)
+        c.execute(sql)
+        conn.commit()
+
+        # get recipe_id 
+        c.execute('select id from recipes where username = "{}" and name = "{}" order by id desc limit 1'.format(user, name))
+        recipe_id, = c.fetchone()
+
+        # add steps in
+        method = r['method']
+        for step in method:
+            print(step)
+            step_number = step['step_number']
+            instruction = step['instruction']
+            sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES ("{}", "{}", "{}")'.format(recipe_id, step_number, instruction)
+            c.execute(sql)
+            conn.commit()
+
+
+        # add ingredients in 
+        ingredients = r['ingredients']
+        print(ingredients)
+        for ingredient in ingredients:
+            ing_name = ingredient['name']
+            ing_amount = ingredient['amount']
+            ing_units = ingredient['units']
+            sql = 'INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES ("{}", "{}", "{}", "{}")'.format(recipe_id, ing_name, ing_amount, ing_units)
+            c.execute(sql)
+            conn.commit()
+
+        # add tags in 
+        tags = r['tags']
+        print(tags)
+        for t in tags:
+            tag = t['tag']
+            sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES ("{}", "{}")'.format(recipe_id, tag)
+            c.execute(sql)
+            conn.commit()
         return {
             'message' : 'success'
         }

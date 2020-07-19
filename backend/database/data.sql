@@ -9,7 +9,8 @@ VALUES
     ("avocado", "fruit"), 
     ("ham", "meat"), 
     ("eggs", "meat"),
-    ("toast", "grains"); 
+    ("bread", "grains"),
+    ("peanut butter", "grains"); 
 
 -- all user passwords are password123
 INSERT INTO users (username, salt, hash) 

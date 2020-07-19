@@ -75,8 +75,18 @@ recipe_complete_model = api.model('recipe_complete_model', {
   'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings')
 })
 
+recipe_add_model = api.model('recipe_complete_model', {
+  'recipe_name' : fields.String(required=True, example='eggs and Cheese ham'),
+  'image' : fields.String(required=True, example='base64String'),
+  'tags' : fields.List(fields.Nested(tag_model)),
+  'ingredients' : fields.List(fields.Nested(ingredients_recipe_model)),
+  'servings' : fields.Integer(required=True, min=0),
+  'method' : fields.List(fields.Nested(recipe_method_model)),
+  'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings')
+})
+
 recipe_list_model = api.model('recipe_list_model', {
   'recipes': fields.List(fields.Nested(recipe_complete_model)),
 })
 
-auth_model = api.parser().add_argument('Authorization', help="Authorization token given from logging in",location='headers')
+auth_model = api.parser().add_argument('Authorization', help="Authorization token given from logging in", location='headers', required=True)

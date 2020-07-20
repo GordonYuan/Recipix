@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { setNestedObjectValues } from "formik";
 
 function Copyright() {
   return (
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = (props) => {
   const classes = useStyles();
-  const { handleSubmit, handleChange, values } = props;
+  const { handleSubmit, handleChange, values, valid } = props;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -68,6 +69,7 @@ const LoginForm = (props) => {
             autoComplete="username"
             onChange={handleChange}
             value={values.username}
+            error={!values.valid}
           />
           <TextField
             variant="outlined"
@@ -81,6 +83,8 @@ const LoginForm = (props) => {
             autoComplete="current-password"
             onChange={handleChange}
             value={values.password}
+            error={!values.valid}
+            helperText={values.valid ? "" : "Incorrect Username and Password"}
           />
 
           {/* <FormControlLabel
@@ -102,8 +106,9 @@ const LoginForm = (props) => {
                 Forgot password?
               </Link>
             </Grid> */}
+
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

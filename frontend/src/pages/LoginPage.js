@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,9 +12,11 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { Formik } from "formik";
+import { Formik, setIn } from "formik";
 import LoginForm from "./LoginForm";
 import loginApi from "../apis/loginApi";
+import { withRouter } from "react-router";
+
 function Copyright() {
   return (
     <Typography
@@ -45,17 +47,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+const SignIn = ({history}) => {
+  //const [invalid, setInvalid] = useState(false);
   return (
     <Formik
-      initialValues={{ username: "", password: "" }}
+      initialValues={{ username: "", password: "", valid: true }}
       onSubmit={async (values) => {
-        console.log(values);
         const response = await loginApi(values);
         console.log(response);
+        if (response.status == "403") {
+          values.valid = false;
+        } else {
+          window.localStorage.setItem("token", response.data.token);
+          history.push("/");
+        }
       }}
     >
       {(props) => <LoginForm {...props} />}
     </Formik>
   );
-}
+};
+
+export default withRouter(SignIn);

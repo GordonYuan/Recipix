@@ -45,6 +45,7 @@ const NavBar = ({ history }) => {
           <Button color="inherit" onClick={() => history.push("/login")}>
             LOGIN
           </Button>
+
         </Toolbar>
       </AppBar>
     </div>

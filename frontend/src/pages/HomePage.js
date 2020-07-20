@@ -45,7 +45,7 @@ const titleCase = (str) => {
 };
 
 const mapToOptions = (data) => {
-  console.log({ data });
+  // console.log({ data });
   if (!!data) {
     return data.map((entry) => {
       return {

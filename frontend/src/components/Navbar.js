@@ -5,6 +5,13 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router";
+import {
+  HOME_PAGE,
+  RECIPE_SEARCH,
+  ADD_RECIPE,
+  LOGIN,
+  MY_RECIPES,
+} from "../constants/urlConstants";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = ({ history }) => {
   const classes = useStyles();
+  const signedIn = !!window.localStorage.getItem("token");
 
   return (
     <div className={classes.root}>
@@ -28,23 +36,32 @@ const NavBar = ({ history }) => {
           <Typography
             variant="h6"
             className={classes.title}
-            onClick={() => history.push("/")}
+            onClick={() => history.push(HOME_PAGE)}
+            textAlign="left"
             style={{ cursor: "pointer" }}
           >
             RECIPIX
           </Typography>
-          <Button
-            color="inherit"
-            onClick={() => history.push("/recipe-search")}
-          >
+          {signedIn && (
+            <Button color="inherit" onClick={() => history.push(MY_RECIPES)}>
+              MY RECIPES
+            </Button>
+          )}
+          <Button color="inherit" onClick={() => history.push(RECIPE_SEARCH)}>
             SEARCH RECIPES
           </Button>
-          <Button color="inherit" onClick={() => history.push("/add-recipe")}>
+          <Button color="inherit" onClick={() => history.push(ADD_RECIPE)}>
             ADD RECIPE
           </Button>
-          <Button color="inherit" onClick={() => history.push("/login")}>
-            LOGIN
-          </Button>
+          {signedIn ? (
+            <Button color="inherit" onClick={() => history.push(HOME_PAGE)}>
+              LOGOUT
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={() => history.push(LOGIN)}>
+              LOGIN
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

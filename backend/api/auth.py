@@ -5,6 +5,7 @@ from flask import request
 
 auth = api.namespace('auth', description='Login and Signup')
 
+
 @auth.route('/login', strict_slashes=False)
 class Login(Resource):
     @auth.response(200, 'Success', token_model)
@@ -22,13 +23,13 @@ class Login(Resource):
         username = j['username']
         password = j['password']
         # print(username + password)
-        
+
         # username, dbpw = database.getUser(username)
 
         # if not username:
         #     abort(403,'Invalid Username/Password')
 
-        # if dbpw != password 
+        # if dbpw != password
         #     abort(403,'Invalid Username/Password')
 
         # token = database.getToken(username, password)
@@ -37,9 +38,10 @@ class Login(Resource):
             'token': username + password
         }
 
+
 @auth.route('/register', strict_slashes=False)
 class Register(Resource):
-    @auth.response(200, 'Success',token_model)
+    @auth.response(200, 'Success', token_model)
     @auth.response(400, 'Malformed Request')
     @auth.response(409, 'Username Taken')
     @api.expect(register_model)

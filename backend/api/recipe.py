@@ -397,6 +397,3 @@ class Tags(Resource):
                 'tag': x
             })
         return json.dumps(d)
-
-
->>>>>> > register-page

@@ -55,7 +55,7 @@ const SignIn = ({history}) => {
       onSubmit={async (values) => {
         const response = await loginApi(values);
         console.log(response);
-        if (response.status == "403") {
+        if (response.status === "403") {
           values.valid = false;
         } else {
           window.localStorage.setItem("token", response.data.token);

@@ -6,7 +6,10 @@ import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
+//TODO: Upload image and Tags, link to API, tags
+
 const AddRecipePage = () => {
+  //Functions needed to dynamically add instructions to the recipe
   const [instructionList, setInstructionList] = useState([{ instruction: "" }]);
 
   const handleInstrChange = (e, idx) => {
@@ -29,13 +32,36 @@ const AddRecipePage = () => {
     setInstructionList(list);
   };
 
+  // Functions needed to dynamically add ingredients to the recipe
+  const [ingredientList, setIngredientList] = useState([{ ingredient: "" }]);
+
+  const handleIngreChange = (e, idx) => {
+    const { name, value } = e.target;
+
+    const list = [...ingredientList];
+    list[idx][name] = value;
+    setIngredientList(list);
+  };
+
+  const handleAddIngredient = () => {
+    const list = [...ingredientList];
+    list.push({ ingredient: "" });
+    setIngredientList(list);
+  };
+
+  const handleRemoveIngredient = (idx) => {
+    const list = [...ingredientList];
+    list.splice(idx, 1);
+    setIngredientList(list);
+  };
+
   return (
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         Create Your Recipe
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={8}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="recipeName"
@@ -54,9 +80,51 @@ const AddRecipePage = () => {
           />
         </Grid>
       </Grid>
+      {/* This part focuses on dynamically adding ingredients needed for the recipe */}
       <br></br>
       <br></br>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h5" gutterBottom>
+        Ingredients
+      </Typography>
+      <Grid container spacing={4}>
+        {ingredientList.map((item, idx) => {
+          return (
+            <Grid item xs={12}>
+              <div key={idx}>
+                <TextField
+                  id="ingredient"
+                  name="ingredient"
+                  value={item.ingredient}
+                  onChange={(e) => handleIngreChange(e, idx)}
+                  style={{ width: "50%" }}
+                />
+                {ingredientList.length - 1 == idx && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAddIngredient}
+                  >
+                    Add
+                  </Button>
+                )}
+                {ingredientList.length != 1 && (
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleRemoveIngredient(idx)}
+                  >
+                    Remove
+                  </Button>
+                )}
+              </div>
+            </Grid>
+          );
+        })}
+      </Grid>
+      {/* This part focuses on dynamically adding instructions needed for the recipe */}
+      <br></br>
+      <br></br>
+      <Typography variant="h5" gutterBottom>
         Instructions
       </Typography>
       <Grid container spacing={4}>
@@ -66,8 +134,8 @@ const AddRecipePage = () => {
               <div key={idx}>
                 Step {idx + 1}
                 <TextField
-                  id="instruction"
-                  name="instruction"
+                  id="input"
+                  name="input"
                   value={item.instruction}
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
@@ -97,15 +165,11 @@ const AddRecipePage = () => {
       </Grid>
       <br></br>
       <br></br>
-      <Typography variant="h6" gutterBottom>
-        Ingredients
-      </Typography>
-      <br></br>
-      <br></br>
       <Button variant="contained" color="primary">
         Create Recipe
       </Button>
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
+      {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
     </React.Fragment>
   );
 };

@@ -21,7 +21,7 @@ create table Methods (
 	step		integer, 
 	instruction text,
 	primary key (recipe_id, step),
-	foreign key (recipe_id) references Recipes(id)
+	foreign key (recipe_id) references Recipes(id) ON DELETE CASCADE
 );
 
 -- List of Ingredients
@@ -38,7 +38,7 @@ create table Recipe_Has (
 	amount			integer,
 	units			text collate nocase,
 	primary key (recipe_id, ingredient_name),
-	foreign key (recipe_id) references Recipes(id),
+	foreign key (recipe_id) references Recipes(id) ON DELETE CASCADE,
 	foreign key (ingredient_name) references Ingredients(name)
 );
 
@@ -61,7 +61,7 @@ create table Recipe_tag (
 	recipe_id	integer,
 	tag		 	text collate nocase,
 	primary key (recipe_id, tag),
-	foreign key (recipe_id) references Recipes(id),
+	foreign key (recipe_id) references Recipes(id) ON DELETE CASCADE,
 	foreign key (tag) references Tag(name)
 );
 

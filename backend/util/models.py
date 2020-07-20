@@ -75,7 +75,11 @@ recipe_complete_model = api.model('recipe_complete_model', {
   'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings')
 })
 
-recipe_add_model = api.model('recipe_complete_model', {
+recipe_id_model = api.model('recipe_id_model', {
+  'recipe_id' : fields.Integer(required=True, min=0)
+})
+
+recipe_add_model = api.model('recipe_add_model', {
   'recipe_name' : fields.String(required=True, example='eggs and Cheese ham'),
   'image' : fields.String(required=True, example='base64String'),
   'tags' : fields.List(fields.Nested(tag_model)),

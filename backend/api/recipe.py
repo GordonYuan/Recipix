@@ -1,9 +1,9 @@
 from app import api
 from util.models import *
+from util.helper import *
 from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
-import json
 
 recipe = api.namespace('recipe', description='Recipe information')
 
@@ -184,8 +184,8 @@ class Request(Resource):
             'message' : 'success'
         }
 
-@recipe.route('/add', strict_slashes=False)
-class Add(Resource):
+@recipe.route('/recipe', strict_slashes=False)
+class Recipe(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
@@ -195,27 +195,33 @@ class Add(Resource):
     ''')
     def post(self):
         ### TODO add the request into backend
-        token = request.headers.get('Authorization')
-        if not token:
-            abort(403, 'Invalid Authentication Token')
+        # token = request.headers.get('Authorization')
 
+        # if not token:
+        #     abort(403, 'Invalid Authentication Token')
+
+        # r = request.json
+
+        # conn = sqlite3.connect('database/recipix.db')
+        # c = conn.cursor()
+
+        # # find user
+        # c.execute('SELECT username from users where hash = "{}"'.format(token))
+        # res = c.fetchone()
+        # if not res: 
+        #     abort(403, 'Invalid Authentication Token')
+
+        # user, = res
         r = request.json
-        print(r)
-        print(token)
-        conn = sqlite3.connect('database/recipix.db')
-        c = conn.cursor()
-
-        # find user
-        c.execute('SELECT username from users where hash = "{}"'.format(token))
-        res = c.fetchone()
-        if not res: 
-            abort(403, 'Invalid Authentication Token')
-
-        user, = res
+        user = authenticate(request)
         name = r['recipe_name']
         image = r['image']
         servings = r['servings']
         description = r['description']
+
+        #connect to db
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
 
         #add recipe in 
         sql = 'INSERT INTO recipes (username, name, servings, description, thumbnail) VALUES ("{}", "{}", "{}", "{}", "{}")'.format(user, name, servings, description, image)
@@ -228,34 +234,29 @@ class Add(Resource):
 
         # add steps in
         method = r['method']
-        for step in method:
-            print(step)
-            step_number = step['step_number']
-            instruction = step['instruction']
-            sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES ("{}", "{}", "{}")'.format(recipe_id, step_number, instruction)
-            c.execute(sql)
-            conn.commit()
-
+        vals = []
+        for s in method:
+            vals.append((recipe_id, s['step_number'], s['instruction']))
+        c.executemany('INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)', vals)  
 
         # add ingredients in 
         ingredients = r['ingredients']
-        print(ingredients)
-        for ingredient in ingredients:
-            ing_name = ingredient['name']
-            ing_amount = ingredient['amount']
-            ing_units = ingredient['units']
-            sql = 'INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES ("{}", "{}", "{}", "{}")'.format(recipe_id, ing_name, ing_amount, ing_units)
-            c.execute(sql)
-            conn.commit()
+        vals = []
+        for i in ingredients:
+            vals.append((recipe_id, i['name'], i['amount'], i['units']))
+        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
 
         # add tags in 
         tags = r['tags']
-        print(tags)
+        vals = []
         for t in tags:
-            tag = t['tag']
-            sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES ("{}", "{}")'.format(recipe_id, tag)
-            c.execute(sql)
-            conn.commit()
+            vals.append((recipe_id, t['tag']))
+        sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
+        c.executemany(sql, vals)
+
+        # commit to db
+        conn.commit()
+        
         return {
             'message' : 'success'
         }
@@ -265,10 +266,54 @@ class Add(Resource):
     @recipe.response(403, 'Invalid Authentication Token')
     @recipe.expect(auth_model, recipe_complete_model)
     @recipe.doc(description='''
-        Updates the recipe given with the information given
+        Edits the recipe given with the information given
     ''')
     def put(self):
         ### TODO add the request into backend
+        
+
+        return {
+            'message' : 'success'
+        }
+
+    @recipe.response(200, 'Success')
+    @recipe.response(401, 'Unauthrorized')
+    @recipe.response(403, 'Invalid Authentication Token')
+    @recipe.response(406, 'Not Acceptable')
+    @recipe.expect(auth_model, recipe_id_model)
+    @recipe.doc(description='''
+        Deletes the recipe given with the user id
+    ''')
+    def delete(self):
+        ### TODO add the request into backend
+
+        user = authenticate(request)
+        print(user)
+        r = request.json
+        recipe_id = r['recipe_id']
+
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
+
+        c.execute('SELECT username from Recipes where id = ?', (recipe_id,))
+        res = c.fetchone()
+        # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
+        if not res:
+            abort(406, 'Not Acceptable')
+
+        owner_user, = res
+        print(owner_user)
+        if owner_user != user:
+            abort(400, 'Invalid User')
+
+
+        # allowing cascade deletes
+        c.execute('PRAGMA foreign_keys = ON;')
+        # delete from recipes table
+        sql = 'DELETE FROM Recipes WHERE id=?'
+
+        c.execute(sql, (recipe_id,))
+        conn.commit()
         return {
             'message' : 'success'
         }
@@ -293,4 +338,5 @@ class Tags(Resource):
                 'tag' : x
             })
         return d
+
 

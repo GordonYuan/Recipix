@@ -7,6 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 
 const useStyles = makeStyles({
   root: {
@@ -42,9 +43,9 @@ const RecipeCard = (props) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          VIEW RECIPE
-        </Button>
+        <Link href={"/recipe/:" + recipeId} variant="body2">
+          {"View Recipe"}
+        </Link>
       </CardActions>
     </Card>
   );

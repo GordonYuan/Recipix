@@ -8,6 +8,7 @@ import sqlite3
 
 auth = api.namespace('auth', description='Login and Signup')
 
+
 @auth.route('/login', strict_slashes=False)
 class Login(Resource):
     @auth.response(200, 'Success', token_model)
@@ -23,6 +24,7 @@ class Login(Resource):
         j = request.json
         username = j['username']
         password = j['password']
+
         print(username + ' ' + password)
 
         if not username or not password:
@@ -49,9 +51,10 @@ class Login(Resource):
             'token': stored_hash
         }
 
+
 @auth.route('/register', strict_slashes=False)
 class Register(Resource):
-    @auth.response(200, 'Success',token_model)
+    @auth.response(200, 'Success', token_model)
     @auth.response(400, 'Malformed Request')
     @auth.response(409, 'Username Taken')
     @api.expect(register_model)

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const signUpApi = async (values) => {
+const signUpApi = async (values, setError) => {
   let baseUrl = "http://127.0.0.1:5000/auth/register";
 
   const payload = { username: values.username, password: values.password };

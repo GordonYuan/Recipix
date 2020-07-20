@@ -57,6 +57,7 @@ const SignUpForm = (props) => {
                 autoComplete="username"
                 onChange={handleChange}
                 value={values.username}
+                error={!!values.error}
               />
             </Grid>
             <Grid item xs={12}>
@@ -71,6 +72,8 @@ const SignUpForm = (props) => {
                 autoComplete="current-password"
                 onChange={handleChange}
                 value={values.password}
+                error={!!values.error}
+                helperText={!!values.error ? values.error : ""}
               />
             </Grid>
           </Grid>

@@ -54,8 +54,10 @@ class All(Resource):
     ''')
     def get(self):
         ### TODO 
+
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
+
         c.execute('SELECT * from ingredients;')
         t = c.fetchall()
         
@@ -68,7 +70,6 @@ class All(Resource):
             if y not in ing:
                 ing[y] = []
             ing[y].append(x)
-        print(ing)
         
         for key in ing:
             cat = {

@@ -81,13 +81,12 @@ class Search(Resource):
         #return the top 20 recipes 
 
         # extract ingredients into list
-        e = request.json
-        if len(e) == 0:
+        r = request.json
+        if not r:
             abort(400, 'Malformed Request')
         ingredients = []
-        for x in e['ingredients']:
+        for x in r['ingredients']:
             ingredients.append(x['name'])
-        print(ingredients)
         
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
@@ -240,7 +239,9 @@ class Recipe(Resource):
     ''')
     def post(self):
         r = request.json
+        # get user associated with token
         user = authenticate(request)
+
         name = r['recipe_name']
         image = r['image']
         servings = r['servings']
@@ -303,8 +304,6 @@ class Recipe(Resource):
         r = request.json
         user = authenticate(request)
         recipe_id = r['recipe_id']
-
-        print(recipe_id)
 
         #connect to db
         conn = sqlite3.connect('database/recipix.db')
@@ -383,9 +382,9 @@ class Recipe(Resource):
         Deletes the recipe given with the user id
     ''')
     def delete(self):
-
+        # get the user associated with token
         user = authenticate(request)
-        print(user)
+
         r = request.json
         recipe_id = r['recipe_id']
 
@@ -394,18 +393,19 @@ class Recipe(Resource):
 
         c.execute('SELECT username from Recipes where id = ?', (recipe_id,))
         res = c.fetchone()
+
         # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
         if not res:
             abort(406, 'Not Acceptable')
 
         owner_user, = res
-        print(owner_user)
+
         if owner_user != user:
             abort(400, 'Invalid User')
 
-
         # allowing cascade deletes
         c.execute('PRAGMA foreign_keys = ON;')
+
         # delete from recipes table
         sql = 'DELETE FROM Recipes WHERE id=?'
         val = (recipe_id,)
@@ -429,13 +429,16 @@ class Tags(Resource):
         ### TODO add the request into backend
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
+
         c.execute('SELECT * from tag;')
         t = c.fetchall()
+
         d = {"tags": []}
         for x in t:
             d['tags'].append({
                 'tag' : x
             })
+
         c.close()
         conn.close()
         return d

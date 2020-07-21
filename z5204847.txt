@@ -36,3 +36,6 @@ Week 7
  - I restructured the database, modifying the schema, removing the password field and added a salt and hash field
  - I implemented the sign in api and register api such that it creates a new user and returns a login 'token'
  
+Week 8 
+ - I implemented adding recipe api, deleting recipe api, editing recipe api, getting user recipes api, finding recipe off id api, and adding ingredients api.
+ - Reformatted code.

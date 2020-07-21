@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -11,6 +12,16 @@ import MyRecipesPage from "./pages/MyRecipesPage";
 import AddRecipePage from "./pages/AddRecipePage";
 import LoginPage from "./pages/LoginPage";
 import Recipe from "./pages/Recipe";
+import SignUpPage from "./pages/SignUpPage";
+import {
+  HOME_PAGE,
+  RECIPE_SEARCH,
+  ADD_RECIPE,
+  MY_RECIPES,
+  LOGIN,
+  SIGNUP,
+  RECIPE_PAGE,
+} from "./constants/urlConstants";
 
 const App = (
   <Router>
@@ -18,12 +29,13 @@ const App = (
     <CentreColumn>
       {/* Switch component helps us to render the components only when path matches otherwise it fallbacks to the not found component. */}
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/recipe-search" component={RecipeSearchPage} />
-        <Route exact path="/add-recipe" component={AddRecipePage} />
-        <Route exact path="/my-recipes" component={MyRecipesPage} />
-        <Route exact path="/login" component={LoginPage} />
-        <Route exact path="/recipe/:id" component={Recipe} />
+        <Route exact path={HOME_PAGE} component={HomePage} />
+        <Route exact path={RECIPE_SEARCH} component={RecipeSearchPage} />
+        <Route exact path={ADD_RECIPE} component={AddRecipePage} />
+        <Route exact path={MY_RECIPES} component={MyRecipesPage} />
+        <Route exact path={LOGIN} component={LoginPage} />
+        <Route exact path={SIGNUP} component={SignUpPage} />
+        <Route exact path={RECIPE_PAGE} component={Recipe} />
         <Route component={Notfound} />
       </Switch>
     </CentreColumn>

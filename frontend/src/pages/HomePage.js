@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { groupedIngredients } from "./data/data";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
@@ -45,7 +44,7 @@ const titleCase = (str) => {
 };
 
 const mapToOptions = (data) => {
-  console.log({ data });
+  // console.log({ data });
   if (!!data) {
     return data.map((entry) => {
       return {

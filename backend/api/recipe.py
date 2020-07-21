@@ -444,3 +444,68 @@ class Tags(Resource):
         return d
 
 
+@recipe.route('/find', strict_slashes=False)
+class Find(Resource):
+    @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.response(400, 'Malformed Request')
+
+    @recipe.expect(recipe_id_model)
+    @recipe.doc(description='''
+        retrieve specific recipe with id
+    ''')
+    def post(self):
+        ### TODO
+        r = request.json
+        if not r:
+            abort(400, 'Malformed Request')
+        
+        recipe_id = r['recipe_id']
+        print(recipe_id)
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
+        c.execute('SELECT * from recipes where id = ?', (recipe_id, ))
+        recipe_t = c.fetchall()
+        
+        ret = {"recipe" : []}
+        for i, t in enumerate(recipe_t):
+            c.execute('SELECT tag from Recipe_Tag where recipe_id = {}'.format(t[0]))
+            tag_t = c.fetchall()
+            c.execute('SELECT ingredient_name, amount, units from Recipe_Has where recipe_id = {}'.format(t[0]))
+            ingredient_t = c.fetchall()
+            c.execute('SELECT step, instruction from Methods where recipe_id = {}'.format(t[0]))
+            method_t = c.fetchall()
+
+            ret["recipe"].append({})
+            curr = ret["recipe"][i]
+            curr["recipe_id"] = t[0]
+            curr["recipe_creator"] = t[1]
+            curr["recipe_name"] = t[2]
+            curr["servings"] = t[3]
+            curr["description"] = t[4]
+            curr["image"] = t[5]
+
+            curr["tags"] = []
+            curr["ingredients"] = []
+            curr["method"] = []
+
+            for i, t in enumerate(tag_t):
+                curr["tags"].append({})
+                curr_tag = curr["tags"][i]
+                curr_tag["tag"] = t[0]    
+
+            for i, t in enumerate(ingredient_t):
+                curr["ingredients"].append({})
+                curr_ingred = curr["ingredients"][i]
+                curr_ingred["name"] = t[0]
+                curr_ingred["amount"] = t[1]
+                curr_ingred["units"] = t[2]
+            
+            for i, t in enumerate(method_t):
+                curr["method"].append({})
+                curr_method = curr["method"][i]
+                curr_method["step_number"] = t[0]
+                curr_method["instruction"] = t[1]
+        
+        c.close()
+        conn.close()
+        return ret

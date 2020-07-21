@@ -47,6 +47,10 @@ class Login(Resource):
 
         if stored_hash != gen_hash:
             abort(403, 'Invalid Username/Password')
+
+        c.close()
+        conn.close()
+
         return {
             'token': stored_hash
         }
@@ -88,6 +92,9 @@ class Register(Resource):
         c.execute(sql)
         conn.commit()
 
+        c.close()
+        conn.close()
+        
         return {
             'token': hash
         }

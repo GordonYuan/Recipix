@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 
-//TODO: Upload image and Tags, link to API, tags
+//TODO: Upload image and Tags, link to API, tags, ingredient quantities
 
 const AddRecipePage = () => {
-  //Functions needed to dynamically add instructions to the recipe
+  //Functional components needed to dynamically add instructions to the recipe
   const [instructionList, setInstructionList] = useState([{ instruction: "" }]);
-
   const handleInstrChange = (e, idx) => {
     const { name, value } = e.target;
 
@@ -32,9 +29,8 @@ const AddRecipePage = () => {
     setInstructionList(list);
   };
 
-  // Functions needed to dynamically add ingredients to the recipe
+  // Functional components needed to dynamically add ingredients to the recipe
   const [ingredientList, setIngredientList] = useState([{ ingredient: "" }]);
-
   const handleIngreChange = (e, idx) => {
     const { name, value } = e.target;
 
@@ -55,11 +51,24 @@ const AddRecipePage = () => {
     setIngredientList(list);
   };
 
+  const handleImgUpload = (e) => {
+    console.log(e.target.files[0]);
+  };
+
   return (
     <React.Fragment>
+      {/* Resources for the upload image component of recipe creation */}
+      <link
+        href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        rel="stylesheet"
+        id="bootstrap-css"
+      />
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
       <Typography variant="h4" gutterBottom>
         Create Your Recipe
       </Typography>
+      {/* Recipe Name field */}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -70,14 +79,37 @@ const AddRecipePage = () => {
             fullWidth
           />
         </Grid>
+        {/* Upload Image field */}
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <form method="post" action="#" id="#">
+                <div className="form-group files">
+                  <label>Picture of Your Recipe </label>
+                  <input
+                    type="file"
+                    name="file"
+                    className="form-control"
+                    multiple=""
+                    onChange={handleImgUpload}
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        {/* Description field */}
         <Grid item xs={12} sm={12}>
           <TextField
             id="description"
             name="description"
             label="Description"
-            height="100%"
             fullWidth
           />
+        </Grid>
+        {/* Servings field */}
+        <Grid item xs={12} sm={12}>
+          <TextField id="servings" name="servings" label="Servings" />
         </Grid>
       </Grid>
       {/* This part focuses on dynamically adding ingredients needed for the recipe */}
@@ -98,7 +130,7 @@ const AddRecipePage = () => {
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "50%" }}
                 />
-                {ingredientList.length - 1 == idx && (
+                {ingredientList.length - 1 === idx && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -107,7 +139,7 @@ const AddRecipePage = () => {
                     Add
                   </Button>
                 )}
-                {ingredientList.length != 1 && (
+                {ingredientList.length !== 1 && (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -140,7 +172,7 @@ const AddRecipePage = () => {
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
                 />
-                {instructionList.length - 1 == idx && (
+                {instructionList.length - 1 === idx && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -149,7 +181,7 @@ const AddRecipePage = () => {
                     Add
                   </Button>
                 )}
-                {instructionList.length != 1 && (
+                {instructionList.length !== 1 && (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -165,6 +197,7 @@ const AddRecipePage = () => {
       </Grid>
       <br></br>
       <br></br>
+      {/* Need to work on this and connect it to API */}
       <Button variant="contained" color="primary">
         Create Recipe
       </Button>

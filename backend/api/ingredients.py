@@ -31,7 +31,7 @@ class Add(Resource):
         vals = (ing_name,)
         c.execute(sql, vals)
         existing_ingredient = c.fetchone()
-        print(existing_ingredient)
+
         if existing_ingredient:
             abort(403, 'Ingredient already exists')
 

@@ -25,8 +25,6 @@ class Login(Resource):
         username = j['username']
         password = j['password']
 
-        print(username + ' ' + password)
-
         if not username or not password:
             abort(400, 'Malformed Request')
 

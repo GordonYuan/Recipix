@@ -74,7 +74,7 @@ const AddRecipeForm = (props) => {
 
   // Functional components needed to dynamically add ingredients to the recipe
   const [ingredientList, setIngredientList] = useState([
-    { ingredient: "", quantity: "" },
+    { name: "", quantity: "" },
   ]);
   const handleIngreChange = (e, idx) => {
     const { name, value } = e.target;
@@ -86,7 +86,7 @@ const AddRecipeForm = (props) => {
 
   const handleAddIngredient = () => {
     const list = [...ingredientList];
-    list.push({ ingredient: "", quantity: "" });
+    list.push({ name: "", quantity: "" });
     setIngredientList(list);
     values.ingredients = ingredientList;
   };
@@ -99,19 +99,22 @@ const AddRecipeForm = (props) => {
   };
 
   //Functional components needed to dynamically add instructions to the recipe
-  const [instructionList, setInstructionList] = useState([{ instruction: "" }]);
+  const [instructionList, setInstructionList] = useState([
+    { step_number: "", instruction: "" },
+  ]);
   const handleInstrChange = (e, idx) => {
     const { name, value } = e.target;
 
     const list = [...instructionList];
     list[idx][name] = value;
     setInstructionList(list);
+    instructionList[idx].step_number = idx + 1;
     values.instructions = instructionList;
   };
 
   const handleAddInstruction = () => {
     const list = [...instructionList];
-    list.push({ instruction: "" });
+    list.push({ step_number: "", instruction: "" });
     setInstructionList(list);
     values.instructions = instructionList;
   };
@@ -121,6 +124,10 @@ const AddRecipeForm = (props) => {
     list.splice(idx, 1);
     setInstructionList(list);
     values.instructions = instructionList;
+  };
+
+  const handleImgUpload = (e) => {
+    console.log(e.target.files[0]);
   };
 
   return (
@@ -160,6 +167,7 @@ const AddRecipeForm = (props) => {
                     name="file"
                     className="form-control"
                     multiple=""
+                    onChange={handleImgUpload}
                   />
                 </div>
               </form>
@@ -194,9 +202,10 @@ const AddRecipeForm = (props) => {
           return (
             <Grid item xs={12}>
               <div key={idx}>
+                {/* Ingredient Name */}
                 <TextField
                   id="ingredient"
-                  name="ingredient"
+                  name="name"
                   value={item.ingredient}
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "50%" }}
@@ -283,7 +292,7 @@ const AddRecipeForm = (props) => {
         }}
       /> */}
       <br />
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={handleSubmit}>
         Create Recipe
       </Button>
       <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>

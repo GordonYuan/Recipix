@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignIn = ({history}) => {
+const SignIn = ({ history }) => {
   //const [invalid, setInvalid] = useState(false);
   return (
     <Formik

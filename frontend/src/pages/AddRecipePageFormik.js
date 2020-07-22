@@ -1,22 +1,9 @@
-import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import { Formik, setIn } from "formik";
-import LoginForm from "./LoginForm";
-import loginApi from "../apis/loginApi";
+import React from "react";
+import { Formik } from "formik";
 import { withRouter } from "react-router";
 import AddRecipeForm from "./AddRecipeForm";
+import createRecipeApi from "../apis/createRecipeApi";
+import { HOME_PAGE } from "../constants/urlConstants";
 
 const AddRecipePage = ({ history }) => {
   return (
@@ -24,12 +11,18 @@ const AddRecipePage = ({ history }) => {
       initialValues={{
         recipeName: "",
         image: "",
-        description: "",
+        tags: [{ tag: "placeholder" }],
+        ingredients: [],
         servings: "",
-        ingredients: [{ ingredient: "" }],
         instructions: [],
+        description: "",
       }}
-      onSubmit={() => {}}
+      onSubmit={async (values) => {
+        const response = await createRecipeApi(values);
+        if (response.status === 200) {
+          history.push(HOME_PAGE);
+        }
+      }}
     >
       {(props) => <AddRecipeForm {...props} />}
     </Formik>

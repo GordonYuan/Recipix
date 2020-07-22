@@ -264,7 +264,7 @@ class Delete(Resource):
     @recipe.doc(description='''
         Deletes the recipe given with the user id
     ''')
-    def delete(self):
+    def post(self):
         # get the user associated with token
         user = authenticate(request)
         

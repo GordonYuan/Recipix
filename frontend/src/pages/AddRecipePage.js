@@ -55,6 +55,10 @@ const AddRecipePage = () => {
     console.log(e.target.files[0]);
   };
 
+  // Submitting the recipe
+  const [recipeName, setRecipeName] = useState({ recipeName: "" });
+  const submitRecipe = () => {};
+
   return (
     <React.Fragment>
       {/* Resources for the upload image component of recipe creation */}
@@ -76,6 +80,7 @@ const AddRecipePage = () => {
             id="recipeName"
             name="recipeName"
             label="Recipe Name"
+            onChange={() => setRecipeName(recipeName)}
             fullWidth
           />
         </Grid>
@@ -166,8 +171,8 @@ const AddRecipePage = () => {
               <div key={idx}>
                 Step {idx + 1}
                 <TextField
-                  id="input"
-                  name="input"
+                  id="instruction"
+                  name="instruction"
                   value={item.instruction}
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
@@ -198,78 +203,14 @@ const AddRecipePage = () => {
       <br></br>
       <br></br>
       {/* Need to work on this and connect it to API */}
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={submitRecipe}>
         Create Recipe
       </Button>
-      {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre> */}
+      <pre>{JSON.stringify(instructionList, null, 1)}</pre>
+      <pre>{JSON.stringify(ingredientList, null, 1)}</pre>
+      <pre>{JSON.stringify(recipeName, null, 1)}</pre>
     </React.Fragment>
   );
 };
-
-// return (
-//   <React.Fragment>
-//     <Typography variant="h6" gutterBottom>
-//       Create Your Recipe
-//     </Typography>
-//     <Grid container spacing={3}>
-//       <Grid item xs={12} sm={8}>
-//         <TextField
-//           required
-//           id="recipeName"
-//           name="recipeName"
-//           label="Recipe Name"
-//           fullWidth
-//         />
-//       </Grid>
-//       <Grid item xs={12} sm={6}>
-//         <TextField
-//           required
-//           id="lastName"
-//           name="lastName"
-//           label="Image"
-//           fullWidth
-//         />
-//       </Grid>
-//       <Grid item xs={12}>
-//         <TextField
-//           required
-//           id="address1"
-//           name="address1"
-//           label="Description"
-//           fullWidth
-//         />
-//       </Grid>
-//       <Grid item xs={12} sm={6}>
-//         <TextField
-//           required
-//           id="ingredients"
-//           name="ingredients"
-//           label="Ingredients"
-//           fullWidth
-//         />
-//       </Grid>
-//       <pre>{JSON.stringify(instructionList, null, 1)}</pre>
-//       {instructionList.map((x, i) => {
-//         return (
-//           <Grid item xs={12} key={i}>
-//             <TextField
-//               id="instructions"
-//               name="instructions"
-//               label="Instructions"
-//               value={instructionList.instruction}
-//               onChange={handleInstrChange}
-//               fullWidth
-//             />
-//           </Grid>
-//         );
-//       })}
-//       <Grid item xs={12}>
-//         <TextField id="address2" name="address2" label="Tags" fullWidth />
-//       </Grid>
-//     </Grid>
-//   </React.Fragment>
-// );
 
 export default AddRecipePage;

@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = (props) => {
   const classes = useStyles();
-  const { handleSubmit, handleChange, values, valid } = props;
+  const { handleSubmit, handleChange, values } = props;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />

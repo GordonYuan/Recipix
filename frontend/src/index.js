@@ -1,4 +1,3 @@
-
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -9,7 +8,7 @@ import Navbar from "./components/Navbar";
 import CentreColumn from "./components/CentreColumn";
 import RecipeSearchPage from "./pages/RecipeSearchPage";
 import MyRecipesPage from "./pages/MyRecipesPage";
-import AddRecipePage from "./pages/AddRecipePage";
+import AddRecipePage from "./pages/AddRecipePageFormik";
 import LoginPage from "./pages/LoginPage";
 import Recipe from "./pages/Recipe";
 import SignUpPage from "./pages/SignUpPage";

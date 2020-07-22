@@ -46,3 +46,13 @@ We completed our retrospective in the lab session, immediately after the demo.
 
 Week 6
 Quiet/flex week
+
+Week 7
+On the weekend, we started work on sprint 2 (this will continue next week). I began implementing the login functionality. There wasn't much work done this week as some of us had other things to do.
+
+Week 8
+Monday-Tuesday
+We made progress implementing the remaining user stories in the spring but with the demo. I managed to get the functionality for showing the page associated with a recipe working and the logout+registration to go with the login functionalty was also completed. 
+
+Wednesday 
+I managed to get the recipes created by a user showing on its own page, but so far I'm having some difficulties implementing edit/delete.

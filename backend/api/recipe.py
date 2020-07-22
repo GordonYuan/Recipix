@@ -7,6 +7,7 @@ import sqlite3
 
 recipe = api.namespace('recipe', description='Recipe information')
 
+
 @recipe.route('/all', strict_slashes=False)
 class All(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
@@ -14,15 +15,16 @@ class All(Resource):
         Retrieves the latest 20 freshest and latest recipes
     ''')
     def get(self):
-        ### TODO
+        # TODO
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
         c.execute('SELECT * from recipes;')
         recipe_t = c.fetchall()
-        
+
         c.close()
         conn.close()
         return format_recipe(recipe_t)
+
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
@@ -40,11 +42,11 @@ class Search(Resource):
         ingredients = []
         for x in r['ingredients']:
             ingredients.append(x['name'])
-        
+
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
-        # form the sql string dynamically based on 
+        # form the sql string dynamically based on
         sql_str = ('SELECT id, username, name, servings, description, thumbnail, '
                    'count(*) from recipe_has h join recipes r on id = recipe_id where ')
         for i in ingredients:
@@ -54,11 +56,12 @@ class Search(Resource):
 
         c.execute(sql_str)
         recipe_t = c.fetchall()
-        
+
         c.close()
         conn.close()
 
         return format_recipe(recipe_t)
+
 
 @recipe.route('/user', strict_slashes=False)
 class User(Resource):
@@ -69,18 +72,19 @@ class User(Resource):
         Retrieves the latest 20 freshest and latest recipes
         from specific user with authentication token 
     ''')
-    def get(self):
-        ### TODO
+    def post(self):
+        # TODO
         user = authenticate(request)
 
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
         c.execute('SELECT * from recipes where username = ?', (user, ))
         recipe_t = c.fetchall()
-        
+
         c.close()
         conn.close()
         return format_recipe(recipe_t)
+
 
 @recipe.route('/request', strict_slashes=False)
 class Request(Resource):
@@ -93,13 +97,14 @@ class Request(Resource):
         into the backend
     ''')
     def post(self):
-        ### TODO add the request into backend
+        # TODO add the request into backend
         return {
-            'message' : 'success'
+            'message': 'success'
         }
 
-@recipe.route('/recipe', strict_slashes=False)
-class Recipe(Resource):
+
+@recipe.route('/add', strict_slashes=False)
+class Add(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
@@ -117,17 +122,17 @@ class Recipe(Resource):
         servings = r['servings']
         description = r['description']
 
-        #connect to db
+        # connect to db
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
-        #add recipe in 
+        # add recipe in
         sql = 'INSERT INTO recipes (username, name, servings, description, thumbnail) VALUES (?, ?, ?, ?, ?)'
         vals = (user, name, servings, description, image)
         c.execute(sql, vals)
         conn.commit()
 
-        # get recipe_id 
+        # get recipe_id
         sql = 'select id from recipes where username = ? and name = ? order by id desc limit 1'
         vals = (user, name)
         c.execute(sql, vals)
@@ -138,16 +143,18 @@ class Recipe(Resource):
         vals = []
         for s in method:
             vals.append((recipe_id, s['step_number'], s['instruction']))
-        c.executemany('INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)', vals)  
+        c.executemany(
+            'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)', vals)
 
-        # add ingredients in 
+        # add ingredients in
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
             vals.append((recipe_id, i['name'], i['quantity']))
-        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
+        c.executemany(
+            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
 
-        # add tags in 
+        # add tags in
         tags = r['tags']
         vals = []
         for t in tags:
@@ -160,9 +167,11 @@ class Recipe(Resource):
         c.close()
         conn.close()
         return {
-            'message' : 'success'
+            'message': 'success'
         }
 
+@recipe.route('/edit', strict_slashes=False)
+class Edit(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
@@ -170,12 +179,12 @@ class Recipe(Resource):
     @recipe.doc(description='''
         Edits the recipe given with the information given
     ''')
-    def put(self):
+    def post(self):
         r = request.json
         user = authenticate(request)
         recipe_id = r['recipe_id']
 
-        #connect to db
+        # connect to db
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
@@ -200,7 +209,7 @@ class Recipe(Resource):
         sql = 'UPDATE recipes SET username = ?, name = ?, servings = ?, description = ?, thumbnail = ? WHERE id = ?'
         vals = (user, name, servings, description, image, recipe_id)
         c.execute(sql, vals)
-        
+
         # remove existing steps
         sql = 'DELETE FROM methods where recipe_id = ?'
         c.execute(sql, (recipe_id,))
@@ -210,24 +219,26 @@ class Recipe(Resource):
         vals = []
         for s in method:
             vals.append((recipe_id, s['step_number'], s['instruction']))
-        c.executemany('INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)', vals)  
+        c.executemany(
+            'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)', vals)
 
         # remove existing ingredients
         sql = 'DELETE FROM recipe_has where recipe_id = ?'
         c.execute(sql, (recipe_id,))
 
-        # add ingredients in 
+        # add ingredients in
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
             vals.append((recipe_id, i['name'], i['quantity']))
-        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
+        c.executemany(
+            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
 
         # remove existing tags
         sql = 'DELETE FROM recipe_tag where recipe_id = ?'
         c.execute(sql, (recipe_id,))
 
-        # add tags in 
+        # add tags in
         tags = r['tags']
         vals = []
         for t in tags:
@@ -240,11 +251,13 @@ class Recipe(Resource):
         c.close()
         conn.close()
         return {
-            'message' : 'success'
+            'message': 'success'
         }
 
+@recipe.route('/delete', strict_slashes=False)
+class Delete(Resource):
     @recipe.response(200, 'Success')
-    @recipe.response(401, 'Unauthrorized')
+    @recipe.response(401, 'Unauthorized')
     @recipe.response(403, 'Invalid Authentication Token')
     @recipe.response(406, 'Not Acceptable')
     @recipe.expect(auth_model, recipe_id_model)
@@ -254,7 +267,7 @@ class Recipe(Resource):
     def delete(self):
         # get the user associated with token
         user = authenticate(request)
-
+        
         r = request.json
         recipe_id = r['recipe_id']
 
@@ -284,8 +297,9 @@ class Recipe(Resource):
         c.close()
         conn.close()
         return {
-            'message' : 'success'
+            'message': 'success'
         }
+
 
 @recipe.route('/tags', strict_slashes=False)
 class Tags(Resource):
@@ -296,7 +310,7 @@ class Tags(Resource):
         Get Recipe tags
     ''')
     def get(self):
-        ### TODO add the request into backend
+        # TODO add the request into backend
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
@@ -306,7 +320,7 @@ class Tags(Resource):
         d = {"tags": []}
         for x in t:
             d['tags'].append({
-                'tag' : x
+                'tag': x
             })
 
         c.close()
@@ -318,13 +332,12 @@ class Tags(Resource):
 class Find(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
-
     @recipe.expect(recipe_id_model)
     @recipe.doc(description='''
         retrieve specific recipe with id
     ''')
     def post(self):
-        ### TODO
+        # TODO
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
@@ -334,7 +347,7 @@ class Find(Resource):
 
         c.execute('SELECT * from recipes where id = ?', (r['recipe_id'], ))
         recipe_t = c.fetchall()
-        
+
         c.close()
         conn.close()
         return format_recipe(recipe_t)

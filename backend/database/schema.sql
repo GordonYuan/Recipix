@@ -46,7 +46,7 @@ create table Recipe_Has (
 create table Users (
 	username	 	text collate nocase,
 	salt	 		text,
-	hash	 			text,
+	hash	 		text,
 	primary key (username)
 );
 

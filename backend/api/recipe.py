@@ -144,8 +144,8 @@ class Recipe(Resource):
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
-            vals.append((recipe_id, i['name'], i['amount'], i['units']))
-        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
+            vals.append((recipe_id, i['name'], i['quantity']))
+        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
 
         # add tags in 
         tags = r['tags']
@@ -220,8 +220,8 @@ class Recipe(Resource):
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
-            vals.append((recipe_id, i['name'], i['amount'], i['units']))
-        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
+            vals.append((recipe_id, i['name'], i['quantity']))
+        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
 
         # remove existing tags
         sql = 'DELETE FROM recipe_tag where recipe_id = ?'

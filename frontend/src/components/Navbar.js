@@ -39,9 +39,11 @@ const NavBar = ({ history }) => {
             <Button color="inherit" onClick={() => history.push(RECIPE_SEARCH)}>
               SEARCH RECIPES
             </Button>
-            <Button color="inherit" onClick={() => history.push(ADD_RECIPE)}>
-              ADD RECIPE
-            </Button>
+            {signedIn && (
+              <Button color="inherit" onClick={() => history.push(ADD_RECIPE)}>
+                ADD RECIPE
+              </Button>
+            )}
             {signedIn ? (
               <Button
                 color="inherit"

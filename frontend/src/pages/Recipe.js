@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
+import getRecipeByIdApi from "../apis/getRecipeByIdApi";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { render } from "react-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,63 +28,69 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// const callRecipeApi = async (recipeId) => {
+//   const response = await getRecipeByIdApi({ recipe_id: recipeId });
+//   console.log(response);
+//   return response.data.recipe;
+// };
+
 const Recipe = ({ match }) => {
-  const recipeId = match.params.id;
-  //Test data
-  const testRecipe = {
-    recipe_creator: "hotmario258",
-    recipe_name: "eggs and Cheese ham",
-    image: "base64String",
-    tags: [
-      {
-        tag: "entree",
-      },
-    ],
-    ingredients: [
-      {
-        name: "cheese",
-        amount: "500",
-        units: "grams",
-      },
-      { name: "bacon", amount: "2", units: "slices" },
-    ],
-    servings: 0,
-    method: [
-      {
-        step_number: 0,
-        instruction: "Boil the water for 50 minutes until evaporated",
-      },
-      { step_number: 1, instruction: "Condense your water and start again" },
-    ],
-    description: "Eggs and cheese ham is a deluxe meal served for kings",
-  };
+  const recipeId = match.params.id.substr(1);
+  console.log(recipeId);
+  //const recipe = callRecipeApi(recipeId);
+  const [recipe, setRecipe] = useState(null);
+  useEffect(() => {
+    async function fetchRecipe() {
+      const response = await getRecipeByIdApi({ recipe_id: recipeId });
+      console.log({ response });
+      console.log(response.data);
+      setRecipe(response.data.recipes[0]);
+    }
+    fetchRecipe();
+  }, []);
+  console.log(recipe);
   const classes = useStyles();
+  if (recipe == null) {
+    return (
+      <div className={classes.root} align="center">
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <Container component="main">
       <Typography component="h1" variant="h5" align="center">
-        {testRecipe.recipe_name}
+        {recipe.recipe_name}
       </Typography>
+      <Typography
+        component="h1"
+        variant="h5"
+        align="center"
+      >{`Contributed by ${recipe.recipe_creator}`}</Typography>
       <CardMedia
         style={{ height: 400 }}
         className={classes.media}
-        image={require("../components/images/pancake.png")}
+        image={"data:image/png;base64," + recipe.image}
       />
       <Grid item xs={12}>
         <h1>Description</h1>
-        <Typography>{testRecipe.description}</Typography>
-        <h2>
-          Tags<Typography>{testRecipe.tags.map((tag) => tag.tag)}</Typography>
-        </h2>
+        <Typography>{recipe.description}</Typography>
+        <h2>Tags </h2>
+        <Grid container spacing={3}>
+          {recipe.tags.map((tag) => (
+            <Grid item xs={2}>
+              {tag.tag}
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
       <hr></hr>
       <Grid container spacing={3}>
         <Grid item xs={4}>
           <h1>Ingredients</h1>
           <Typography>
-            {testRecipe.ingredients.map((ingredients) => (
-              <li>
-                {`${ingredients.amount} ${ingredients.units} ${ingredients.name}`}
-              </li>
+            {recipe.ingredients.map((ingredients) => (
+              <li>{`${ingredients.quantity} ${ingredients.name}`}</li>
             ))}
           </Typography>
         </Grid>
@@ -89,7 +98,7 @@ const Recipe = ({ match }) => {
           <h1>Instructions</h1>
           <ol>
             <Typography>
-              {testRecipe.method.map((method) => (
+              {recipe.method.map((method) => (
                 <li>{`${method.instruction}`}</li>
               ))}
             </Typography>

@@ -337,5 +337,4 @@ class Find(Resource):
         
         c.close()
         conn.close()
-        print(format_recipe(recipe_t))
-        return format_recipe(recipe_t)['recipes'][0]
+        return format_recipe(recipe_t)

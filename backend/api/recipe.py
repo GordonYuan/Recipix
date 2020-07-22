@@ -103,8 +103,8 @@ class Request(Resource):
         }
 
 
-@recipe.route('/recipe', strict_slashes=False)
-class Recipe(Resource):
+@recipe.route('/add', strict_slashes=False)
+class Add(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
@@ -170,6 +170,8 @@ class Recipe(Resource):
             'message': 'success'
         }
 
+@recipe.route('/edit', strict_slashes=False)
+class Edit(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
@@ -177,7 +179,7 @@ class Recipe(Resource):
     @recipe.doc(description='''
         Edits the recipe given with the information given
     ''')
-    def put(self):
+    def post(self):
         r = request.json
         user = authenticate(request)
         recipe_id = r['recipe_id']
@@ -252,6 +254,8 @@ class Recipe(Resource):
             'message': 'success'
         }
 
+@recipe.route('/delete', strict_slashes=False)
+class Delete(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(401, 'Unauthorized')
     @recipe.response(403, 'Invalid Authentication Token')

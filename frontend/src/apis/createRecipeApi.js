@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const createRecipeApi = async (values, setError) => {
-  let baseUrl = "http://127.0.0.1:5000/recipe/recipe";
+  let baseUrl = "http://127.0.0.1:5000/recipe/add";
 
   const payload = {
     recipe_name: values.recipeName,

@@ -186,6 +186,7 @@ const AddRecipeForm = (props) => {
         {/* Servings field */}
         <Grid item xs={12} sm={12}>
           <TextField
+            required
             id="servings"
             name="servings"
             label="Servings"
@@ -193,6 +194,7 @@ const AddRecipeForm = (props) => {
           />
         </Grid>
       </Grid>
+      <br />
       <Typography variant="h5" gutterBottom>
         Ingredients
       </Typography>
@@ -203,18 +205,22 @@ const AddRecipeForm = (props) => {
               <div key={idx}>
                 {/* Ingredient Name */}
                 <TextField
+                  required
                   id="ingredient"
                   name="name"
+                  label="Type in your ingredient..."
                   value={item.ingredient}
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "50%" }}
                 />
                 <TextField
+                  required
                   id="quantity"
                   name="quantity"
+                  label="Quantity..."
                   value={item.quantity}
                   onChange={(e) => handleIngreChange(e, idx)}
-                  style={{ width: "50%" }}
+                  style={{ width: "25%", marginLeft: "1rem" }}
                 />
                 {ingredientList.length - 1 === idx && (
                   <Button
@@ -239,6 +245,7 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
+      <br />
       <Typography variant="h5" gutterBottom>
         Instructions
       </Typography>
@@ -246,11 +253,13 @@ const AddRecipeForm = (props) => {
         {instructionList.map((item, idx) => {
           return (
             <Grid item xs={12}>
+              Step {idx + 1}
               <div key={idx}>
-                Step {idx + 1}
                 <TextField
+                  required
                   id="instruction"
                   name="instruction"
+                  label="Type in your instruction..."
                   value={item.instruction}
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}

@@ -74,6 +74,7 @@ const UserRecipeCard = (props) => {
               onClick={async () => {
                 //console.log({ recipe_id: recipeId });
                 deleteRecipeApi({ recipe_id: recipeId });
+                window.location.reload();
               }}
             >
               {"Delete Recipe"}

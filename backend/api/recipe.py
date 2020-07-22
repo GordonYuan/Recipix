@@ -170,6 +170,7 @@ class Add(Resource):
             'message': 'success'
         }
 
+
 @recipe.route('/edit', strict_slashes=False)
 class Edit(Resource):
     @recipe.response(200, 'Success')
@@ -254,6 +255,7 @@ class Edit(Resource):
             'message': 'success'
         }
 
+
 @recipe.route('/delete', strict_slashes=False)
 class Delete(Resource):
     @recipe.response(200, 'Success')
@@ -264,10 +266,10 @@ class Delete(Resource):
     @recipe.doc(description='''
         Deletes the recipe given with the user id
     ''')
-    def delete(self):
+    def post(self):
         # get the user associated with token
         user = authenticate(request)
-        
+
         r = request.json
         recipe_id = r['recipe_id']
 

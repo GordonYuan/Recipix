@@ -9,15 +9,16 @@ VALUES
     ("avocado", "fruit"), 
     ("ham", "meat"), 
     ("eggs", "meat"),
-    ("toast", "grains"); 
+    ("bread", "grains"),
+    ("peanut butter", "grains"); 
 
-INSERT INTO users (username, password)
+-- all user passwords are password123
+INSERT INTO users (username, salt, hash) 
 VALUES 
-    ("gordo", "password123"),
-    ("bigdave", "hello123"),
-    ("yungkev", "hey"),
-    ("andwgery", "no"),
-    ("axndznrek", "pease");
+    ("gordo", "5ad7c505", "b1f79c5e382f796d0ea7687071357e76ba750d47e17b90719ba9eca21f2053f1"),
+    ("bigdave", "477a5cfd", "56ff2651a1e99455096e128703de3c3306fd8ba8b9db8c1ea4ae06b16a02935f"),
+    ("jeff", "e04fd6e4", "517fbae1bfb41399fa740c19f7cb5ddec874ba33b0875745c26bfcd444d712b1");
+
 
 INSERT INTO recipes (username, name, servings, description, thumbnail)
 VALUES

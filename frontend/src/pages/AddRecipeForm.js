@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import ReactTags from "react-tag-autocomplete";
+import FileBase64 from "react-file-base64";
 
 //Functional components needed to dynamically add instructions to the recipe
 //   const [instructionList, setInstructionList] = useState([{ instruction: "" }]);
@@ -130,6 +131,15 @@ const AddRecipeForm = (props) => {
     console.log(e.target.files[0]);
   };
 
+  const getFiles = (files) => {
+    if (files) {
+      var regex = /[^,"]+$/;
+      values.image = files.base64.match(regex)[0];
+    }
+    console.log(values.image);
+    // console.log(files.base64);
+  };
+
   return (
     <React.Fragment>
       {/* Resources for the upload image component of recipe creation */}
@@ -156,24 +166,13 @@ const AddRecipeForm = (props) => {
           />
         </Grid>
         {/* Upload Image field */}
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <form method="post" action="#" id="#">
-                <div className="form-group files">
-                  <label>Picture of Your Recipe </label>
-                  <input
-                    type="file"
-                    name="file"
-                    className="form-control"
-                    multiple=""
-                    onChange={handleImgUpload}
-                  />
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
+        <br />
+        <Grid item xs={12} sm={12}>
+          <Typography variant="h6" gutterBottom>
+            Upload an Image of your Recipe
+          </Typography>
+          <FileBase64 multiple={false} onDone={getFiles} />
+        </Grid>
         {/* Description field */}
         <Grid item xs={12} sm={12}>
           <TextField
@@ -279,29 +278,17 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
-      {/* <ReactTags
-        suggestions={suggestions}
-        onDelete={(i) => {
-          const tags = tags.slice(0);
-          tags.splice(i, 1);
-          this.setState({ tags });
-        }}
-        onAddition={(tag) => {
-          const tags = [].concat(tags, tag);
-          this.setState({ tags });
-        }}
-      /> */}
       <br />
       <Button variant="contained" color="primary" onClick={handleSubmit}>
         Create Recipe
       </Button>
-      <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
+      {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
-      <pre>{JSON.stringify(values.servings, null, 1)}</pre>
+      <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
-      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
-      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
+      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>
   );

@@ -26,7 +26,7 @@ const AddRecipePage = ({ history }) => {
         image: "",
         description: "",
         servings: "",
-        ingredients: [],
+        ingredients: [{ ingredient: "" }],
         instructions: [],
       }}
       onSubmit={() => {}}

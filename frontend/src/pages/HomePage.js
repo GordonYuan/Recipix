@@ -57,42 +57,63 @@ const mapToOptions = (data) => {
   }
 };
 
-const HomePage = (props) => {
+const HomePage = () => {
   const [ingredients, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     async function fetchIngredients() {
       const response = await getIngredientsApi();
-      setIngredients(response.data.categories);
+      setIngredients(mapToOptions(response.data.categories));
     }
     fetchIngredients();
   }, []);
 
+  const filterOption = ({ label, value }, string) => {
+    label = label.toLocaleLowerCase();
+    string = string.toLocaleLowerCase();
+    // default search
+    if (label.includes(string) || value.includes(string)) return true;
+
+    // check if a group as the filter string as label
+    const groupOptions = ingredients.filter((group) =>
+      group.label.toLocaleLowerCase().includes(string)
+    );
+
+    if (groupOptions) {
+      for (const groupOption of groupOptions) {
+        // Check if current option is in group
+        const option = groupOption.options.find((opt) => opt.value === value);
+        if (option) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
   return (
-    <div>
+    <>
       <h1 style={{ textAlign: "center" }}>ADD INGREDIENTS, GET RECIPES</h1>
       <Select
         isMulti
         defaultValue={""}
         closeMenuOnSelect={false}
         components={makeAnimated()}
-        options={mapToOptions(ingredients)}
+        options={ingredients}
         formatGroupLabel={formatGroupLabel}
+        filterOption={filterOption}
         onChange={async (e) => {
           if (!!e) {
             const response = await searchRecipesApi(e);
             const data = response.data;
             setRecipes(data.recipes);
-            // console.log({ e, data, recipes });
           } else {
             setRecipes([]);
           }
         }}
       />
       <br />
-      {/* {console.log({ ingredients })};
-      {console.log({ optionsArray: mapToOptions(ingredients) })} */}
       <Grid container spacing={2}>
         {recipes &&
           recipes.map((recipe) => (
@@ -105,7 +126,7 @@ const HomePage = (props) => {
             </Grid>
           ))}
       </Grid>
-    </div>
+    </>
   );
 };
 export default HomePage;

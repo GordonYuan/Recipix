@@ -6,7 +6,8 @@ import sqlite3
 def authenticate(req):
     # get the token
     token = req.headers.get('Authorization')
-    #print(req.headers)
+    print(req.headers.get('Authorization'))
+    # print(req.headers)
     # print(token)
     if not token:
         abort(403, 'Invalid Authentication Token')

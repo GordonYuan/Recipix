@@ -253,7 +253,7 @@ class Recipe(Resource):
         }
 
     @recipe.response(200, 'Success')
-    @recipe.response(401, 'Unauthrorized')
+    @recipe.response(401, 'Unauthorized')
     @recipe.response(403, 'Invalid Authentication Token')
     @recipe.response(406, 'Not Acceptable')
     @recipe.expect(auth_model, recipe_id_model)
@@ -263,7 +263,7 @@ class Recipe(Resource):
     def delete(self):
         # get the user associated with token
         user = authenticate(request)
-
+        
         r = request.json
         recipe_id = r['recipe_id']
 

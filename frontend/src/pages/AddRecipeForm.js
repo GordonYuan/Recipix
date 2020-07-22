@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
-import getIngredientsApi from "../apis/getIngredientsApi";
-import RecipeCard from "../components/RecipeCard";
-import searchRecipesApi from "../apis/searchRecipesApi";
+import ReactTags from "react-tag-autocomplete";
 
 //Functional components needed to dynamically add instructions to the recipe
 //   const [instructionList, setInstructionList] = useState([{ instruction: "" }]);
@@ -64,6 +60,18 @@ import searchRecipesApi from "../apis/searchRecipesApi";
 const AddRecipeForm = (props) => {
   const { handleChange, handleSubmit, values } = props;
 
+  //   const tags = [
+  //     { id: 1, name: "Apples" },
+  //     { id: 2, name: "Pears" },
+  //   ];
+
+  //   const suggestions = [
+  //     { id: 3, name: "Bananas" },
+  //     { id: 4, name: "Mangos" },
+  //     { id: 5, name: "Lemons" },
+  //     { id: 6, name: "Apricots" },
+  //   ];
+
   // Functional components needed to dynamically add ingredients to the recipe
   const [ingredientList, setIngredientList] = useState([
     { ingredient: "", quantity: "" },
@@ -98,30 +106,22 @@ const AddRecipeForm = (props) => {
     const list = [...instructionList];
     list[idx][name] = value;
     setInstructionList(list);
+    values.instructions = instructionList;
   };
 
   const handleAddInstruction = () => {
     const list = [...instructionList];
     list.push({ instruction: "" });
     setInstructionList(list);
+    values.instructions = instructionList;
   };
 
   const handleRemoveInstruction = (idx) => {
     const list = [...instructionList];
     list.splice(idx, 1);
     setInstructionList(list);
+    values.instructions = instructionList;
   };
-
-  //Get all ingredients
-  //   const [ingredientOptions, setIngredientOptions] = useState([]);
-
-  //   useEffect(() => {
-  //     async function fetchIngredients() {
-  //       const response = await getIngredientsApi();
-  //       setIngredientOptions(response.data.categories);
-  //     }
-  //     fetchIngredients();
-  //   }, []);
 
   return (
     <React.Fragment>
@@ -270,104 +270,32 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
+      {/* <ReactTags
+        suggestions={suggestions}
+        onDelete={(i) => {
+          const tags = tags.slice(0);
+          tags.splice(i, 1);
+          this.setState({ tags });
+        }}
+        onAddition={(tag) => {
+          const tags = [].concat(tags, tag);
+          this.setState({ tags });
+        }}
+      /> */}
+      <br />
       <Button variant="contained" color="primary">
         Create Recipe
       </Button>
       <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
+      <pre>{JSON.stringify(values.servings, null, 1)}</pre>
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
       <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>
   );
 };
 
 export default AddRecipeForm;
-
-//   {/* This part focuses on dynamically adding ingredients needed for the recipe */}
-//   <br></br>
-//   <br></br>
-//   <Typography variant="h5" gutterBottom>
-//     Ingredients
-//   </Typography>
-//   {/* <Grid container spacing={4}>
-//     {ingredientList.map((item, idx) => {
-//       return (
-//         <Grid item xs={12}>
-//           <div key={idx}>
-//             <TextField
-//               id="ingredient"
-//               name="ingredient"
-//               //   value={item.ingredient}
-//               //   onChange={(e) => handleIngreChange(e, idx)}
-//               style={{ width: "50%" }}
-//             />
-//             {ingredientList.length - 1 === idx && (
-//               <Button
-//                 variant="contained"
-//                 color="primary"
-//                 onClick={handleAddIngredient}
-//               >
-//                 Add
-//               </Button>
-//             )}
-//             {ingredientList.length !== 1 && (
-//               <Button
-//                 variant="contained"
-//                 color="secondary"
-//                 // onClick={() => handleRemoveIngredient(idx)}
-//               >
-//                 Remove
-//               </Button>
-//             )}
-//           </div>
-//         </Grid>
-//       );
-//     })}
-//   </Grid> */}
-//   {/* This part focuses on dynamically adding instructions needed for the recipe */}
-//   <br></br>
-//   <br></br>
-//   {/* <Typography variant="h5" gutterBottom>
-//     Instructions
-//   </Typography>
-//   <Grid container spacing={4}>
-//     {instructionList.map((item, idx) => {
-//       return (
-//         <Grid item xs={12}>
-//           <div key={idx}>
-//             Step {idx + 1}
-//             <TextField
-//               id="instruction"
-//               name="instruction"
-//               //   value={item.instruction}
-//               //   onChange={(e) => handleInstrChange(e, idx)}
-//               style={{ width: "75%" }}
-//             />
-//             {instructionList.length - 1 === idx && (
-//               <Button
-//                 variant="contained"
-//                 color="primary"
-//                 // onClick={handleAddInstruction}
-//               >
-//                 Add
-//               </Button>
-//             )}
-//             {instructionList.length !== 1 && (
-//               <Button
-//                 variant="contained"
-//                 color="secondary"
-//                 // onClick={() => handleRemoveInstruction(idx)}
-//               >
-//                 Remove
-//               </Button>
-//             )}
-//           </div>
-//         </Grid>
-//       );
-//     })}
-//   </Grid>
-//   <br></br>
-//   <br></br> */}
-//   {/* Need to work on this and connect it to API */}

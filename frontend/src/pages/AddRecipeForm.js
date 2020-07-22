@@ -1,65 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import ReactTags from "react-tag-autocomplete";
 import FileBase64 from "react-file-base64";
-
-//Functional components needed to dynamically add instructions to the recipe
-//   const [instructionList, setInstructionList] = useState([{ instruction: "" }]);
-//   const handleInstrChange = (e, idx) => {
-//     const { name, value } = e.target;
-
-//     const list = [...instructionList];
-//     list[idx][name] = value;
-//     setInstructionList(list);
-//   };
-
-//   const handleAddInstruction = () => {
-//     const list = [...instructionList];
-//     list.push({ instruction: "" });
-//     setInstructionList(list);
-//   };
-
-//   const handleRemoveInstruction = (idx) => {
-//     const list = [...instructionList];
-//     list.splice(idx, 1);
-//     setInstructionList(list);
-//   };
-
-//   // Functional components needed to dynamically add ingredients to the recipe
-//   const [ingredientList, setIngredientList] = useState([{ ingredient: "" }]);
-//   const handleIngreChange = (e, idx) => {
-//     const { name, value } = e.target;
-
-//     const list = [...ingredientList];
-//     list[idx][name] = value;
-//     setIngredientList(list);
-//   };
-
-//   const handleAddIngredient = () => {
-//     const list = [...ingredientList];
-//     list.push({ ingredient: "" });
-//     setIngredientList(list);
-//   };
-
-//   const handleRemoveIngredient = (idx) => {
-//     const list = [...ingredientList];
-//     list.splice(idx, 1);
-//     setIngredientList(list);
-//   };
-
-//   const handleImgUpload = (e) => {
-//     console.log(e.target.files[0]);
-//   };
-
-//   // Submitting the recipe
-//   const [recipeName, setRecipeName] = useState({ recipeName: "" });
-//   const submitRecipe = () => {};
+import { FieldArray, Field } from "formik";
 
 const AddRecipeForm = (props) => {
-  const { handleChange, handleSubmit, values } = props;
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+    touched,
+    handleBlur,
+  } = props;
 
   //   const tags = [
   //     { id: 1, name: "Apples" },
@@ -127,10 +82,6 @@ const AddRecipeForm = (props) => {
     values.instructions = instructionList;
   };
 
-  const handleImgUpload = (e) => {
-    console.log(e.target.files[0]);
-  };
-
   const getFiles = (files) => {
     if (files) {
       var regex = /[^,"]+$/;
@@ -142,17 +93,10 @@ const AddRecipeForm = (props) => {
 
   return (
     <React.Fragment>
-      {/* Resources for the upload image component of recipe creation */}
-      <link
-        href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        rel="stylesheet"
-        id="bootstrap-css"
-      />
-      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-      <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
       <Typography variant="h4" gutterBottom>
         Create Your Recipe
       </Typography>
+      {/* {console.log({ recipeName: errors.recipeName })} */}
       {/* Recipe Name field */}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -161,7 +105,11 @@ const AddRecipeForm = (props) => {
             id="recipeName"
             name="recipeName"
             label="Recipe Name"
+            value={values.recipeName}
+            error={touched.recipeName && Boolean(errors.recipeName)}
+            helperText={touched.recipeName ? errors.recipeName : ""}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
           />
         </Grid>
@@ -176,10 +124,15 @@ const AddRecipeForm = (props) => {
         {/* Description field */}
         <Grid item xs={12} sm={12}>
           <TextField
+            required
             id="description"
             name="description"
             label="Description"
+            value={values.description}
+            error={touched.description && Boolean(errors.description)}
+            helperText={touched.description ? errors.description : ""}
             onChange={handleChange}
+            onBlur={handleBlur}
             fullWidth
           />
         </Grid>
@@ -190,7 +143,11 @@ const AddRecipeForm = (props) => {
             id="servings"
             name="servings"
             label="Servings"
+            value={values.servings}
+            error={touched.servings && Boolean(errors.servings)}
+            helperText={touched.servings ? errors.servings : ""}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </Grid>
       </Grid>
@@ -198,12 +155,68 @@ const AddRecipeForm = (props) => {
       <Typography variant="h5" gutterBottom>
         Ingredients
       </Typography>
+      {/* <FieldArray
+        name="ingredients"
+        render={(arrayHelpers) => (
+          <div>
+            {values.ingredients && values.ingredients.length > 0 ? (
+              values.ingredients.map((ingredient, index) => (
+                <div key={index}>
+                  {/* <TextField
+                    required
+                    id="ingredient"
+                    name={`ingredients.${index}.name`}
+                    label="Type in your ingredient..."
+                    style={{ width: "50%" }}
+                  />
+                  <TextField
+                    required
+                    id="quantity"
+                    name={`ingredients.${index}.quantity`}
+                    label="Quantity..."
+                    style={{ width: "25%", marginLeft: "1rem" }}
+                  /> 
+                  <Field name={`ingredients.${index}.name`} />
+                  <TextField
+                    required
+                    id="ingredient"
+                    name="name"
+                    value={
+                      !!values.ingredients[index].name
+                        ? values.ingredients[index].name
+                        : ""
+                    }
+                    label="Type in your ingredient..."
+                    style={{ width: "50%" }}
+                  />
+                  <Field name={`ingredients.${index}.quantity`} />
+                  <button
+                    type="button"
+                    onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
+                  >
+                    Remove
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
+                  >
+                    Add
+                  </button>
+                </div>
+              ))
+            ) : (
+              <button type="button" onClick={() => arrayHelpers.push("")}>
+                Add an Ingredient
+              </button>
+            )}
+          </div>
+        )}
+      /> */}
       <Grid container spacing={4}>
         {ingredientList.map((item, idx) => {
           return (
             <Grid item xs={12}>
               <div key={idx}>
-                {/* Ingredient Name */}
                 <TextField
                   required
                   id="ingredient"

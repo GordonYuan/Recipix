@@ -38,8 +38,6 @@ class Login(Resource):
             abort(403, 'Invalid Username/Password')
         [(username, salt, stored_hash)] = res
 
-        
-
         salted_password = password + salt
         gen_hash = hashlib.sha256(salted_password.encode()).hexdigest()
 

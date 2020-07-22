@@ -26,7 +26,7 @@ class All(Resource):
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
-    @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.response(200, 'Success', recipe_complete_model)
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredient_list_model)
     @recipe.doc(description='''
@@ -34,13 +34,6 @@ class Search(Resource):
         that contain the ingredients sent into the api
     ''')
     def post(self):
-        ### TODO
-        # ingredient = request.json
-        # process ingredients into a list 
-        # find top 20 recipes that match the highest number of ingredients
-        #return the top 20 recipes 
-
-        # extract ingredients into list
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
@@ -61,10 +54,6 @@ class Search(Resource):
 
         c.execute(sql_str)
         recipe_t = c.fetchall()
-
-        # the below code is repeated in get all recipes
-        # basically, anytime we need to return recipes, we use this block of code
-        # can generalise into function
         
         c.close()
         conn.close()
@@ -155,8 +144,8 @@ class Recipe(Resource):
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
-            vals.append((recipe_id, i['name'], i['amount'], i['units']))
-        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
+            vals.append((recipe_id, i['name'], i['quantity']))
+        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
 
         # add tags in 
         tags = r['tags']
@@ -231,8 +220,8 @@ class Recipe(Resource):
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
-            vals.append((recipe_id, i['name'], i['amount'], i['units']))
-        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
+            vals.append((recipe_id, i['name'], i['quantity']))
+        c.executemany('INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
 
         # remove existing tags
         sql = 'DELETE FROM recipe_tag where recipe_id = ?'
@@ -339,11 +328,11 @@ class Find(Resource):
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
-        
-        recipe_id = r['recipe_id']
+
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        c.execute('SELECT * from recipes where id = ?', (recipe_id, ))
+
+        c.execute('SELECT * from recipes where id = ?', (r['recipe_id'], ))
         recipe_t = c.fetchall()
         
         c.close()

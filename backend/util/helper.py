@@ -29,7 +29,7 @@ def format_recipe(recipe_t):
     for i, t in enumerate(recipe_t):
         c.execute('SELECT tag from Recipe_Tag where recipe_id = {}'.format(t[0]))
         tag_t = c.fetchall()
-        c.execute('SELECT ingredient_name, amount, units from Recipe_Has where recipe_id = {}'.format(t[0]))
+        c.execute('SELECT ingredient_name, quantity from Recipe_Has where recipe_id = {}'.format(t[0]))
         ingredient_t = c.fetchall()
         c.execute('SELECT step, instruction from Methods where recipe_id = {}'.format(t[0]))
         method_t = c.fetchall()
@@ -56,8 +56,7 @@ def format_recipe(recipe_t):
             curr["ingredients"].append({})
             curr_ingred = curr["ingredients"][i]
             curr_ingred["name"] = t[0]
-            curr_ingred["amount"] = t[1]
-            curr_ingred["units"] = t[2]
+            curr_ingred["quantity"] = t[1]
         
         for i, t in enumerate(method_t):
             curr["method"].append({})

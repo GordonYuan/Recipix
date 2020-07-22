@@ -43,8 +43,7 @@ categories_model = api.model('categories_model', {
 
 ingredients_recipe_model = api.model('ingredients_recipe_model', {
   'name': fields.String(required=True, example='cheese'),
-  'amount': fields.String(required=True, example='500'),
-  'units': fields.String(required=True, example='grams')
+  'quantity': fields.String(required=True, example='500 grams')
 })
 
 recipe_id_model = api.model('recipe_id_model', {

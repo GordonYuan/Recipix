@@ -203,6 +203,7 @@ const AddRecipePage = () => {
       </Button>
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
+      {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre> */}
     </React.Fragment>
   );
 };

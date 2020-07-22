@@ -35,8 +35,7 @@ create table Ingredients (
 create table Recipe_Has (
 	recipe_id		integer,
 	ingredient_name text collate nocase,
-	amount			integer,
-	units			text collate nocase,
+	quantity		text collate nocase,
 	primary key (recipe_id, ingredient_name),
 	foreign key (recipe_id) references Recipes(id) ON DELETE CASCADE,
 	foreign key (ingredient_name) references Ingredients(name)

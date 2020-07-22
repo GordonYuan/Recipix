@@ -2,36 +2,43 @@ from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
 
+
 def authenticate(req):
     # get the token
     token = req.headers.get('Authorization')
+    #print(req.headers)
+    # print(token)
     if not token:
-        abort(403, 'Invalid Authentication Token')  
+        abort(403, 'Invalid Authentication Token')
 
-    r = request.json    
+    r = request.json
     conn = sqlite3.connect('database/recipix.db')
 
-    c = conn.cursor()   
+    c = conn.cursor()
     # find user
     c.execute('SELECT username from users where hash = ?', (token,))
     res = c.fetchone()
-    
-    if not res: 
-        abort(403, 'Invalid Authentication Token')  
+    print(res)
+    if not res:
+        abort(403, 'Invalid Authentication Token')
     user, = res
 
     return user
 
+
 def format_recipe(recipe_t):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
-    ret = {"recipes" : []}
+    ret = {"recipes": []}
     for i, t in enumerate(recipe_t):
-        c.execute('SELECT tag from Recipe_Tag where recipe_id = {}'.format(t[0]))
+        c.execute(
+            'SELECT tag from Recipe_Tag where recipe_id = {}'.format(t[0]))
         tag_t = c.fetchall()
-        c.execute('SELECT ingredient_name, quantity from Recipe_Has where recipe_id = {}'.format(t[0]))
+        c.execute(
+            'SELECT ingredient_name, quantity from Recipe_Has where recipe_id = {}'.format(t[0]))
         ingredient_t = c.fetchall()
-        c.execute('SELECT step, instruction from Methods where recipe_id = {}'.format(t[0]))
+        c.execute(
+            'SELECT step, instruction from Methods where recipe_id = {}'.format(t[0]))
         method_t = c.fetchall()
 
         ret["recipes"].append({})
@@ -50,14 +57,14 @@ def format_recipe(recipe_t):
         for i, t in enumerate(tag_t):
             curr["tags"].append({})
             curr_tag = curr["tags"][i]
-            curr_tag["tag"] = t[0]    
+            curr_tag["tag"] = t[0]
 
         for i, t in enumerate(ingredient_t):
             curr["ingredients"].append({})
             curr_ingred = curr["ingredients"][i]
             curr_ingred["name"] = t[0]
             curr_ingred["quantity"] = t[1]
-        
+
         for i, t in enumerate(method_t):
             curr["method"].append({})
             curr_method = curr["method"][i]

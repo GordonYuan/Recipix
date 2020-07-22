@@ -33,7 +33,7 @@ const MyRecipesPage = (props) => {
   const [recipes, setRecipes] = useState([]);
   useEffect(() => {
     async function fetchRecipes() {
-      const response = await getRecipeByTokenApi({ token: token });
+      const response = await getRecipeByTokenApi();
       console.log({ response });
       console.log(response.data);
       setRecipes(response.data.recipes);

@@ -62,6 +62,11 @@ const Recipe = ({ match }) => {
       <Typography component="h1" variant="h5" align="center">
         {recipe.recipe_name}
       </Typography>
+      <Typography
+        component="h1"
+        variant="h5"
+        align="center"
+      >{`Contributed by ${recipe.recipe_creator}`}</Typography>
       <CardMedia
         style={{ height: 400 }}
         className={classes.media}
@@ -85,9 +90,7 @@ const Recipe = ({ match }) => {
           <h1>Ingredients</h1>
           <Typography>
             {recipe.ingredients.map((ingredients) => (
-              <li>
-                {`${ingredients.amount} ${ingredients.units} ${ingredients.name}`}
-              </li>
+              <li>{`${ingredients.quantity} ${ingredients.name}`}</li>
             ))}
           </Typography>
         </Grid>

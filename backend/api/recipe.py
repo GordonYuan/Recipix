@@ -28,7 +28,7 @@ class All(Resource):
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
-    @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.response(200, 'Success', recipe_complete_model)
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredient_list_model)
     @recipe.doc(description='''
@@ -36,13 +36,6 @@ class Search(Resource):
         that contain the ingredients sent into the api
     ''')
     def post(self):
-        # TODO
-        # ingredient = request.json
-        # process ingredients into a list
-        # find top 20 recipes that match the highest number of ingredients
-        # return the top 20 recipes
-
-        # extract ingredients into list
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
@@ -63,61 +56,9 @@ class Search(Resource):
 
         c.execute(sql_str)
         recipe_t = c.fetchall()
-
-        # the below code is repeated in get all recipes
-        # basically, anytime we need to return recipes, we use this block of code
-        # can generalise into function
-
         c.close()
-        conn.close()
 
-        return format_recipe(recipe_t)
-
-
-@recipe.route('/user', strict_slashes=False)
-class User(Resource):
-    @recipe.response(200, 'Success', recipe_list_model)
-    @recipe.response(400, 'Malformed Request')
-    @recipe.expect(auth_model)
-    @recipe.doc(description='''
-        Retrieves the latest 20 freshest and latest recipes
-        from specific user with authentication token 
-    ''')
-    def get(self):
-        # TODO
-        user = authenticate(request)
-
-        conn = sqlite3.connect('database/recipix.db')
-        c = conn.cursor()
-        c.execute('SELECT * from recipes where username = ?', (user, ))
-        recipe_t = c.fetchall()
-
-        c.close()
-        conn.close()
-        return format_recipe(recipe_t)
-
-
-@recipe.route('/request', strict_slashes=False)
-class Request(Resource):
     @recipe.response(200, 'Success')
-    @recipe.response(400, 'Malformed Request')
-    @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.expect(auth_model, ingredient_list_model)
-    @recipe.doc(description='''
-        Requests for recipe to be made with the ingredients sent
-        into the backend
-    ''')
-    def post(self):
-        # TODO add the request into backend
-        return {
-            'message': 'success'
-        }
-
-
-@recipe.route('/recipe', strict_slashes=False)
-class Recipe(Resource):
-    @recipe.response(200, 'Success')
-    @recipe.response(400, 'Malformed Request')
     @recipe.response(403, 'Invalid Authentication Token')
     @recipe.expect(auth_model, recipe_add_model)
     @recipe.doc(description='''
@@ -161,9 +102,9 @@ class Recipe(Resource):
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
-            vals.append((recipe_id, i['name'], i['amount'], i['units']))
+            vals.append((recipe_id, i['name'], i['quantity']))
         c.executemany(
-            'INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
+            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
 
         # add tags in
         tags = r['tags']
@@ -214,14 +155,8 @@ class Recipe(Resource):
         servings = r['servings']
         description = r['description']
 
-        # updates the original recipes
-        sql = 'UPDATE recipes SET username = ?, name = ?, servings = ?, description = ?, thumbnail = ? WHERE id = ?'
-        vals = (user, name, servings, description, image, recipe_id)
-        c.execute(sql, vals)
-
         # remove existing steps
         sql = 'DELETE FROM methods where recipe_id = ?'
-        c.execute(sql, (recipe_id,))
 
         # add or update steps
         method = r['method']
@@ -239,9 +174,9 @@ class Recipe(Resource):
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
-            vals.append((recipe_id, i['name'], i['amount'], i['units']))
+            vals.append((recipe_id, i['name'], i['quantity']))
         c.executemany(
-            'INSERT INTO recipe_has(recipe_id, ingredient_name, amount, units) VALUES (?, ?, ?, ?)', vals)
+            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
 
         # remove existing tags
         sql = 'DELETE FROM recipe_tag where recipe_id = ?'
@@ -298,22 +233,16 @@ class Recipe(Resource):
 
         # delete from recipes table
         sql = 'DELETE FROM Recipes WHERE id=?'
-        val = (recipe_id,)
-        c.execute(sql, val)
-        conn.commit()
-        c.close()
-        conn.close()
         return {
             'message': 'success'
-        }
 
 
-@recipe.route('/tags', strict_slashes=False)
+@ recipe.route('/tags', strict_slashes=False)
 class Tags(Resource):
-    @recipe.response(200, 'Success', tags_model)
-    @recipe.response(400, 'Malformed Request')
-    @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.doc(description='''
+    @ recipe.response(200, 'Success', tags_model)
+    @ recipe.response(400, 'Malformed Request')
+    @ recipe.response(403, 'Invalid Authentication Token')
+    @ recipe.doc(description='''
         Get Recipe tags
     ''')
     def get(self):
@@ -335,25 +264,25 @@ class Tags(Resource):
         return d
 
 
-@recipe.route('/find', strict_slashes=False)
+@ recipe.route('/find', strict_slashes=False)
 class Find(Resource):
-    @recipe.response(200, 'Success', recipe_list_model)
-    @recipe.response(400, 'Malformed Request')
-    @recipe.expect(recipe_id_model)
-    @recipe.doc(description='''
+    @ recipe.response(200, 'Success', recipe_list_model)
+    @ recipe.response(400, 'Malformed Request')
+    @ recipe.expect(recipe_id_model)
+    @ recipe.doc(description='''
         retrieve specific recipe with id
     ''')
     def post(self):
         # TODO
         r = request.json
-        #print(r)
+        # print(r)
         if not r:
             abort(400, 'Malformed Request')
 
-        recipe_id = r['recipe_id']
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        c.execute('SELECT * from recipes where id = ?', (recipe_id, ))
+
+        c.execute('SELECT * from recipes where id = ?', (r['recipe_id'], ))
         recipe_t = c.fetchall()
 
         c.close()

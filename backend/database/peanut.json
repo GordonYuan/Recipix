@@ -9,12 +9,10 @@
   "ingredients": [
     {
       "name": "peanut butter",
-      "amount": "30",
-      "units": "grams"
+      "quantity": "30 grams"
     }, {
       "name": "bread",
-      "amount": "30",
-      "units": "grams"
+      "quantity": "30 whole"
     }
   ],
   "servings": 2,

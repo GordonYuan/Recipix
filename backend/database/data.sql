@@ -51,17 +51,17 @@ VALUES
     (1, "Dinner"),
     (2, "Desert");
 
-INSERT INTO recipe_has (recipe_id, ingredient_name, amount, units)
+INSERT INTO recipe_has (recipe_id, ingredient_name, quantity)
 VALUES 
-    (1, "cheese", 500, "grams"),
-    (1, "eggs", 2, "whole"),
-    (1, "ham", 200, "grams"),
-    (2, "Milk", 500, "mL"),
-    (3, "avocado", 500, "grams"),
-    (3, "toast", 20, "whole"),
-    (4, "cheddar", 50, "grams"),
-    (4, "spinach", 70, "grams"),
-    (4, "cabbage", 100, "grams"),
-    (4, "broccoli", 120, "grams"),
-    (4, "avocado", 150, "grams"),
-    (5, "eggs", 2, "whole");
+    (1, "cheese", "500 grams"),
+    (1, "eggs", "2 whole"),
+    (1, "ham", "200 grams"),
+    (2, "Milk", "500 mL"),
+    (3, "avocado", "500 grams"),
+    (3, "toast", "20 whole"),
+    (4, "cheddar", "50 grams"),
+    (4, "spinach", "70 grams"),
+    (4, "cabbage", "100 grams"),
+    (4, "broccoli", " 120grams"),
+    (4, "avocado", "150 grams"),
+    (5, "eggs", "2 whole");

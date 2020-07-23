@@ -75,3 +75,10 @@ in helping each other with finishing off each other's parts if people needed hel
 and should have been broken down into smaller user stories since the acceptance criteria was quite heavy. Thus for next sprint, we would probably look for ways
 to re-evaluate some of our existing user-stories and decide if they needed to be broken up into smaller cards so that it is easier to assign indiviuals work
 and increase the overall workflow and productivity of the group. It would also be easier to get feedback and make things more organised.
+
+Week 7
+Group finalise retrospective 1, I fell sick during week 6 and this persisted throughout week 7, leaving me with assignment extensions and being unable to work on
+comp3900 for a while. My team members were supportive and understanding so they let me catch up on my other work first.
+
+Week 8 
+Several group meetings about demo 2, small chats with Andrew about backend implementation, but still sick first part of the week and still finishing off assignment extensions, so unable to contribute that much to this portion of the sprint. Probably be contributing a lot more after this demo.

@@ -35,3 +35,14 @@ Work done
 - Created homepage ui with search bar and recipe cards
 - Hooked up api calls to allow for retrieval of ingredients and hits the api when adding ingredients to retrieve relevant recipes
 - Created routing with mock pages
+
+Week 6
+- Flexi Week took abit of a break
+
+Week 7
+- Implemented login page and logout functionality. Added dynamic navbar which changes based on login status
+- Created Recipix logo to give website a more professional look
+
+Week 8
+- Added search ingredients by category
+- Helped kevin and andy with recipe creation and displaying individual recipes

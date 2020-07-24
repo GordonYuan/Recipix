@@ -64,12 +64,6 @@ create table Recipe_tag (
 	foreign key (tag) references Tag(name)
 );
 
--- ingredient category
--- create table Category (
--- 	name text,
--- 	primary key(name)
--- );
-
 -- recipe requests
 -- create table Requests (
 -- 	id		integer,

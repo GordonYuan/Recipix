@@ -13,7 +13,7 @@ class All(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.expect(tags_model)
     @recipe.doc(description='''
-        Retrieves the latest 20 freshest and latest recipes
+        Retrieves 20 Recipes
     ''')
     def post(self):
         # TODO
@@ -33,7 +33,7 @@ class Search(Resource):
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredients_tags_model)
     @recipe.doc(description='''
-        Retrieves the latest 20 freshest and latest recipes
+        Retrieves 20 recipes
         that contain the ingredients sent into the api
     ''')
     def post(self):
@@ -70,11 +70,11 @@ class User(Resource):
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(auth_model)
     @recipe.doc(description='''
-        Retrieves the latest 20 freshest and latest recipes
-        from specific user with authentication token 
+        Retrieves the recipes from specific user with authentication token 
     ''')
     def post(self):
-        # TODO
+        #TODO at some point, we need to limit the amount of recipes that are being sent back to the users
+        #Give some way for front end to continuing getting more posts from the user
         user = authenticate(request)
 
         conn = sqlite3.connect('database/recipix.db')
@@ -86,34 +86,6 @@ class User(Resource):
         conn.close()
         return format_recipe(recipe_t)
 
-
-@recipe.route('/request', strict_slashes=False)
-class Request(Resource):
-    @recipe.response(200, 'Success')
-    @recipe.response(400, 'Malformed Request')
-    @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.expect(auth_model, ingredient_list_model)
-    @recipe.doc(description='''
-        Requests for recipe to be made with the ingredients sent
-        into the backend
-    ''')
-    def post(self):
-        r = request.json
-        user = authenticate(request)
-
-        ingredients = r['ingredients']
-
-        sql = 'INSERT INTO Requests (username, name, servings, description, thumbnail) VALUES (?, ?, ?, ?, ?)'
-        vals = (user, name, servings, description, image)
-        c.execute(sql, vals)
-        conn.commit()
-
-        # TODO add the request into backend
-        return {
-            'message': 'success'
-        }
-
-
 @recipe.route('/add', strict_slashes=False)
 class Add(Resource):
     @recipe.response(200, 'Success')
@@ -124,9 +96,8 @@ class Add(Resource):
         Adds recipe into the API
     ''')
     def post(self):
-        r = request.json
-        # get user associated with token
         user = authenticate(request)
+        r = request.json
 
         name = r['recipe_name']
         image = r['image']
@@ -330,15 +301,15 @@ class Tags(Resource):
         c.execute('SELECT * from tag;')
         t = c.fetchall()
 
-        d = {"tags": []}
+        ret = {"tags": []}
         for x in t:
-            d['tags'].append({
+            ret['tags'].append({
                 'tag': x
             })
 
         c.close()
         conn.close()
-        return d
+        return ret
 
 
 @recipe.route('/find', strict_slashes=False)

@@ -22,6 +22,7 @@ def run(host, port):
     import api.auth
     import api.recipe
     import api.ingredients
+    import api.request
     app.run(debug=True, host=host, port=port)
 
 def create_db():

@@ -64,19 +64,13 @@ create table Recipe_tag (
 	foreign key (tag) references Tag(name)
 );
 
--- ingredient category
--- create table Category (
--- 	name text,
--- 	primary key(name)
+-- recipe requests
+-- create table Requests (
+-- 	id		integer,
+-- 	name 	text,
+-- 	count	integer,
+-- 	primary key (id, name)
 -- );
-
-recipe requests
-create table Requests (
-	id		integer,
-	name 	text,
-	count	integer,
-	primary key (id, name)
-);
 
 -- (request_id, ingredient_name) tuples
 create table Request_Has (

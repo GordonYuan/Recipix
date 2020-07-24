@@ -20,10 +20,6 @@ ingredient_detail_model = api.model('ingredient_detail_model', {
   'category': fields.String(required=True, example='dairy')
 })
 
-ingredient_list_detail_model = api.model('ingredient_list_detail_model', {
-  'ingredients': fields.List(fields.Nested(ingredient_detail_model)),
-})
-
 ingredient_model = api.model('ingredient_model', {
   'name': fields.String(required=True, example='cheese'),
 })
@@ -42,7 +38,7 @@ categories_model = api.model('categories_model', {
 })
 
 ingredients_recipe_model = api.model('ingredients_recipe_model', {
-  'name': fields.String(required=True, example='cheese'),
+  'name': fields.String(required=True, example='Cheese'),
   'quantity': fields.String(required=True, example='500 grams')
 })
 
@@ -51,7 +47,7 @@ recipe_id_model = api.model('recipe_id_model', {
 })
 
 tag_model = api.model('tag_model', {
-  'tag' : fields.String(required=True, example='entree')
+  'tag' : fields.String(required=True, example='Breakfast')
 })
 
 tags_model = api.model('tags_model', {
@@ -59,7 +55,7 @@ tags_model = api.model('tags_model', {
 })
 
 ingredients_tags_model = api.model('ingredients_tags_model', {
-  'ingredients' : fields.List(fields.Nested(ingredients_recipe_model)),
+  'ingredients' : fields.List(fields.Nested(ingredient_model)),
   'tags' : fields.List(fields.Nested(tag_model))
 })
 
@@ -96,6 +92,11 @@ recipe_add_model = api.model('recipe_add_model', {
 
 recipe_list_model = api.model('recipe_list_model', {
   'recipes': fields.List(fields.Nested(recipe_complete_model)),
+})
+
+# Request models
+request_id_model = api.model('request_id_model', {
+  'request_id' : fields.Integer(required=True, min=0)
 })
 
 auth_model = api.parser().add_argument('Authorization', help="Authorization token given from logging in", location='headers', required=True)

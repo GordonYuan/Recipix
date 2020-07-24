@@ -4,7 +4,6 @@ drop table Methods;
 drop table Ingredients;
 drop table Recipe_Has;
 drop table Users;
--- drop table Owns;
 drop table Tag;
 drop table Recipe_Tag;
 -- drop table Category;

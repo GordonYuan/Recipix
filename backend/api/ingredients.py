@@ -3,7 +3,6 @@ from util.models import *
 from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
-import json
 
 ingredients = api.namespace('ingredients', description='adding ingredients')
 

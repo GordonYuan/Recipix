@@ -49,7 +49,9 @@ VALUES
     (1, "Breakfast"),
     (1, "Lunch"),
     (1, "Dinner"),
-    (2, "Desert");
+    (2, "Desert")
+    (5, "Breakfast")
+    (5, "Lunch");
 
 INSERT INTO recipe_has (recipe_id, ingredient_name, quantity)
 VALUES 

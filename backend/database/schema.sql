@@ -70,20 +70,20 @@ create table Recipe_tag (
 -- 	primary key(name)
 -- );
 
--- recipe requests
--- create table Requests (
--- 	id		integer,
--- 	name 	text,
--- 	count	integer,
--- 	primary key (id, name)
--- );
+recipe requests
+create table Requests (
+	id		integer,
+	name 	text,
+	count	integer,
+	primary key (id, name)
+);
 
 -- (request_id, ingredient_name) tuples
--- create table Request_Has (
--- 	request_id		integer,
--- 	ingredient_name text,
--- 	primary key (request_id, ingredient_name),
--- 	foreign key (request_id) references Requests(id),
--- 	foreign key (ingredient_name) references Ingredients(name)
--- );
+create table Request_Has (
+	request_id		integer,
+	ingredient_name text,
+	primary key (request_id, ingredient_name),
+	foreign key (request_id) references Requests(id),
+	foreign key (ingredient_name) references Ingredients(name)
+);
 

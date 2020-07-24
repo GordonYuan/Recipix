@@ -74,3 +74,48 @@ def format_recipe(recipe_t):
     c.close()
     conn.close()
     return ret
+
+# get n top recipes from ingredients and tags lists
+def get_top_recipes(ingredients, tags, n):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+
+    # form the sql string dynamically based on
+    sql_str = ('SELECT id, username, name, servings, description, thumbnail, '
+                'count(*) from recipe_has h join recipes r on id = recipe_id where ')
+    for i in ingredients:
+        sql_str += 'ingredient_name = "{}" or '.format(i)
+    sql_str = sql_str[:-3]
+    sql_str += 'group by recipe_id order by count(*) desc'
+
+    c.execute(sql_str)
+    recipe_t = c.fetchall()
+
+    # get top 20 recipes that match tags
+    top_n = []
+
+    sql_tag = ''
+    for i in tags:
+        sql_tag += 'tag = "{}" or '.format(i)
+    sql_tag = sql_tag[:-3]
+
+    for i in recipe_t:
+        if len(top_n) == n:
+            break
+        sql_str2 = 'SELECT * from recipe_tag where recipe_id = {} and '.format(i[0])
+        sql_str2 += sql_tag
+        c.execute(sql_str2)
+        if (c.fetchall()):
+            top_n.append(i)
+
+    c.close()
+    conn.close()
+
+    return top_n
+
+# get ingredients and tags into a two lists from the json request r
+def get_list(r, key, key2):
+    res_list = []
+    for x in r[key]:
+        res_list.append(x[key2])
+    return res_list

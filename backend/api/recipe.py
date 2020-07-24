@@ -144,6 +144,9 @@ class Add(Resource):
         sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
         c.executemany(sql, vals)
 
+        # TODO Once added in, needs to remove any requests that have been fulfilled. 
+
+        
         # commit to db
         conn.commit()
         c.close()

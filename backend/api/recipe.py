@@ -125,16 +125,17 @@ class Add(Resource):
         vals = []
         for s in method:
             vals.append((recipe_id, s['step_number'], s['instruction']))
-        c.executemany(
-            'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)', vals)
+        sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)'
+        c.executemany(sql, vals)
 
         # add ingredients in
         ingredients = r['ingredients']
         vals = []
         for i in ingredients:
             vals.append((recipe_id, i['name'], i['quantity']))
-        c.executemany(
-            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
+        
+        sql = 'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)'
+        c.executemany(sql, vals)
 
         # add tags in
         tags = r['tags']
@@ -145,6 +146,37 @@ class Add(Resource):
         c.executemany(sql, vals)
 
         # TODO Once added in, needs to remove any requests that have been fulfilled. 
+        # checking if ingredients used in recipe meets any of the requests
+        sql = 'select r.request_id from request_has r where ' 
+        for i in ingredients:
+            sql += 'ingredient_name = "{}" or '.format(i['name'])
+        sql = sql[:-3]
+        sql += 'group by r.request_id \
+                having (count(*) = \
+                (select count(*) \
+                from request_has r1 \
+                where r1.request_id = r.request_id) \
+                and count(*) = ?)'
+
+        vals = (len(ingredients),)
+        c.execute(sql, vals)
+        res = c.fetchone()  
+
+        print(res)
+        # if there exists a request, remove it, as the new recipe has been added, fulfilling the request
+        if res:
+            request_id, = res
+
+            sql = 'delete from requests where id = ?'
+            vals = (request_id,)
+            c.execute(sql, vals)
+
+            sql = 'delete from request_has where request_id = ?'
+            vals = (request_id,)
+            c.execute(sql, vals)
+
+            conn.commit()
+
 
         
         # commit to db

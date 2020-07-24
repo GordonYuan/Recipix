@@ -11,10 +11,11 @@ recipe = api.namespace('recipe', description='Recipe information')
 @recipe.route('/all', strict_slashes=False)
 class All(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.expect(tags_model)
     @recipe.doc(description='''
         Retrieves the latest 20 freshest and latest recipes
     ''')
-    def get(self):
+    def post(self):
         # TODO
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
@@ -28,9 +29,9 @@ class All(Resource):
 
 @recipe.route('/search', strict_slashes=False)
 class Search(Resource):
-    @recipe.response(200, 'Success', recipe_complete_model)
+    @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
-    @recipe.expect(ingredient_list_model)
+    @recipe.expect(ingredients_tags_model)
     @recipe.doc(description='''
         Retrieves the latest 20 freshest and latest recipes
         that contain the ingredients sent into the api
@@ -97,6 +98,16 @@ class Request(Resource):
         into the backend
     ''')
     def post(self):
+        r = request.json
+        user = authenticate(request)
+
+        ingredients = r['ingredients']
+
+        sql = 'INSERT INTO Requests (username, name, servings, description, thumbnail) VALUES (?, ?, ?, ?, ?)'
+        vals = (user, name, servings, description, image)
+        c.execute(sql, vals)
+        conn.commit()
+
         # TODO add the request into backend
         return {
             'message': 'success'

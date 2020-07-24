@@ -99,4 +99,14 @@ request_id_model = api.model('request_id_model', {
   'request_id' : fields.Integer(required=True, min=0)
 })
 
+request_complete_model = api.model('request_complete_model', {
+  'request_id' : fields.Integer(required=True, min=0),
+  'times_requested' : fields.Integer(required=True, min=1),
+  'ingredients' : fields.List(fields.Nested(ingredient_model))
+})
+
+request_list_model = api.model('request_list_model', {
+  'requests' : fields.List(fields.Nested(request_complete_model))
+})
+
 auth_model = api.parser().add_argument('Authorization', help="Authorization token given from logging in", location='headers', required=True)

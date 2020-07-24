@@ -344,13 +344,12 @@ class Recommend(Resource):
     @recipe.doc(description='''
         return list of ingredients recommendation based on input ingredients list
     ''')
-    def post(self)
+    def post(self):
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
         # search for list of recipes based on ingredients + tags
         # from those list of recipes, return 5 ingredients that are not in the input ingredients list
-        top_50 = (ingre)
     
 
 

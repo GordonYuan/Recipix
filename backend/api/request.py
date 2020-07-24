@@ -7,7 +7,6 @@ import sqlite3
 
 req = api.namespace('req', description='Requesting for Recipes to be made with ingredients')
 
-
 @req.route('/request', strict_slashes=False)
 class Request(Resource):
     @req.response(200, 'Success')
@@ -20,6 +19,7 @@ class Request(Resource):
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
+            
         # user = authenticate(request)
         
         ingredients = [] 
@@ -35,15 +35,17 @@ class Request(Resource):
         vals = (len(ingredients),)
 
         # check if request exist already in database    
-        sql = 'select request_id from request_has where ' 
+        sql = 'select r.request_id from request_has r where ' 
         for i in ingredients:
             sql += 'ingredient_name = "{}" or '.format(i)
         sql = sql[:-3]
-        sql += 'group by request_id having count(*) = ?;'
+        sql += 'group by r.request_id having (count(*) = (select count(*) from request_has r1 where r1.request_id = r.request_id) and count(*) = ?)'
 
+        print(sql)
         c.execute(sql, vals)
 
-        res = c.fetchone()
+        res = c.fetchone()  
+        print(res)
         if res:
             # if it exists, increment 
             request_id, = res
@@ -60,7 +62,7 @@ class Request(Resource):
             conn.commit()
 
             # get request_id
-            sql = 'select id from Requests order by id desc limit 1'
+            sql = 'SELECT id from Requests order by id desc limit 1'
             c.execute(sql)
             request_id, = c.fetchone()
 
@@ -72,6 +74,9 @@ class Request(Resource):
 
             c.executemany(sql, vals)
             conn.commit()
+
+        c.close()
+        conn.close()
 
         return {
             'message' : 'Success'
@@ -88,26 +93,77 @@ class Find(Resource):
     ''')
     def post(self):
         r = request.json
+        if not (r):
+            abort(400, 'Malformed Request')
         # get user associated with token
-        user = authenticate(request)
-        print(r)
-        return {
-            'message': 'success'
-        }
+        # user = authenticate(request)
+
+        request_id = r['request_id']
+
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
+
+        sql = 'SELECT * FROM request_has WHERE request_id = ?'
+        vals = (request_id,)
+
+        c.execute(sql,vals)
+        res = c.fetchall()
+
+        c.close()
+        conn.close()
+
+        ret = {'ingredients': []}
+        for i in res:
+            _, ingredient = i
+            print(i)
+            ret['ingredients'].append({
+                'name': ingredient
+            })
+
+        return ret
 
 
-@req.route('/get', strict_slashes=False)
+@req.route('/all', strict_slashes=False)
 class All(Resource):
-    @req.response(200, 'Success')
+    @req.response(200, 'Success', request_list_model)
     @req.response(400, 'Malformed Request')
     @req.response(403, 'Invalid Authentication Token')
-    @req.expect(auth_model)
     @req.doc(description='''
-        Returns all requests
+        Returns all requests including ingredients and amount of times its been requested
     ''')
-    def post(self):
-        
+    def get(self):
+        conn = sqlite3.connect('database/recipix.db')
+        c = conn.cursor()
 
-        return {
-            'message': 'success'
-        }
+        sql = 'SELECT * FROM requests'
+        c.execute(sql)
+        res = c.fetchall()
+
+        ret = {'requests': []}
+        for i in res:
+            request_id, times_requested = i
+            sql = 'SELECT ingredient_name FROM request_has where request_id = ?'
+            vals = (request_id,)
+            c.execute(sql, vals)
+            ingred_res = c.fetchall()
+            
+            ingredients = []
+            for j in ingred_res:
+                ingredient, = j
+                print()
+                ingredients.append({
+                    'name' : ingredient
+                })
+
+            request = {
+                'request_id' : request_id,
+                'times_requested' : times_requested,
+                'ingredients' : ingredients
+            }
+            
+            ret['requests'].append(request)
+
+        c.close()
+        conn.close()
+
+        return ret

@@ -17,9 +17,25 @@ class All(Resource):
     ''')
     def post(self):
         # TODO
+        r = request.json
+        if not r:
+            abort(400, 'Malformed Request')
+        tags = []
+        for x in r['tags']:
+            tags.append(x['tag'])
+
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        c.execute('SELECT * from recipes;')
+
+        # 'or' in 'where' of sql finds recipes that match any of the tags specified
+        sql_str = ('SELECT * from recipes')
+        if tags:
+            sql_str += ' r join recipe_tag t on r.id = t.recipe_id where '
+            for i in tags:
+                sql_str += 'tag = "{}" or '.format(i)
+            sql_str = sql_str[:-3]
+
+        c.execute('SELECT * from recipes ;')
         recipe_t = c.fetchall()
 
         c.close()
@@ -37,31 +53,16 @@ class Search(Resource):
         that contain the ingredients sent into the api
     ''')
     def post(self):
+        # real todo
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
-        ingredients = []
-        for x in r['ingredients']:
-            ingredients.append(x['name'])
+        ingredients = get_list(r, 'ingredients', 'name')
+        tags = get_list(r, 'tags', 'tag')
 
-        conn = sqlite3.connect('database/recipix.db')
-        c = conn.cursor()
+        top_n = get_top_recipes(ingredients, tags, 20)
 
-        # form the sql string dynamically based on
-        sql_str = ('SELECT id, username, name, servings, description, thumbnail, '
-                   'count(*) from recipe_has h join recipes r on id = recipe_id where ')
-        for i in ingredients:
-            sql_str += 'ingredient_name = "{}" or '.format(i)
-        sql_str = sql_str[:-3]
-        sql_str += 'group by recipe_id order by count(*) desc'
-
-        c.execute(sql_str)
-        recipe_t = c.fetchall()
-
-        c.close()
-        conn.close()
-
-        return format_recipe(recipe_t)
+        return format_recipe(top_n)
 
 
 @recipe.route('/user', strict_slashes=False)
@@ -73,8 +74,7 @@ class User(Resource):
         Retrieves the recipes from specific user with authentication token 
     ''')
     def post(self):
-        #TODO at some point, we need to limit the amount of recipes that are being sent back to the users
-        #Give some way for front end to continuing getting more posts from the user
+        # fake TODO
         user = authenticate(request)
 
         conn = sqlite3.connect('database/recipix.db')
@@ -335,3 +335,23 @@ class Find(Resource):
         c.close()
         conn.close()
         return format_recipe(recipe_t)
+
+@recipe.route('/recommend', strict_slashes=False)
+class Recommend(Resource):  
+    @recipe.response(200, 'Success', ingredient_list_model)
+    @recipe.response(400, 'Malformed Request')
+    @recipe.expect(ingredients_tags_model)
+    @recipe.doc(description='''
+        return list of ingredients recommendation based on input ingredients list
+    ''')
+    def post(self)
+        r = request.json
+        if not r:
+            abort(400, 'Malformed Request')
+        # search for list of recipes based on ingredients + tags
+        # from those list of recipes, return 5 ingredients that are not in the input ingredients list
+        top_50 = (ingre)
+    
+
+
+    

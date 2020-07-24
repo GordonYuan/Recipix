@@ -98,12 +98,19 @@ def get_top_recipes(ingredients, tags, n):
     for i in tags:
         sql_tag += 'tag = "{}" or '.format(i)
     sql_tag = sql_tag[:-3]
+    # print("Sql_tag = " + sql_tag)
 
     for i in recipe_t:
+        if not sql_tag:
+            top_n.append(i)
+            continue
         if len(top_n) == n:
             break
         sql_str2 = 'SELECT * from recipe_tag where recipe_id = {} and '.format(i[0])
+        if not sql_tag:
+            sql_str2 = sql_str2[:-4]
         sql_str2 += sql_tag
+        # print(sql_str2)
         c.execute(sql_str2)
         if (c.fetchall()):
             top_n.append(i)
@@ -117,5 +124,7 @@ def get_top_recipes(ingredients, tags, n):
 def get_list(r, key, key2):
     res_list = []
     for x in r[key]:
+        if x[key2] == '':
+            continue
         res_list.append(x[key2])
     return res_list

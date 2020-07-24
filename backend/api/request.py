@@ -15,7 +15,7 @@ class Request(Resource):
     @request.expect(auth_model, ingredient_list_model)
     @request.doc(description='''
         Adds requested ingredients into the backend
-        
+
     ''')
     def post(self):
         user = authenticate(request)
@@ -34,9 +34,9 @@ class Find(Resource):
     @request.response(200, 'Success')
     @request.response(400, 'Malformed Request')
     @request.response(403, 'Invalid Authentication Token')
-    @request.expect(auth_model, recipe_add_model)
+    @request.expect(auth_model, request_id_model)
     @request.doc(description='''
-        Adds recipe into the API
+        Finds the ingredients that are requested of a specific id, and returns them. 
     ''')
     def post(self):
         r = request.json
@@ -49,16 +49,16 @@ class Find(Resource):
 
 
 @request.route('/get', strict_slashes=False)
-class Get(Resource):
+class All(Resource):
     @request.response(200, 'Success')
     @request.response(400, 'Malformed Request')
     @request.response(403, 'Invalid Authentication Token')
     @request.expect(auth_model)
     @request.doc(description='''
-        Edits the recipe given with the information given
+        Returns all requests
     ''')
     def post(self):
-
+        
 
         return {
             'message': 'success'

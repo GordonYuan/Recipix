@@ -14,9 +14,10 @@ class Request(Resource):
     @req.expect(auth_model, ingredient_list_model)
     @req.doc(description='''
         Request takes in a list of ingredient_names. 
-        Once passed into this endpoint, a 'request' will be added into the database. 
+        Once passed into this endpoint, a 'request' will be added into the database if a request with the exact same ingredients doesnt exist already.
+        If it does exist, then it will add one to the 'times_requested' column in the existing request. 
         This request will contain all of the ingredients passed into it 
-        The endpoitn is for users to request recipes to be made with this particular set of ingredients.
+        The endpoint is for users to request recipes to be made with this particular set of ingredients.
     ''')
     def post(self):
         r = request.json
@@ -141,7 +142,7 @@ class All(Resource):
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
-        sql = 'SELECT * FROM requests'
+        sql = 'SELECT * FROM requests order by count desc'
         c.execute(sql)
         res = c.fetchall()
 

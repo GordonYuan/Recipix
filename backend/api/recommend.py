@@ -18,6 +18,7 @@ class Recommend(Resource):
         The returned list of ingredients are recommendations for narrowing down recipes that the user would like
     ''')
     def post(self):
+        #TODO current returns duplicate ingredients, have to send back unique ingredients
         r = request.json
         if not r:
             abort(400, 'Malformed Request')

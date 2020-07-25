@@ -33,6 +33,7 @@ class Recommend(Resource):
         
         # top 50 is recipe as single tuple, many tuples in list 
         top_50_recipes = get_top_recipes(ingredients, tags, 50)
+        print(top_50_recipes)
         recipe_ids = []
         for recipe in top_50_recipes:
             recipe_ids.append(recipe[0])
@@ -42,18 +43,25 @@ class Recommend(Resource):
             input_ingredients[ingredients[i]] = 1
 
         ret_ingredients = {"ingredients": []}
+        ret_list = []
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
         sql_str = 'SELECT distinct ingredient_name from recipe_has where '
         for i in recipe_ids:
             sql_str += 'recipe_id = "{}" or '.format(i)
-        sql_str = sql_str[:-3]
-        sql_str += 'limit 5'
+        if recipe_ids:
+            sql_str = sql_str[:-3]
+        else:
+            sql_str = sql_str[:-6]
         c.execute(sql_str)
         ingredients_t = c.fetchall()
         for ingredient in ingredients_t:
-            ret_ingredients["ingredients"].append({"name": ingredient[0]})
+            if ingredient[0] not in ingredients:
+                ret_ingredients["ingredients"].append({"name": ingredient[0]})
+                ret_list.append(ingredient)
+            if len(ret_list) == 5:
+                break
     
         return ret_ingredients
         

@@ -21,9 +21,11 @@ class All(Resource):
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
-        tags = []
-        for x in r['tags']:
-            tags.append(x['tag'])
+        
+        # tags = []
+        # for x in r['tags']:
+        #     tags.append(x['tag'])
+        tags = get_list(r, 'tags', 'tag')
 
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()

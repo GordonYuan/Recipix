@@ -57,11 +57,3 @@ class Recommend(Resource):
     
         return ret_ingredients
         
-
-
-
-        
-    
-
-
-    

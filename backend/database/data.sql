@@ -39,10 +39,14 @@ VALUES
 INSERT INTO Tag (name)
 VALUES 
     ("Entree"),
+    ("Main"),
     ("Breakfast"),
+    ("Salad"),
+    ("Soup"),
+    ("Side dish"),
     ("Lunch"),
     ("Dinner"),
-    ("Desert");
+    ("Dessert");
 
 INSERT INTO recipe_tag (recipe_id, tag)
 VALUES

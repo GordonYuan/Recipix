@@ -52,7 +52,7 @@ class All(Resource):
     @ingredients.response(200, 'Success', categories_model)
     @ingredients.doc(description='''
     	Takes in nothing
-        Returns a list of all the existing ingredients that is stored in the database
+        Returns a list of all the existing ingredients that is stored in the database.
     ''')
     def get(self):
         ### TODO 

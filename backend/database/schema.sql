@@ -74,7 +74,7 @@ create table Requests (
 -- (request_id, ingredient_name) tuples
 create table Request_Has (
 	request_id		integer,
-	ingredient_name text,
+	ingredient_name text collate nocase,
 	primary key (request_id, ingredient_name),
 	foreign key (request_id) references Requests(id),
 	foreign key (ingredient_name) references Ingredients(name)

@@ -44,18 +44,16 @@ class Recommend(Resource):
         ret_ingredients = {"ingredients": []}
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        # kind of scuffed
+
+        sql_str = 'SELECT distinct ingredient_name from recipe_has where '
         for i in recipe_ids:
-            sql_str = 'SELECT ingredient_name from recipe_has where recipe_id = {}'.format(i)
-            c.execute(sql_str)
-            ingredients_t = c.fetchall()
-            for ingredient in ingredients_t:
-                if ingredient[0] not in input_ingredients:
-                    ret_ingredients["ingredients"].append({"name": ingredient[0]})
-                if len(ret_ingredients["ingredients"]) >= 5:
-                    break
-            if len(ret_ingredients["ingredients"]) >= 5:
-                break
+            sql_str += 'recipe_id = "{}" or '.format(i)
+        sql_str = sql_str[:-3]
+        sql_str += 'limit 5'
+        c.execute(sql_str)
+        ingredients_t = c.fetchall()
+        for ingredient in ingredients_t:
+            ret_ingredients["ingredients"].append({"name": ingredient[0]})
     
         return ret_ingredients
         

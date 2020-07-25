@@ -13,7 +13,9 @@ class Add(Resource):
     @ingredients.response(403, 'ingredient already exists')
     @ingredients.expect(ingredient_detail_model)
     @ingredients.doc(description='''
-    	Add an ingredient into the database !  
+    	takes in category, and ingredient_name
+        Sending the ingredient into this endpoint will result in the ingredient being added to the database.
+        Once added to the database, the ingredient will show up when searched for
     ''')
     def post(self):
         r = request.json
@@ -49,7 +51,8 @@ class Add(Resource):
 class All(Resource):
     @ingredients.response(200, 'Success', categories_model)
     @ingredients.doc(description='''
-    	get list of all ingredients from the database
+    	Takes in nothing
+        Returns a list of all the existing ingredients that is stored in the database
     ''')
     def get(self):
         ### TODO 

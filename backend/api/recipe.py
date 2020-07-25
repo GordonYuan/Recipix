@@ -13,7 +13,8 @@ class All(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.expect(tags_model)
     @recipe.doc(description='''
-        Retrieves 20 Recipes
+        Returns a list of all recipes that matches the tags passed in 
+        If no tags are passed in, returns all recipes in the database.
     ''')
     def post(self):
         # TODO
@@ -49,8 +50,10 @@ class Search(Resource):
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(ingredients_tags_model)
     @recipe.doc(description='''
-        Retrieves 20 recipes
-        that contain the ingredients sent into the api
+        Takes in a list of ingredients, as well as the tags
+        Retrieves 20 recipes that can be constructed from the ingredients passed in
+        Recipes will also match the tags that are passed in
+        If no tags are passed in, then it returns all recipes that can be constructed from ingredients
     ''')
     def post(self):
         # real todo
@@ -71,7 +74,8 @@ class User(Resource):
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(auth_model)
     @recipe.doc(description='''
-        Retrieves the recipes from specific user with authentication token 
+        Takes in the authorization token, 
+        Returns a list of recipes that the user has created.
     ''')
     def post(self):
         # fake TODO
@@ -93,7 +97,10 @@ class Add(Resource):
     @recipe.response(403, 'Invalid Authentication Token')
     @recipe.expect(auth_model, recipe_add_model)
     @recipe.doc(description='''
-        Adds recipe into the API
+        Takes in a authorization token, recipe 
+        Adds the recipe to the database.
+        If the list of ingredients in the recipe match any of the requests in the database,
+        then the request will be considered fulfilled and removed from the database.
     ''')
     def post(self):
         user = authenticate(request)
@@ -195,7 +202,12 @@ class Edit(Resource):
     @recipe.response(403, 'Invalid Authentication Token')
     @recipe.expect(auth_model, recipe_complete_model)
     @recipe.doc(description='''
-        Edits the recipe given with the information given
+        Takes in the recipes information, as well as authorization token.
+        If the user is valid and owns the recipe, then.
+        Updates the recipe record
+        Removes all methods, tags, and ingredients
+        Repopulates the methods, tags and ingredients with the information that is passed in
+        The recipe maintains the same id. 
     ''')
     def post(self):
         r = request.json
@@ -211,7 +223,7 @@ class Edit(Resource):
 
         # if it doesnt return anything, then recipe doesnt exist, cannot edit it.
         if not res:
-            abort(406, 'Not Acceptable')
+            abort(406, 'Recipe does not exist')
 
         owner_user, = res
         # checks if owner of recipe is same as person from token
@@ -281,7 +293,9 @@ class Delete(Resource):
     @recipe.response(406, 'Not Acceptable')
     @recipe.expect(auth_model, recipe_id_model)
     @recipe.doc(description='''
-        Deletes the recipe given with the user id
+        Takes in the recipe_id, and authentication token
+        Verifies the user using authentication token to ensure tha they own that particular recipe
+        If they own it, remove the recipe from the database completely.
     ''')
     def post(self):
         # get the user associated with token
@@ -298,7 +312,7 @@ class Delete(Resource):
 
         # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
         if not res:
-            abort(406, 'Not Acceptable')
+            abort(406, 'Recipe does not exist')
 
         owner_user, = res
 
@@ -323,10 +337,9 @@ class Delete(Resource):
 @recipe.route('/tags', strict_slashes=False)
 class Tags(Resource):
     @recipe.response(200, 'Success', tags_model)
-    @recipe.response(400, 'Malformed Request')
-    @recipe.response(403, 'Invalid Authentication Token')
     @recipe.doc(description='''
-        Get Recipe tags
+        Takes in nothing
+        Returns the tags that exist in the database
     ''')
     def get(self):
         # TODO add the request into backend
@@ -353,7 +366,8 @@ class Find(Resource):
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(recipe_id_model)
     @recipe.doc(description='''
-        retrieve specific recipe with id
+        Takes in a recipe_id 
+        Returns the detail of the recipe associated with that recipe_id
     ''')
     def post(self):
         # TODO
@@ -370,61 +384,3 @@ class Find(Resource):
         c.close()
         conn.close()
         return format_recipe(recipe_t)
-
-@recipe.route('/recommend', strict_slashes=False)
-class Recommend(Resource):  
-    @recipe.response(200, 'Success', ingredient_list_model)
-    @recipe.response(400, 'Malformed Request')
-    @recipe.expect(ingredients_tags_model)
-    @recipe.doc(description='''
-        return list of ingredients recommendation based on input ingredients list
-    ''')
-    def post(self):
-        r = request.json
-        if not r:
-            abort(400, 'Malformed Request')
-        
-        # search for list of recipes based on ingredients + tags
-        # get recipe_ids from list of recipes 
-        # get list of ingredients associated with the recipe_ids
-        # for each recipe, see if there are ingredients to recommend
-        # go through all recipes or until 5 recommded is reached
-        ingredients = get_list(r, 'ingredients', 'name')
-        tags = get_list(r, 'tags', 'tag')
-        
-        # top 50 is recipe as single tuple, many tuples in list 
-        top_50_recipes = get_top_recipes(ingredients, tags, 50)
-        recipe_ids = []
-        for recipe in top_50_recipes:
-            recipe_ids.append(recipe[0])
-        
-        input_ingredients = {}
-        for i in range(len(ingredients)):
-            input_ingredients[ingredients[i]] = 1
-
-        ret_ingredients = {"ingredients": []}
-        conn = sqlite3.connect('database/recipix.db')
-        c = conn.cursor()
-        # kind of scuffed
-        for i in recipe_ids:
-            sql_str = 'SELECT ingredient_name from recipe_has where recipe_id = {}'.format(i)
-            c.execute(sql_str)
-            ingredients_t = c.fetchall()
-            for ingredient in ingredients_t:
-                if ingredient[0] not in input_ingredients:
-                    ret_ingredients["ingredients"].append({"name": ingredient[0]})
-                if len(ret_ingredients["ingredients"]) >= 5:
-                    break
-            if len(ret_ingredients["ingredients"]) >= 5:
-                break
-    
-        return ret_ingredients
-        
-
-
-
-        
-    
-
-
-    

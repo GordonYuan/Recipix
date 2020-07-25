@@ -23,6 +23,7 @@ def run(host, port):
     import api.recipe
     import api.ingredients
     import api.request
+    import api.recommend
     app.run(debug=True, host=host, port=port)
 
 def create_db():

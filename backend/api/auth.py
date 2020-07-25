@@ -61,7 +61,7 @@ class Register(Resource):
     @auth.doc(description='''
         Create a new user account in the database
         Returns an authentication token which should be passed into subsequent calls
-    	Authentication token verifies the user
+    	Authentication token is used to verify the user
     ''')
     def post(self):
         j = request.json

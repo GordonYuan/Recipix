@@ -13,7 +13,10 @@ class Request(Resource):
     @req.response(400, 'Malformed Request')
     @req.expect(auth_model, ingredient_list_model)
     @req.doc(description='''
-        Adds requested ingredients into the backend
+        Request takes in a list of ingredient_names. 
+        Once passed into this endpoint, a 'request' will be added into the database. 
+        This request will contain all of the ingredients passed into it 
+        The endpoitn is for users to request recipes to be made with this particular set of ingredients.
     ''')
     def post(self):
         r = request.json
@@ -89,7 +92,9 @@ class Find(Resource):
     @req.response(403, 'Invalid Authentication Token')
     @req.expect(auth_model, request_id_model)
     @req.doc(description='''
-        Finds the ingredients that are requested of a specific id, and returns them. 
+        find takes in a request_id which corresponds to a particular request.
+        This endpoint will return the corresponding ingredients list back.
+        This is used for finding out what ingredients are in a particular request.
     ''')
     def post(self):
         r = request.json
@@ -129,7 +134,8 @@ class All(Resource):
     @req.response(400, 'Malformed Request')
     @req.response(403, 'Invalid Authentication Token')
     @req.doc(description='''
-        Returns all requests including ingredients and amount of times its been requested
+        All returns the unfulfilled requests that are currently in the database
+        It will return the id of the request, the amount of times its been requested, as well as the ingredients in each request
     ''')
     def get(self):
         conn = sqlite3.connect('database/recipix.db')

@@ -73,7 +73,7 @@ const UserRecipeCard = (props) => {
               color="secondary"
               onClick={async () => {
                 //console.log({ recipe_id: recipeId });
-                deleteRecipeApi({ recipe_id: recipeId });
+                await deleteRecipeApi({ recipe_id: recipeId });
                 window.location.reload();
               }}
             >

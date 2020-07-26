@@ -6,7 +6,6 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
 import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { render } from "react-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -47,7 +46,7 @@ const Recipe = ({ match }) => {
       setRecipe(response.data.recipes[0]);
     }
     fetchRecipe();
-  }, []);
+  }, [recipeId]);
   console.log(recipe);
   const classes = useStyles();
   if (recipe == null) {

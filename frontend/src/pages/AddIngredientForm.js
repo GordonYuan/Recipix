@@ -35,6 +35,7 @@ const mapToCategories = (data) => {
     return data.map((entry) => {
       return {
         label: titleCase(entry.category),
+        value: entry.category,
       };
     });
   }
@@ -85,6 +86,7 @@ const LoginForm = (props) => {
               console.log(e);
             }}
           />
+
           <Button
             type="submit"
             fullWidth

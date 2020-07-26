@@ -5,6 +5,7 @@ import getIngredientsApi from "../apis/getIngredientsApi";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
 import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 
 const groupStyles = {
   display: "flex",
@@ -113,6 +114,13 @@ const HomePage = () => {
           }
         }}
       />
+      <Grid container spacing={2} alignItems="flex-start" justify="flex-end" direction="row">
+      <Grid item >
+        <Link href="/add-ingredient" variant="body2">
+          {"Don't see an ingredient? Add an ingredient."}
+        </Link>
+      </Grid>
+      </Grid>
       <br />
       <Grid container spacing={2}>
         {recipes &&

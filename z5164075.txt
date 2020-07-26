@@ -59,3 +59,5 @@ I managed to get the recipes created by a user showing on its own page, but so f
 
 Thursday-Sunday
 We didn't manage to get edit recipe implemented in time as it was dependent on the create recipe functionality which was also in an incomplete state. Otherwise, I managed to successfully implement delete recipe (or so I thought at that time). The demo went fairly well in spite of the things we had yet to complete. On Sunday, I was informed that there was apparently a problem with delete. So far I've yet to learn the nature of this problem. The API is now mostly complete along with the database and backend and it's now a matter of completing the remaining frontend. 
+
+There was no await keyword in the frontend API call for delete recipe which caused inconsistency when attempting to delete recipes. This is now fixed.

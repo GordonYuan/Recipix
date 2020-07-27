@@ -46,8 +46,7 @@ class searchName(Resource):
         new_recipes = []
         if search_term:
             for recipe in recipe_t:
-                if recipe[2].find(search_term) != -1:
-                    print(recipe[2])
+                if recipe[2].find(search_term.lower()) != -1:
                     new_recipes.append(recipe)
 
         c.close()

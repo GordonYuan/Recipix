@@ -5,3 +5,4 @@ export const MY_RECIPES = "/my-recipes";
 export const LOGIN = "/login";
 export const SIGNUP = "/signup";
 export const RECIPE_PAGE = "/recipe/:id";
+export const ADD_INGREDIENT="/add-ingredient"

@@ -35,8 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Recipe = ({ match }) => {
   const recipeId = match.params.id.substr(1);
-  console.log(recipeId);
-  //const recipe = callRecipeApi(recipeId);
+  const classes = useStyles();
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
@@ -49,8 +48,8 @@ const Recipe = ({ match }) => {
     fetchRecipe();
   }, [recipeId]);
 
-  console.log(recipe);
-  const classes = useStyles();
+  // console.log({recipe,recipeId});
+
   if (recipe == null) {
     return (
       <div className={classes.root} align="center">

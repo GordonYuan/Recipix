@@ -7,6 +7,7 @@ import searchRecipesApi from "../apis/searchRecipesApi";
 import getTagsApi from "../apis/getTagsApi";
 import Grid from "@material-ui/core/Grid";
 import TagFilter from "../components/TagFilter";
+import Link from "@material-ui/core/Link";
 
 const groupStyles = {
   display: "flex",
@@ -33,7 +34,7 @@ const formatGroupLabel = (data) => (
   </div>
 );
 
-const titleCase = (str) => {
+export const titleCase = (str) => {
   var splitStr = str.toLowerCase().split(" ");
   for (var i = 0; i < splitStr.length; i++) {
     // You do not need to check if i is larger than splitStr length, as your for does that for you
@@ -137,6 +138,20 @@ const HomePage = () => {
         tagsState={tagsState}
         setTagsState={setTagsState}
       />
+      <Grid
+        container
+        spacing={2}
+        alignItems="flex-start"
+        justify="flex-end"
+        direction="row"
+      >
+        <Grid item>
+          <Link href="/add-ingredient" variant="body2">
+            {"Don't see an ingredient? Add an ingredient."}
+          </Link>
+        </Grid>
+      </Grid>
+      <br />
       <Grid container spacing={2}>
         {recipes &&
           recipes.map((recipe) => (

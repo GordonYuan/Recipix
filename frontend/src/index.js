@@ -12,6 +12,7 @@ import AddRecipePage from "./pages/AddRecipePageFormik";
 import LoginPage from "./pages/LoginPage";
 import Recipe from "./pages/Recipe";
 import SignUpPage from "./pages/SignUpPage";
+import AddIngredientPage from "./pages/AddIngredientPage";
 import {
   HOME_PAGE,
   RECIPE_SEARCH,
@@ -20,6 +21,7 @@ import {
   LOGIN,
   SIGNUP,
   RECIPE_PAGE,
+  ADD_INGREDIENT,
 } from "./constants/urlConstants";
 
 const App = (
@@ -35,6 +37,7 @@ const App = (
         <Route exact path={LOGIN} component={LoginPage} />
         <Route exact path={SIGNUP} component={SignUpPage} />
         <Route exact path={RECIPE_PAGE} component={Recipe} />
+        <Route exact path={ADD_INGREDIENT} component={AddIngredientPage} />
         <Route component={Notfound} />
       </Switch>
     </CentreColumn>

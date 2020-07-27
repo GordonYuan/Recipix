@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const searchRecipesByNameApi = async (values) => {
+const searchRecipesByNameApi = async (recipeName) => {
   let baseUrl = "http://127.0.0.1:5000/recipe/searchName";
 
-  const payload = { name: values.name, tags: values.tags };
+  const payload = { search_term: recipeName, tags: [] };
+  console.log(payload);
   const config = {
     headers: {
       Accept: "application/json",
@@ -16,4 +17,4 @@ const searchRecipesByNameApi = async (values) => {
     .catch((error) => error.response);
 };
 
-export default searchRecipesApi;
+export default searchRecipesByNameApi;

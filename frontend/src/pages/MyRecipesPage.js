@@ -3,7 +3,7 @@ import getRecipeByTokenApi from "../apis/getRecipeByTokenApi";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
 import Grid from "@material-ui/core/Grid";
-import UserRecipeCard from "../components/UserRecipeCard";
+import RecipeCard from "../components/RecipeCard";
 
 const MyRecipesPage = (props) => {
   //Login check already done
@@ -29,10 +29,11 @@ const MyRecipesPage = (props) => {
       {recipes &&
         recipes.map((recipe) => (
           <Grid key={recipe.recipe_id} item xs={4}>
-            <UserRecipeCard
+            <RecipeCard
               title={recipe.recipe_name}
               imagePath={recipe.image}
               recipeId={recipe.recipe_id}
+              canEdit={true}
             />
           </Grid>
         ))}

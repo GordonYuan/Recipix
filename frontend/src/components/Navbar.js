@@ -19,7 +19,7 @@ const NavBar = ({ history }) => {
     <AppBar position="static">
       <Toolbar>
         <Grid
-          justify="space-between" // Add it here :)
+          justify="space-between" 
           container
         >
           <Grid item>

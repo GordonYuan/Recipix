@@ -28,36 +28,41 @@ const AddRecipeForm = (props) => {
   //     { id: 6, name: "Apricots" },
   //   ];
 
-  // Functional components needed to dynamically add ingredients to the recipe
   const [ingredientList, setIngredientList] = useState([
     { name: "", quantity: "" },
   ]);
+
+  const [instructionList, setInstructionList] = useState([
+    { step_number: "", instruction: "" },
+  ]);
+
+  useEffect(() => {
+    values.ingredients = ingredientList;
+    values.instructions = instructionList;
+  }, [ingredientList, instructionList]);
+
+  // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
     const { name, value } = e.target;
     const list = [...ingredientList];
     list[idx][name] = value;
     setIngredientList(list);
-    values.ingredients = ingredientList;
   };
 
   const handleAddIngredient = () => {
     const list = [...ingredientList];
     list.push({ name: "", quantity: "" });
     setIngredientList(list);
-    values.ingredients = ingredientList;
   };
 
   const handleRemoveIngredient = (idx) => {
     const list = [...ingredientList];
     list.splice(idx, 1);
     setIngredientList(list);
-    values.ingredients = ingredientList;
   };
 
   //Functional components needed to dynamically add instructions to the recipe
-  const [instructionList, setInstructionList] = useState([
-    { step_number: "", instruction: "" },
-  ]);
+
   const handleInstrChange = (e, idx) => {
     const { name, value } = e.target;
 
@@ -65,21 +70,18 @@ const AddRecipeForm = (props) => {
     list[idx][name] = value;
     setInstructionList(list);
     instructionList[idx].step_number = idx + 1;
-    values.instructions = instructionList;
   };
 
   const handleAddInstruction = () => {
     const list = [...instructionList];
     list.push({ step_number: "", instruction: "" });
     setInstructionList(list);
-    values.instructions = instructionList;
   };
 
   const handleRemoveInstruction = (idx) => {
     const list = [...instructionList];
     list.splice(idx, 1);
     setInstructionList(list);
-    values.instructions = instructionList;
   };
 
   const getFiles = (files) => {
@@ -309,8 +311,8 @@ const AddRecipeForm = (props) => {
       <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
-      <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
+      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>
   );

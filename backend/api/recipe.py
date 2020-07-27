@@ -8,13 +8,15 @@ import sqlite3
 recipe = api.namespace('recipe', description='Recipe information')
 
 
-@recipe.route('/all', strict_slashes=False)
-class All(Resource):
+@recipe.route('/searchName', strict_slashes=False)
+class searchName(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
-    @recipe.expect(tags_model)
+    @recipe.expect(recipe_name_tags_model)
     @recipe.doc(description='''
         Returns a list of all recipes that matches the tags passed in 
-        If no tags are passed in, returns all recipes in the database.
+        and has the search term passed in
+        If no tags are passed in, or no search queries are passed in, 
+        returns all recipes in the database.
     ''')
     def post(self):
         # TODO
@@ -26,24 +28,30 @@ class All(Resource):
         # for x in r['tags']:
         #     tags.append(x['tag'])
         tags = get_list(r, 'tags', 'tag')
-
+        search_term = r['search_term']
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
         # 'or' in 'where' of sql finds recipes that match any of the tags specified
-        sql_str = ('SELECT * from recipes')
+        sql_str = ('SELECT * from recipes r')
         if tags:
-            sql_str += ' r join recipe_tag t on r.id = t.recipe_id where '
+            sql_str += ' join recipe_tag t on r.id = t.recipe_id where '
             for i in tags:
                 sql_str += 'tag = "{}" or '.format(i)
             sql_str = sql_str[:-3]
 
-        c.execute('SELECT * from recipes ;')
+        c.execute(sql_str)
         recipe_t = c.fetchall()
+
+        new_recipes = []
+        if search_term:
+            for recipe in recipe_t:
+                if recipe[2].find(search_term.lower()) != -1:
+                    new_recipes.append(recipe)
 
         c.close()
         conn.close()
-        return format_recipe(recipe_t)
+        return format_recipe(new_recipes)
 
 
 @recipe.route('/search', strict_slashes=False)

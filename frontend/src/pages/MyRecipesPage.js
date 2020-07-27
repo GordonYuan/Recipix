@@ -4,7 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import UserRecipeCard from "../components/UserRecipeCard";
+import RecipeCard from "../components/RecipeCard";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,10 +52,11 @@ const MyRecipesPage = (props) => {
       {recipes &&
         recipes.map((recipe) => (
           <Grid key={recipe.recipe_id} item xs={4}>
-            <UserRecipeCard
+            <RecipeCard
               title={recipe.recipe_name}
               imagePath={recipe.image}
               recipeId={recipe.recipe_id}
+              canEdit={true}
             />
           </Grid>
         ))}

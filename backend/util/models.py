@@ -59,6 +59,11 @@ ingredients_tags_model = api.model('ingredients_tags_model', {
   'tags' : fields.List(fields.Nested(tag_model))
 })
 
+recipe_name_tags_model = api.model('recipe_name_tags_model', {
+  'search_term' : fields.String(example='chicken'),
+  'tags' : fields.List(fields.Nested(tag_model))
+})
+
 recipe_method_model = api.model('recipe_method_model', {
   'step_number' : fields.Integer(required=True, min=1),
   'instruction' : fields.String(required=True, example='Boil the water for 50 minutes until evaporated')

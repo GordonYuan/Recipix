@@ -2,33 +2,10 @@ import React from "react";
 import getRecipeByTokenApi from "../apis/getRecipeByTokenApi";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import UserRecipeCard from "../components/UserRecipeCard";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 const MyRecipesPage = (props) => {
-  const classes = useStyles();
-
   //Login check already done
   const [recipes, setRecipes] = useState([]);
   useEffect(() => {
@@ -42,7 +19,7 @@ const MyRecipesPage = (props) => {
   }, []);
   if (recipes === []) {
     return (
-      <div className={classes.root} align="center">
+      <div align="center">
         <CircularProgress />
       </div>
     );

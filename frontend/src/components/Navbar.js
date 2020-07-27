@@ -32,20 +32,18 @@ const NavBar = ({ history }) => {
           </Grid>
           <Grid item>
             {signedIn && (
-              <>
-                <Button
-                  color="inherit"
-                  onClick={() => history.push(MY_RECIPES)}
-                >
-                  MY RECIPES
-                </Button>
-                <Button
-                  color="inherit"
-                  onClick={() => history.push(ADD_RECIPE)}
-                >
-                  ADD RECIPE
-                </Button>
-              </>
+              <Button
+                borderRight={1}
+                color="inherit"
+                onClick={() => history.push(MY_RECIPES)}
+              >
+                MY RECIPES
+              </Button>
+            )}
+            {signedIn && (
+              <Button color="inherit" onClick={() => history.push(ADD_RECIPE)}>
+                ADD RECIPE
+              </Button>
             )}
             <Button color="inherit" onClick={() => history.push(RECIPE_SEARCH)}>
               SEARCH RECIPES

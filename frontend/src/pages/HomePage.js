@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import getIngredientsApi from "../apis/getIngredientsApi";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import TagFilter from "../components/TagFilter";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
 import getTagsApi from "../apis/getTagsApi";
-import Grid from "@material-ui/core/Grid";
-import TagFilter from "../components/TagFilter";
-import Link from "@material-ui/core/Link";
+import requestRecipeApi from "../apis/requestRecipeApi";
+import getIngredientsApi from "../apis/getIngredientsApi";
 
 const groupStyles = {
   display: "flex",
@@ -66,6 +71,9 @@ const HomePage = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [tags, setTags] = useState([]);
   const [tagsState, setTagsState] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const signedIn = !!window.localStorage.getItem("token");
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -111,6 +119,14 @@ const HomePage = () => {
     return false;
   };
 
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <>
       <h1 style={{ textAlign: "center" }}>ADD INGREDIENTS, GET RECIPES</h1>
@@ -122,6 +138,7 @@ const HomePage = () => {
         options={ingredients}
         formatGroupLabel={formatGroupLabel}
         filterOption={filterOption}
+        value={ingredientsList}
         onChange={async (currentList) => {
           if (!!currentList) {
             setIngredientsList(currentList);
@@ -147,11 +164,10 @@ const HomePage = () => {
       >
         <Grid item>
           <Link href="/add-ingredient" variant="body2">
-            {"Don't see an ingredient? Add an ingredient."}
+            {"Don't see an ingredient? Add an ingredient"}
           </Link>
         </Grid>
       </Grid>
-      <br />
       <Grid container spacing={2}>
         {recipes &&
           recipes.map((recipe) => (
@@ -164,6 +180,45 @@ const HomePage = () => {
             </Grid>
           ))}
       </Grid>
+      {ingredientsList.length !== 0 && signedIn && (
+        <Grid container justify="center">
+          <Button
+            style={{ align: "center" }}
+            color="inherit"
+            onClick={async () => {
+              const response = await requestRecipeApi(ingredientsList);
+              if (response.status === 200) {
+                setOpen(true);
+                setIngredientsList([]);
+              }
+            }}
+          >
+            Request a Recipe for Your Ingredients
+          </Button>
+        </Grid>
+      )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Recipe Request Created"
+        action={
+          <>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </>
+        }
+      />
     </>
   );
 };

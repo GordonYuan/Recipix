@@ -7,7 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +24,6 @@ const useStyles = makeStyles({
 
 const RecipeCard = (props) => {
   const { title, imagePath, recipeId } = props;
-  console.log(imagePath);
   const classes = useStyles();
 
   return (

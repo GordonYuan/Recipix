@@ -1,16 +1,13 @@
 import axios from "axios";
 
-const searchRecipesApi = async (ingredients) => {
+const searchRecipesApi = async (ingredients, tags) => {
   let baseUrl = "http://127.0.0.1:5000/recipe/search";
 
-  function transformIngredient(ingredient) {
-    const transformedIngredient = {
-      name: ingredient.value,
-    };
-    return transformedIngredient;
-  }
-  const payload = { ingredients: ingredients.map(transformIngredient) };
-  console.log(payload);
+  const payload = {
+    ingredients: ingredients.map((ingredient) => ({ name: ingredient.value })),
+    tags: tags.map((tag) => ({ tag: tag })),
+  };
+  console.log({ searchRecipePayload: payload });
   const config = {
     headers: {
       Accept: "application/json",

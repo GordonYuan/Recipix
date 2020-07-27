@@ -4,7 +4,9 @@ import makeAnimated from "react-select/animated";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
+import getTagsApi from "../apis/getTagsApi";
 import Grid from "@material-ui/core/Grid";
+import TagFilter from "../components/TagFilter";
 
 const groupStyles = {
   display: "flex",
@@ -58,16 +60,32 @@ const mapToOptions = (data) => {
 };
 
 const HomePage = () => {
-  const [ingredients, setIngredients] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientsList, setIngredientsList] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [tagsState, setTagsState] = useState([]);
 
   useEffect(() => {
     async function fetchIngredients() {
       const response = await getIngredientsApi();
       setIngredients(mapToOptions(response.data.categories));
     }
+    async function fetchTags() {
+      const response = await getTagsApi();
+      setTags(response.data.tags);
+    }
     fetchIngredients();
+    fetchTags();
   }, []);
+
+  useEffect(() => {
+    async function fetchRecipes() {
+      const response = await searchRecipesApi(ingredientsList, tagsState);
+      setRecipes(response.data.recipes);
+    }
+    fetchRecipes();
+  }, [tagsState, ingredientsList]);
 
   const filterOption = ({ label, value }, string) => {
     label = label.toLocaleLowerCase();
@@ -103,17 +121,22 @@ const HomePage = () => {
         options={ingredients}
         formatGroupLabel={formatGroupLabel}
         filterOption={filterOption}
-        onChange={async (e) => {
-          if (!!e) {
-            const response = await searchRecipesApi(e);
-            const data = response.data;
-            setRecipes(data.recipes);
+        onChange={async (currentList) => {
+          if (!!currentList) {
+            setIngredientsList(currentList);
+            // const response = await searchRecipesApi(currentList);
+            // const data = response.data;
+            // setRecipes(data.recipes);
           } else {
             setRecipes([]);
           }
         }}
       />
-      <br />
+      <TagFilter
+        tags={tags}
+        tagsState={tagsState}
+        setTagsState={setTagsState}
+      />
       <Grid container spacing={2}>
         {recipes &&
           recipes.map((recipe) => (

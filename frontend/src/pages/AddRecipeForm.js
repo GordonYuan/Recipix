@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FileBase64 from "react-file-base64";
-import { FieldArray, Field } from "formik";
 
 const AddRecipeForm = (props) => {
   const {

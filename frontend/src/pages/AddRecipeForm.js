@@ -7,15 +7,7 @@ import FileBase64 from "react-file-base64";
 import TagFilter from "../components/TagFilter";
 
 const AddRecipeForm = (props) => {
-  const {
-    handleChange,
-    handleSubmit,
-    values,
-    errors,
-    touched,
-    handleBlur,
-    setFieldValue,
-  } = props;
+  const { handleSubmit, values, errors, setFieldValue } = props;
 
   const [ingredientList, setIngredientList] = useState([
     { name: "", quantity: "" },
@@ -100,10 +92,8 @@ const AddRecipeForm = (props) => {
             name="recipeName"
             label="Recipe Name"
             value={values.recipeName}
-            error={touched.recipeName && Boolean(errors.recipeName)}
-            helperText={touched.recipeName ? errors.recipeName : ""}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={Boolean(errors.recipeName)}
+            helperText={errors.recipeName}
             fullWidth
           />
         </Grid>
@@ -123,10 +113,8 @@ const AddRecipeForm = (props) => {
             name="description"
             label="Description"
             value={values.description}
-            error={touched.description && Boolean(errors.description)}
-            helperText={touched.description ? errors.description : ""}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={Boolean(errors.description)}
+            helperText={errors.description}
             fullWidth
           />
         </Grid>
@@ -142,10 +130,8 @@ const AddRecipeForm = (props) => {
             name="servings"
             label="Servings"
             value={values.servings}
-            error={touched.servings && Boolean(errors.servings)}
-            helperText={touched.servings ? errors.servings : ""}
-            onChange={handleChange}
-            onBlur={handleBlur}
+            error={Boolean(errors.servings)}
+            helperText={errors.servings}
           />
         </Grid>
       </Grid>

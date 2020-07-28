@@ -7,12 +7,24 @@ import AddIngredientForm from "./AddIngredientForm";
 const AddIngredientPage = ({ history }) => {
   return (
     <Formik
-      initialValues={{ ingredient: "", category: "" }}
+      initialValues={{
+        ingredient: "",
+        category: "",
+        valid: true,
+        error_msg: "",
+      }}
       onSubmit={async (values) => {
         console.log(values);
         const response = await addIngredientApi(values);
-        console.log(response);
-        history.push("/");
+        if (values.ingredient == "") {
+          values.error_msg = "Enter an Ingredient";
+          values.valid = false;
+        } else if (response.status === 200) {
+          history.push("/");
+        } else {
+          values.error_msg = response.data.message;
+          values.valid = false;
+        }
       }}
     >
       {(props) => <AddIngredientForm {...props} />}

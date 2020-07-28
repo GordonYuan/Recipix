@@ -62,13 +62,15 @@ const LoginForm = (props) => {
             margin="normal"
             required
             fullWidth
+            name="ingredient"
             id="ingredient"
             label="Enter Ingredient Name"
             name="ingredient"
             autoComplete="ingredient"
             onChange={handleChange}
             value={values.ingredient}
-            error={false}
+            error={!values.valid}
+            helperText={values.valid ? "" : values.error_msg}
           />
           <Select
             placeholder={"Select a Category *"}

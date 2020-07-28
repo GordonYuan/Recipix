@@ -14,9 +14,6 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles({
-  root: {
-    maxWidth: 345,
-  },
   media: {
     height: 140,
   },

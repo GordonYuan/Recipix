@@ -15,6 +15,7 @@ import LoginPage from "./pages/LoginPage";
 import Recipe from "./pages/Recipe";
 import SignUpPage from "./pages/SignUpPage";
 import AddIngredientPage from "./pages/AddIngredientPage";
+import RequestsPage from "./pages/RequestsPage";
 import {
   HOME_PAGE,
   RECIPE_SEARCH,
@@ -24,6 +25,7 @@ import {
   SIGNUP,
   RECIPE_PAGE,
   ADD_INGREDIENT,
+  REQUESTS,
 } from "./constants/urlConstants";
 
 const theme = createMuiTheme({
@@ -47,6 +49,7 @@ const App = (
           <Route exact path={SIGNUP} component={SignUpPage} />
           <Route exact path={RECIPE_PAGE} component={Recipe} />
           <Route exact path={ADD_INGREDIENT} component={AddIngredientPage} />
+          <Route exact path={REQUESTS} component={RequestsPage} />
           <Route component={Notfound} />
         </Switch>
       </CentreColumn>

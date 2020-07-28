@@ -28,7 +28,7 @@ const AddRecipeForm = (props) => {
   //   ];
 
   const [ingredientList, setIngredientList] = useState([
-    { name: "", quantity: "" },
+    { ingredient: "", quantity: "" },
   ]);
 
   const [instructionList, setInstructionList] = useState([
@@ -214,7 +214,7 @@ const AddRecipeForm = (props) => {
         )}
       /> */}
       <Grid container spacing={4}>
-        {ingredientList.map((item, idx) => {
+        {values.ingredients.map((item, idx) => {
           return (
             <Grid item xs={12}>
               <div key={idx}>
@@ -264,7 +264,7 @@ const AddRecipeForm = (props) => {
         Instructions
       </Typography>
       <Grid container spacing={4}>
-        {instructionList.map((item, idx) => {
+        {values.instructions.map((item, idx) => {
           return (
             <Grid item xs={12}>
               Step {idx + 1}

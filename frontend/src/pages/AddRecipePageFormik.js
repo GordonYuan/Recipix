@@ -28,9 +28,9 @@ const AddRecipePage = ({ history }) => {
         recipeName: "",
         image: "",
         tags: [{ tag: "placeholder" }],
-        ingredients: [],
+        ingredients: [{ ingredient: "", quantity: "" }],
         servings: "",
-        instructions: [],
+        instructions: [{ instruction: "" }],
         description: "",
       }}
       validationSchema={AddRecipeSchema}

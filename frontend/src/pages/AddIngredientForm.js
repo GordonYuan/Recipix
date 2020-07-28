@@ -65,7 +65,6 @@ const LoginForm = (props) => {
             name="ingredient"
             id="ingredient"
             label="Enter Ingredient Name"
-            name="ingredient"
             autoComplete="ingredient"
             onChange={handleChange}
             value={values.ingredient}

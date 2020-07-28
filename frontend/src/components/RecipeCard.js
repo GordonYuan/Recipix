@@ -7,15 +7,11 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { withRouter } from "react-router";
 import IconButton from "@material-ui/core/IconButton";
 import deleteRecipeApi from "../apis/deleteRecipeApi";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import clsx from "clsx";
-import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles({
   root: {

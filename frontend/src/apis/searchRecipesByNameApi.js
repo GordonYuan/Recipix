@@ -1,9 +1,12 @@
 import axios from "axios";
 
-const searchRecipesByNameApi = async (recipeName) => {
+const searchRecipesByNameApi = async (recipeName, tags) => {
   let baseUrl = "http://127.0.0.1:5000/recipe/searchName";
 
-  const payload = { search_term: recipeName, tags: [] };
+  const payload = {
+    search_term: recipeName,
+    tags: tags.map((tag) => ({ tag: tag })),
+  };
   console.log(payload);
   const config = {
     headers: {

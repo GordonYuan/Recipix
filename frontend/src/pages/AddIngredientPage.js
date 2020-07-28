@@ -16,7 +16,7 @@ const AddIngredientPage = ({ history }) => {
       onSubmit={async (values) => {
         console.log(values);
         const response = await addIngredientApi(values);
-        if (values.ingredient == "") {
+        if (values.ingredient === "") {
           values.error_msg = "Enter an Ingredient";
           values.valid = false;
         } else if (response.status === 200) {

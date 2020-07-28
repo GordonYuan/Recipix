@@ -10,7 +10,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import TagFilter from "../components/TagFilter";
 import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
-import getTagsApi from "../apis/getTagsApi";
 import requestRecipeApi from "../apis/requestRecipeApi";
 import getIngredientsApi from "../apis/getIngredientsApi";
 
@@ -69,7 +68,6 @@ const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
-  const [tags, setTags] = useState([]);
   const [tagsState, setTagsState] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -80,18 +78,17 @@ const HomePage = () => {
       const response = await getIngredientsApi();
       setIngredients(mapToOptions(response.data.categories));
     }
-    async function fetchTags() {
-      const response = await getTagsApi();
-      setTags(response.data.tags);
-    }
     fetchIngredients();
-    fetchTags();
   }, []);
 
   useEffect(() => {
     async function fetchRecipes() {
-      const response = await searchRecipesApi(ingredientsList, tagsState);
-      setRecipes(response.data.recipes);
+      if (ingredientsList.length > 0) {
+        const response = await searchRecipesApi(ingredientsList, tagsState);
+        setRecipes(response.data.recipes);
+      } else {
+        setRecipes([]);
+      }
     }
     fetchRecipes();
   }, [tagsState, ingredientsList]);
@@ -123,7 +120,6 @@ const HomePage = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -142,19 +138,12 @@ const HomePage = () => {
         onChange={async (currentList) => {
           if (!!currentList) {
             setIngredientsList(currentList);
-            // const response = await searchRecipesApi(currentList);
-            // const data = response.data;
-            // setRecipes(data.recipes);
           } else {
-            setRecipes([]);
+            setIngredientsList([]);
           }
         }}
       />
-      <TagFilter
-        tags={tags}
-        tagsState={tagsState}
-        setTagsState={setTagsState}
-      />
+      <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
       <Grid
         container
         spacing={2}

@@ -39,3 +39,10 @@ Week 7
 Week 8 
  - I implemented adding recipe api, deleting recipe api, editing recipe api, getting user recipes api, finding recipe off id api, and adding ingredients api.
  - Reformatted code.
+ 
+Week 9 
+ - Fixed up some bugs with david
+ - generated some user data using python scripts
+ - Tested the code a bit more
+ - added more descriptive descriptions for each api call
+ - Had another meeting to discuss.

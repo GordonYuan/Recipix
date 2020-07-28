@@ -18,10 +18,7 @@ const NavBar = ({ history }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Grid
-          justify="space-between" 
-          container
-        >
+        <Grid justify="space-between" container>
           <Grid item>
             <img
               src={require("./images/Recipix_small_cropped.png")}
@@ -32,11 +29,7 @@ const NavBar = ({ history }) => {
           </Grid>
           <Grid item>
             {signedIn && (
-              <Button
-                borderRight={1}
-                color="inherit"
-                onClick={() => history.push(MY_RECIPES)}
-              >
+              <Button color="inherit" onClick={() => history.push(MY_RECIPES)}>
                 MY RECIPES
               </Button>
             )}

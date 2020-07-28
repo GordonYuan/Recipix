@@ -41,7 +41,7 @@ const AddRecipePage = ({ history, match }) => {
       initialValues={{
         recipeName: dick.recipeName || "",
         image: "",
-        tags: [{ tag: "placeholder" }],
+        tags: [],
         ingredients: [{ ingredient: "", quantity: "" }],
         servings: "",
         instructions: [{ instruction: "" }],

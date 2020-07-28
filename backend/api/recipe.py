@@ -61,7 +61,7 @@ class Search(Resource):
     @recipe.expect(ingredients_tags_model)
     @recipe.doc(description='''
         Takes in a list of ingredients, as well as the tags
-        Retrieves 20 recipes that can be constructed from the ingredients passed in
+        Retrieves 21 recipes that can be constructed from the ingredients passed in
         Recipes will also match the tags that are passed in
         If no tags are passed in, then it returns all recipes that can be constructed from ingredients
     ''')
@@ -73,7 +73,7 @@ class Search(Resource):
         ingredients = get_list(r, 'ingredients', 'name')
         tags = get_list(r, 'tags', 'tag')
 
-        top_n = get_top_recipes(ingredients, tags, 20)
+        top_n = get_top_recipes(ingredients, tags, 21)
 
         return format_recipe(top_n)
 

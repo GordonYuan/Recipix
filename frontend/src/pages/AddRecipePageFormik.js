@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik } from "formik";
 import { withRouter } from "react-router";
 import AddRecipeForm from "./AddRecipeForm";
 import createRecipeApi from "../apis/createRecipeApi";
-import { HOME_PAGE } from "../constants/urlConstants";
+import { HOME_PAGE, EDIT_RECIPE } from "../constants/urlConstants";
 import * as Yup from "yup";
+import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 
 const AddRecipeSchema = Yup.object().shape({
   recipeName: Yup.string().required("Recipe name required"),
@@ -21,11 +22,24 @@ const AddRecipeSchema = Yup.object().shape({
   description: Yup.string().required("Please provide a description"),
 });
 
-const AddRecipePage = ({ history }) => {
+const AddRecipePage = ({ history, match }) => {
+  const [dick, setDick] = useState([]);
+  useEffect(() => {
+    if (match.path === EDIT_RECIPE) {
+      console.log(match.params.id.substr(1));
+      //Gets Recipe by ID
+      // const response = await getRecipeByIdApi({
+      //   recipe_id: match.params.id.substr(1),
+      // });
+      // console.log(response);
+    }
+    // if (match.params.id.substr[0] ===)
+  }, []);
+
   return (
     <Formik
       initialValues={{
-        recipeName: "",
+        recipeName: dick.recipeName || "",
         image: "",
         tags: [{ tag: "placeholder" }],
         ingredients: [{ ingredient: "", quantity: "" }],

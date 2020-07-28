@@ -272,7 +272,7 @@ class Edit(Resource):
         for i in ingredients:
             vals.append((recipe_id, i['name'], i['quantity']))
         c.executemany(
-            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
+            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
 
         # remove existing tags
         sql = 'DELETE FROM recipe_tag where recipe_id = ?'

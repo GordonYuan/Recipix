@@ -4,7 +4,6 @@ import searchRecipesByNameApi from "../apis/searchRecipesByNameApi";
 import Grid from "@material-ui/core/Grid";
 import RecipeCard from "../components/RecipeCard";
 import TagFilter from "../components/TagFilter";
-import searchRecipesApi from "../apis/searchRecipesApi";
 
 const RecipeSearchPage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -13,13 +12,13 @@ const RecipeSearchPage = () => {
 
   useEffect(() => {
     async function getRecipes() {
-      if (input != "") {
+      if (input !== "") {
         const response = await searchRecipesByNameApi(input, tagsState);
         setRecipes(response.data.recipes);
       }
     }
     getRecipes();
-  }, [tagsState]);
+  }, [tagsState, input]);
 
   const handleChange = (e, idx) => {
     const { value } = e.target;

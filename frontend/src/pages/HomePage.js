@@ -83,9 +83,12 @@ const HomePage = () => {
 
   useEffect(() => {
     async function fetchRecipes() {
-      const response = await searchRecipesApi(ingredientsList, tagsState);
-      console.log({ ingredientsList, tagsState });
-      setRecipes(response.data.recipes);
+      if (ingredientsList.length > 0) {
+        const response = await searchRecipesApi(ingredientsList, tagsState);
+        setRecipes(response.data.recipes);
+      } else {
+        setRecipes([]);
+      }
     }
     fetchRecipes();
   }, [tagsState, ingredientsList]);
@@ -137,7 +140,6 @@ const HomePage = () => {
             setIngredientsList(currentList);
           } else {
             setIngredientsList([]);
-            setRecipes([]);
           }
         }}
       />

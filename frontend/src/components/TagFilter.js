@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import getTagsApi from "../apis/getTagsApi";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
+    zIndex: 0,
   },
   formLabel: {
     alignSelf: "center",
@@ -20,8 +22,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TagFilter = (props) => {
-  const { tags, tagsState, setTagsState } = props;
+  const { tagsState, setTagsState } = props;
   const classes = useStyles();
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    async function fetchTags() {
+      const response = await getTagsApi();
+      setTags(response.data.tags);
+    }
+    fetchTags();
+  }, []);
 
   const handleChange = (event) => {
     if (event.target.checked && !tagsState.includes(event.target.name)) {

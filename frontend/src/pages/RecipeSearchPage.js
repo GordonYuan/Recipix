@@ -3,24 +3,13 @@ import { TextField } from "@material-ui/core";
 import searchRecipesByNameApi from "../apis/searchRecipesByNameApi";
 import Grid from "@material-ui/core/Grid";
 import RecipeCard from "../components/RecipeCard";
-import getTagsApi from "../apis/getTagsApi";
 import TagFilter from "../components/TagFilter";
 import searchRecipesApi from "../apis/searchRecipesApi";
 
 const RecipeSearchPage = () => {
   const [recipes, setRecipes] = useState([]);
   const [input, setInput] = useState("");
-  const [tags, setTags] = useState([]);
   const [tagsState, setTagsState] = useState([]);
-
-  useEffect(() => {
-    console.log(recipes);
-    async function fetchTags() {
-      const response = await getTagsApi();
-      setTags(response.data.tags);
-    }
-    fetchTags();
-  }, []);
 
   useEffect(() => {
     async function getRecipes() {
@@ -61,12 +50,7 @@ const RecipeSearchPage = () => {
         />
         <br />
         <br />
-        <TagFilter
-          tags={tags}
-          tagsState={tagsState}
-          setTagsState={setTagsState}
-          //onChange={}
-        />
+        <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
         <Grid container spacing={2}>
           {recipes &&
             recipes.map((recipe) => (

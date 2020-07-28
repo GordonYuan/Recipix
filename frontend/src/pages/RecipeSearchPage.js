@@ -20,13 +20,9 @@ const RecipeSearchPage = () => {
     getRecipes();
   }, [tagsState, input]);
 
-  const handleChange = (e, idx) => {
-    const { value } = e.target;
-    setInput(value);
-  };
-
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
+      setInput(e.target.value);
       const response = await searchRecipesByNameApi(input, tagsState);
       const data = response.data;
       setRecipes(data.recipes);
@@ -44,10 +40,8 @@ const RecipeSearchPage = () => {
           name="recipeSearch"
           placeholder="Search for a Recipe..."
           variant="outlined"
-          onChange={handleChange}
           onKeyDown={(e) => handleKeyDown(e)}
         />
-        <br />
         <br />
         <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
         <Grid container spacing={2}>

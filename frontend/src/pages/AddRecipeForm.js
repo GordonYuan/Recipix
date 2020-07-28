@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FileBase64 from "react-file-base64";
+import TagFilter from "../components/TagFilter";
 
 const AddRecipeForm = (props) => {
   const {
@@ -13,19 +14,8 @@ const AddRecipeForm = (props) => {
     errors,
     touched,
     handleBlur,
+    setFieldValue,
   } = props;
-
-  //   const tags = [
-  //     { id: 1, name: "Apples" },
-  //     { id: 2, name: "Pears" },
-  //   ];
-
-  //   const suggestions = [
-  //     { id: 3, name: "Bananas" },
-  //     { id: 4, name: "Mangos" },
-  //     { id: 5, name: "Lemons" },
-  //     { id: 6, name: "Apricots" },
-  //   ];
 
   const [ingredientList, setIngredientList] = useState([
     { name: "", quantity: "" },
@@ -88,8 +78,11 @@ const AddRecipeForm = (props) => {
       var regex = /[^,"]+$/;
       values.image = files.base64.match(regex)[0];
     }
-    console.log(values.image);
-    // console.log(files.base64);
+    // console.log(values.image);
+  };
+
+  const setTags = (tags) => {
+    setFieldValue("tags", tags);
   };
 
   return (
@@ -137,6 +130,10 @@ const AddRecipeForm = (props) => {
             fullWidth
           />
         </Grid>
+        {/* Tags field */}
+        <Grid item xs={12} sm={12}>
+          <TagFilter tagsState={values.tags} setTagsState={setTags} />
+        </Grid>
         {/* Servings field */}
         <Grid item xs={12} sm={12}>
           <TextField
@@ -156,63 +153,6 @@ const AddRecipeForm = (props) => {
       <Typography variant="h5" gutterBottom>
         Ingredients
       </Typography>
-      {/* <FieldArray
-        name="ingredients"
-        render={(arrayHelpers) => (
-          <div>
-            {values.ingredients && values.ingredients.length > 0 ? (
-              values.ingredients.map((ingredient, index) => (
-                <div key={index}>
-                  {/* <TextField
-                    required
-                    id="ingredient"
-                    name={`ingredients.${index}.name`}
-                    label="Type in your ingredient..."
-                    style={{ width: "50%" }}
-                  />
-                  <TextField
-                    required
-                    id="quantity"
-                    name={`ingredients.${index}.quantity`}
-                    label="Quantity..."
-                    style={{ width: "25%", marginLeft: "1rem" }}
-                  /> 
-                  <Field name={`ingredients.${index}.name`} />
-                  <TextField
-                    required
-                    id="ingredient"
-                    name="name"
-                    value={
-                      !!values.ingredients[index].name
-                        ? values.ingredients[index].name
-                        : ""
-                    }
-                    label="Type in your ingredient..."
-                    style={{ width: "50%" }}
-                  />
-                  <Field name={`ingredients.${index}.quantity`} />
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
-                  >
-                    Remove
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => arrayHelpers.insert(index, "")} // insert an empty string at a position
-                  >
-                    Add
-                  </button>
-                </div>
-              ))
-            ) : (
-              <button type="button" onClick={() => arrayHelpers.push("")}>
-                Add an Ingredient
-              </button>
-            )}
-          </div>
-        )}
-      /> */}
       <Grid container spacing={4}>
         {ingredientList.map((item, idx) => {
           return (
@@ -310,8 +250,8 @@ const AddRecipeForm = (props) => {
       <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
-      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
-      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
+      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>
   );

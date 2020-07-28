@@ -27,7 +27,7 @@ const AddRecipePage = ({ history }) => {
       initialValues={{
         recipeName: "",
         image: "",
-        tags: [{ tag: "placeholder" }],
+        tags: [],
         ingredients: [],
         servings: "",
         instructions: [],

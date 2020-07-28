@@ -71,7 +71,6 @@ recipe_method_model = api.model('recipe_method_model', {
 
 recipe_complete_model = api.model('recipe_complete_model', {
   'recipe_id' : fields.Integer(required=True, min=0), 
-  'recipe_creator' : fields.String(required=True, example='hotmario258'),
   'recipe_name' : fields.String(required=True, example='eggs and Cheese ham'),
   'image' : fields.String(required=True, example='base64String'),
   'tags' : fields.List(fields.Nested(tag_model)),

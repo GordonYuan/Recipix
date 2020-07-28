@@ -83,7 +83,10 @@ const AddRecipePage = ({ history, match }) => {
         validationSchema={AddRecipeSchema}
         onSubmit={async (values) => {
           if (isEdit) {
-            const response = await editRecipeApi(values);
+            const response = await editRecipeApi(
+              values,
+              match.params.id.substr(1)
+            );
             if (response.status === 200) {
               history.push(HOME_PAGE);
             }

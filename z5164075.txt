@@ -65,3 +65,6 @@ There was no await keyword in the frontend API call for delete recipe which caus
 Week 9
 Monday
 I managed to get add ingredient working although there was a problem with me not attaching a label to the options in a drop-down menu, which Gordon helped me solve. 
+
+Tuesday
+I finished implementing the form validation for adding ingredient. I also, along with Gordon and Kevin, managed to implement the search by recipe name page, for which my main contribution was adding the ability to filter by tag.

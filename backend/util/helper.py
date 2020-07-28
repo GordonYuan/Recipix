@@ -94,21 +94,22 @@ def get_top_recipes(ingredients, tags, n):
     # get top 20 recipes that match tags
     top_n = []
 
-    sql_tag = ''
+    sql_tag = '('
     for i in tags:
         sql_tag += 'tag = "{}" or '.format(i)
-    sql_tag = sql_tag[:-3]
-    # print("Sql_tag = " + sql_tag)
+    sql_tag = sql_tag[:-4]
+    sql_tag += ')'
+    print("Sql_tag = " + sql_tag)
+
+    # print(tags)
 
     for i in recipe_t:
-        if not sql_tag:
-            top_n.append(i)
-            continue
         if len(top_n) == n:
             break
+        if not tags:
+            top_n.append(i)
+            continue
         sql_str2 = 'SELECT * from recipe_tag where recipe_id = {} and '.format(i[0])
-        if not sql_tag:
-            sql_str2 = sql_str2[:-4]
         sql_str2 += sql_tag
         # print(sql_str2)
         c.execute(sql_str2)

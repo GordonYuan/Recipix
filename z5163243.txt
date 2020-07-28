@@ -44,5 +44,10 @@ Week 7
 - Created Recipix logo to give website a more professional look
 
 Week 8
-- Added search ingredients by category
+- Added search ingredients by category functionality to search by ingredients search bar
 - Helped kevin and andy with recipe creation and displaying individual recipes
+
+Week 9
+- Implemented tag filtering for searching recipes both with ingredients and without
+- Created request button at bottom of home page which takes current list of ingredients and sends them to the backend
+- Created request page which displays all requested combinations of ingredients that users would like to see put in a recipe

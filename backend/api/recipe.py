@@ -195,6 +195,8 @@ class Edit(Resource):
         Removes all methods, tags, and ingredients
         Repopulates the methods, tags and ingredients with the information that is passed in
         The recipe maintains the same id. 
+        If the list of ingredients in the recipe match any of the requests in the database,
+        then the request will be considered fulfilled and removed from the database.
     ''')
     def post(self):
         r = request.json

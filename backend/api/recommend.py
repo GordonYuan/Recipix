@@ -18,7 +18,6 @@ class Recommend(Resource):
         The returned list of ingredients are recommendations for narrowing down recipes that the user would like
     ''')
     def post(self):
-        #TODO current returns duplicate ingredients, have to send back unique ingredients
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
@@ -34,28 +33,37 @@ class Recommend(Resource):
         # top 50 is recipe as single tuple, many tuples in list 
         top_50_recipes = get_top_recipes(ingredients, tags, 50)
         print(top_50_recipes)
+
+        # record recipe_ids as a list
         recipe_ids = []
         for recipe in top_50_recipes:
             recipe_ids.append(recipe[0])
         
-        input_ingredients = {}
-        for i in range(len(ingredients)):
-            input_ingredients[ingredients[i]] = 1
+        # # visited input_ingredients
+        # input_ingredients = {}
+        # for i in range(len(ingredients)):
+        #     input_ingredients[ingredients[i]] = 1
 
+
+        # formatting return values in json
         ret_ingredients = {"ingredients": []}
         ret_list = []
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
+        # dynmically generate sql query based on input ingredients list
         sql_str = 'SELECT distinct ingredient_name from recipe_has where '
         for i in recipe_ids:
             sql_str += 'recipe_id = "{}" or '.format(i)
+        # truncate sql string 'or' or 'where' depending on if there are recipes
         if recipe_ids:
             sql_str = sql_str[:-3]
         else:
             sql_str = sql_str[:-6]
         c.execute(sql_str)
         ingredients_t = c.fetchall()
+        # checking for duplicate ingredients, if not duplicate, add to possible
+        # list of recommendations to return
         for ingredient in ingredients_t:
             if ingredient[0] not in ingredients:
                 ret_ingredients["ingredients"].append({"name": ingredient[0]})

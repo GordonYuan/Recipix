@@ -26,7 +26,8 @@ def authenticate(req):
 
     return user
 
-
+# format recipe tuples input in recipe_t into suitable json return type 
+# to be passed back into the front end
 def format_recipe(recipe_t):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -71,16 +72,19 @@ def format_recipe(recipe_t):
             curr_method = curr["method"][i]
             curr_method["step_number"] = t[0]
             curr_method["instruction"] = t[1]
+
     c.close()
     conn.close()
     return ret
 
 # get n top recipes from ingredients and tags lists
+# top recipes refers to recipes that have the most number 
+# of ingredient matches to the input ingredients list
 def get_top_recipes(ingredients, tags, n):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
 
-    # form the sql string dynamically based on
+    # form the sql string dynamically based on input list of ingredients
     sql_str = ('SELECT id, username, name, servings, description, thumbnail, '
                 'count(*) from recipe_has h join recipes r on id = recipe_id where ')
     for i in ingredients:
@@ -92,9 +96,10 @@ def get_top_recipes(ingredients, tags, n):
     c.execute(sql_str)
     recipe_t = c.fetchall()
 
-    # get top 20 recipes that match tags
+    # get top n recipes that match tags
     top_n = []
 
+    # formatting sql_tag query for input list of tags
     sql_tag = '('
     for i in tags:
         sql_tag += 'tag = "{}" or '.format(i)
@@ -104,6 +109,8 @@ def get_top_recipes(ingredients, tags, n):
 
     # print(tags)
 
+    # check if top recipes from first sql statement match at least 1 of the tags
+    # in the input tag list if they exist
     for i in recipe_t:
         if len(top_n) == n:
             break
@@ -122,7 +129,8 @@ def get_top_recipes(ingredients, tags, n):
 
     return top_n
 
-# get ingredients and tags into a two lists from the json request r
+# formats particular input (e.g. ingredients list) 
+# from the json request r into a list
 def get_list(r, key, key2):
     res_list = []
     for x in r[key]:

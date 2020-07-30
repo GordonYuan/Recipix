@@ -24,13 +24,10 @@ class Request(Resource):
         if not r:
             abort(400, 'Malformed Request')
         
-        ingredients = [] 
-        for i in r['ingredients']:
-            ingredients.append(i['name'])
+        ingredients = get_list(r, 'ingredients', 'name') 
 
         print(ingredients)
 
-        # connect to db
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
@@ -41,13 +38,13 @@ class Request(Resource):
         for i in ingredients:
             sql += 'ingredient_name = "{}" or '.format(i)
         sql = sql[:-3]
-        sql += 'group by r.request_id having (count(*) = (select count(*) from request_has r1 where r1.request_id = r.request_id) and count(*) = ?)'
+        sql += 'group by r.request_id having (count(*) = (select count(*) from request_has r1 \
+                where r1.request_id = r.request_id) and count(*) = ?)'
 
-        print(sql)
         c.execute(sql, vals)
 
         res = c.fetchone()  
-        print(res)
+
         if res:
             # if it exists, increment 
             request_id, = res
@@ -101,11 +98,13 @@ class Find(Resource):
         if not (r):
             abort(400, 'Malformed Request')
 
+        # Extracting request_id 
         request_id = r['request_id']
 
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
+        # finds the ingredients that the request has
         sql = 'SELECT * FROM request_has WHERE request_id = ?'
         vals = (request_id,)
 
@@ -115,6 +114,7 @@ class Find(Resource):
         c.close()
         conn.close()
 
+        # Formats the ingredients
         ret = {'ingredients': []}
         for i in res:
             _, ingredient = i
@@ -138,10 +138,12 @@ class All(Resource):
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
+        # get all the requests
         sql = 'SELECT * FROM requests order by count desc'
         c.execute(sql)
         res = c.fetchall()
 
+        # format the requests
         ret = {'requests': []}
         for i in res:
             request_id, times_requested = i

@@ -2,7 +2,6 @@ from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
 
-
 def authenticate(req):
     # get the token
     token = req.headers.get('Authorization')

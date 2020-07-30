@@ -88,6 +88,7 @@ def get_top_recipes(ingredients, tags, n):
     sql_str = sql_str[:-3]
     sql_str += 'group by recipe_id order by count(*) desc'
 
+    print(sql_str)
     c.execute(sql_str)
     recipe_t = c.fetchall()
 

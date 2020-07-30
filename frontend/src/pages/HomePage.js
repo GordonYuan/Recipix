@@ -12,6 +12,8 @@ import RecipeCard from "../components/RecipeCard";
 import searchRecipesApi from "../apis/searchRecipesApi";
 import requestRecipeApi from "../apis/requestRecipeApi";
 import getIngredientsApi from "../apis/getIngredientsApi";
+import getRecommendationsApi from "../apis/getRecommendationsApi";
+import RecommendationChip from "../components/RecommendationChip";
 
 const groupStyles = {
   display: "flex",
@@ -70,6 +72,7 @@ const HomePage = () => {
   const [ingredientsList, setIngredientsList] = useState([]);
   const [tagsState, setTagsState] = useState([]);
   const [open, setOpen] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
 
   const signedIn = !!window.localStorage.getItem("token");
 
@@ -84,13 +87,25 @@ const HomePage = () => {
   useEffect(() => {
     async function fetchRecipes() {
       if (ingredientsList.length > 0) {
+        console.log(ingredientsList);
         const response = await searchRecipesApi(ingredientsList, tagsState);
         setRecipes(response.data.recipes);
       } else {
         setRecipes([]);
       }
     }
+    async function fetchRecommendations() {
+      if (ingredientsList.length > 0) {
+        const response = await getRecommendationsApi(
+          ingredientsList,
+          tagsState
+        );
+        setRecommendations(response.data.ingredients);
+        console.log(recommendations);
+      }
+    }
     fetchRecipes();
+    fetchRecommendations();
   }, [tagsState, ingredientsList]);
 
   const filterOption = ({ label, value }, string) => {
@@ -126,6 +141,7 @@ const HomePage = () => {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>ADD INGREDIENTS, GET RECIPES</h1>
+
       <Select
         isMulti
         defaultValue={""}
@@ -144,6 +160,11 @@ const HomePage = () => {
         }}
       />
       <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
+      <RecommendationChip
+        ingredientsList={ingredientsList}
+        recommendations={recommendations}
+        setIngredients={setIngredientsList}
+      ></RecommendationChip>
       <Grid
         container
         spacing={2}
@@ -157,6 +178,7 @@ const HomePage = () => {
           </Link>
         </Grid>
       </Grid>
+
       <Grid container spacing={2}>
         {recipes &&
           recipes.map((recipe) => (

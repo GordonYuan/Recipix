@@ -6,12 +6,12 @@ def rand():
 ing_dict = {}
 
 ing_dict['dairy'] =     ['egg', 'butter', 'milk', 'cheese', 'cheddar', 'yogurt', 'custard', 'sour cream']
-ing_dict['fish'] =      ['canned tuna', 'salmon', 'tilapia', 'fish fillets', 'cod', 'canned salmon', 'anchovy', 'smoked salmon', 'sardines', 'tuna steak']
-ing_dict['vegetable'] = ['onion', 'garlic', 'tomato', 'potato', 'carrot', 'bell pepper', 'basil', 'parsley', 'broccoli', 'corn', 'spinach', 'mushroom', 'green beans', 'ginger', 'chili pepper', 'celery']
-ing_dict['fruit'] =     ['lemon', 'apple', 'banana', 'lime', 'strawberry', 'orange', 'pineapple', 'blueberry', 'raisin', 'coconut', 'grape', 'peach', 'raspberry', 'cranberry', 'mango', 'pear', 'blackberry', 'cherry']
-ing_dict['grains'] =    ['rice', 'pasta', 'flour', 'bread', 'baking powder', 'baking soda', 'bread crumbs', 'cornstarch', 'rolled oats', 'noodle', 'flour tortillas', 'pancake mix', 'yeast', 'cracker', 'quinoa', 'brown rice', 'cornmeal', 'self rising flour', 'cake mix']
-ing_dict['meat'] =      ['chicken breast', 'ground beef', 'bacon', 'sausage', 'beef steak', 'ham', 'hot dog', 'pork chops', 'chicken thighs', 'ground turkey', 'cooked chicken', 'turkey', 'pork', 'pepperoni', 'whole chicken', 'chicken leg', 'ground pork', 'chorizo', 'chicken wings']
-ing_dict['seafood'] =   ['shrimp', 'crab', 'prawns', 'scallop', 'clam', 'lobster', 'mussel', 'oyster', 'squid', 'calamari', 'crawfish', 'octopus', 'cockle', 'conch', 'sea urchin']
+ing_dict['fish'] =      ['canned tuna', 'fish fillets', 'cod', 'salmon', 'sardines']
+ing_dict['vegetable'] = ['onion', 'tomato', 'potato', 'carrot', 'broccoli', 'corn', 'spinach', 'mushroom', 'ginger']
+ing_dict['fruit'] =     ['lemon', 'apple', 'banana', 'strawberry', 'orange', 'blueberry', 'raspberry', 'mango']
+ing_dict['grains'] =    ['rice', 'pasta', 'flour', 'bread', 'baking powder', 'yeast']
+ing_dict['meat'] =      ['chicken breast', 'ground beef', 'bacon', 'sausage', 'ham', 'hot dog', 'chicken thighs', 'pork']
+ing_dict['seafood'] =   ['shrimp', 'crab', 'prawns', 'scallop', 'clam', 'lobster', 'mussel', 'oyster']
 
 adjectives = ['non-fat', 'nutmeg', 'nutty', 'oily', 'open face', 'organic', 'overpowering', 'palatable indicates', 'penetrating', 'peppery', 'perfection', 'petite', 'pickled', 'piquant', 'plain', 'pleasant', 'plump', 'poached', 'popular', 'pounded', 'prepared', 'prickly', 'pulpy', 'pungent', 'pureed', 'rancid', 'rank', 'reduced', 'refresh', 'rich', 'ripe', 'roasted', 'robust', 'rotten', 'rubbery', 'saccharine', 'saline', 'salty', 'savory', 'Sapid', 'saporific', 'saporous', 'satin', 'satiny', 'sauteed', 'savorless', 'savory', 'scrumptious', 'sea salt', 'seared', 'seasoned', 'served in', 'served with', 'sharp', 'sharp-tasting', 'silky', 'simmered', 'sizzling', 'skillfully', 'small', 'smelly', 'smoked', 'smoky', 'smooth', 'smothered', 'soothing', 'sour', 'Southern style', 'special', 'spiced', 'spicy', 'spiral-cut', 'spongy', 'sprinkled', 'stale', 'steamed', 'steamy', 'sticky', 'stinging', 'strawberry flavored', 'strong', 'stuffed', 'succulent', 'sugar coated', 'sugar free', 'sugared', 'sugarless', 'sugary', 'superb', 'sweet', 'sweet-and-sour', 'sweetened', 'syrupy', 'tangy', 'tantalizing']
 
@@ -78,14 +78,10 @@ print("##################################")
 
 users = ['gordo', 'bigdave', 'jeff']
 
-for i in range(50):
-    user = users[rand()%3]
-    title = 'hello'
-
 def select_ingredients():
     ingredients = []
     cats = ['dairy', 'fish', 'vegetable', 'fruit', 'grains', 'meat', 'seafood']
-    for i in range(rand()%4+1):
+    for i in range(rand()%5+1):
         category = cats[rand()%len(cats)]
         length = len(ing_dict[category])
         ingredients.append(ing_dict[category][rand()%length])
@@ -96,7 +92,7 @@ methods = []
 rec_tags = []
 rec_hass = []
 
-for id in range(1, 51):
+for id in range(1, 151):
     user = '"' + users[rand()%3] + '"'
 
     ingredients = select_ingredients()
@@ -112,7 +108,7 @@ for id in range(1, 51):
     title = '\"' + title + '\"'
     thumbnail = "\'\'"
 
-    recipe = '({}, {}, {}, {}, {})'.format(user, title, servings, description, thumbnail) 
+    recipe = '({}, {}, {}, {}, {}),'.format(user, title, servings, description, thumbnail) 
 
     recipes.append(recipe)
     ## inserting into the method table

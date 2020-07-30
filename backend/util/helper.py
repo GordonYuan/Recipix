@@ -130,3 +130,38 @@ def get_list(r, key, key2):
             continue
         res_list.append(x[key2])
     return res_list
+
+def update_requests(ingredients):
+    # Once added in, needs to remove any requests that have been fulfilled. 
+    # checking if ingredients used in recipe meets any of the requests
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+
+    sql = 'select r.request_id from request_has r where ' 
+    for i in ingredients:
+        sql += 'ingredient_name = "{}" or '.format(i['name'])
+    sql = sql[:-3]
+    sql += 'group by r.request_id \
+            having (count(*) = \
+            (select count(*) \
+            from request_has r1 \
+            where r1.request_id = r.request_id) \
+            and count(*) = ?)'
+
+    vals = (len(ingredients),)
+    c.execute(sql, vals)
+    res = c.fetchone()  
+
+    # if there exists a request, remove it, as the new recipe has been added, fulfilling the request
+    if res:
+        request_id, = res
+
+        sql = 'delete from requests where id = ?'
+        vals = (request_id,)
+        c.execute(sql, vals)
+
+        sql = 'delete from request_has where request_id = ?'
+        vals = (request_id,)
+        c.execute(sql, vals)
+
+        conn.commit()

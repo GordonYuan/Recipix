@@ -11,6 +11,7 @@ recipe = api.namespace('recipe', description='Recipe information')
 @recipe.route('/searchName', strict_slashes=False)
 class searchName(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
+    @recipe.response(400, 'Malformed Request')
     @recipe.expect(recipe_name_tags_model)
     @recipe.doc(description='''
         Returns a list of all recipes that matches the tags passed in 
@@ -21,14 +22,14 @@ class searchName(Resource):
     def post(self):
         # TODO
         r = request.json
+
         if not r:
             abort(400, 'Malformed Request')
         
-        # tags = []
-        # for x in r['tags']:
-        #     tags.append(x['tag'])
         tags = get_list(r, 'tags', 'tag')
+
         search_term = r['search_term']
+
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
@@ -68,8 +69,10 @@ class Search(Resource):
     def post(self):
         # real todo
         r = request.json
+
         if not r:
             abort(400, 'Malformed Request')
+
         ingredients = get_list(r, 'ingredients', 'name')
         tags = get_list(r, 'tags', 'tag')
 
@@ -82,6 +85,7 @@ class Search(Resource):
 class User(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
+    @recipe.response(403, 'Invalid Authentication Token')
     @recipe.expect(auth_model)
     @recipe.doc(description='''
         Takes in the authorization token, 
@@ -161,45 +165,16 @@ class Add(Resource):
             vals.append((recipe_id, t['tag']))
         sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
         c.executemany(sql, vals)
-
-        # TODO Once added in, needs to remove any requests that have been fulfilled. 
-        # checking if ingredients used in recipe meets any of the requests
-        sql = 'select r.request_id from request_has r where ' 
-        for i in ingredients:
-            sql += 'ingredient_name = "{}" or '.format(i['name'])
-        sql = sql[:-3]
-        sql += 'group by r.request_id \
-                having (count(*) = \
-                (select count(*) \
-                from request_has r1 \
-                where r1.request_id = r.request_id) \
-                and count(*) = ?)'
-
-        vals = (len(ingredients),)
-        c.execute(sql, vals)
-        res = c.fetchone()  
-
-        print(res)
-        # if there exists a request, remove it, as the new recipe has been added, fulfilling the request
-        if res:
-            request_id, = res
-
-            sql = 'delete from requests where id = ?'
-            vals = (request_id,)
-            c.execute(sql, vals)
-
-            sql = 'delete from request_has where request_id = ?'
-            vals = (request_id,)
-            c.execute(sql, vals)
-
-            conn.commit()
-
-
-        
-        # commit to db
         conn.commit()
         c.close()
         conn.close()
+
+        # Once added in, needs to remove any requests that have been fulfilled. 
+        # checking if ingredients used in recipe meets any of the requests
+
+        update_requests(ingredients)
+        # commit to db
+        
         return {
             'message': 'success'
         }
@@ -209,7 +184,9 @@ class Add(Resource):
 class Edit(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(400, 'Malformed Request')
+    @recipe.response(401, 'Unauthorized')
     @recipe.response(403, 'Invalid Authentication Token')
+    @recipe.response(406, 'Recipe does not exist')
     @recipe.expect(auth_model, recipe_complete_model)
     @recipe.doc(description='''
         Takes in the recipes information, as well as authorization token.
@@ -218,6 +195,8 @@ class Edit(Resource):
         Removes all methods, tags, and ingredients
         Repopulates the methods, tags and ingredients with the information that is passed in
         The recipe maintains the same id. 
+        If the list of ingredients in the recipe match any of the requests in the database,
+        then the request will be considered fulfilled and removed from the database.
     ''')
     def post(self):
         r = request.json
@@ -238,7 +217,7 @@ class Edit(Resource):
         owner_user, = res
         # checks if owner of recipe is same as person from token
         if owner_user != user:
-            abort(400, 'Invalid User')
+            abort(401, 'Unauthorized')
 
         name = r['recipe_name']
         image = r['image']
@@ -272,7 +251,7 @@ class Edit(Resource):
         for i in ingredients:
             vals.append((recipe_id, i['name'], i['quantity']))
         c.executemany(
-            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?, ?)', vals)
+            'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)', vals)
 
         # remove existing tags
         sql = 'DELETE FROM recipe_tag where recipe_id = ?'
@@ -285,11 +264,13 @@ class Edit(Resource):
             vals.append((recipe_id, t['tag']))
         sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
         c.executemany(sql, vals)
-
         # commit to db
         conn.commit()
         c.close()
         conn.close()
+
+        update_requests(ingredients)
+
         return {
             'message': 'success'
         }
@@ -300,7 +281,7 @@ class Delete(Resource):
     @recipe.response(200, 'Success')
     @recipe.response(401, 'Unauthorized')
     @recipe.response(403, 'Invalid Authentication Token')
-    @recipe.response(406, 'Not Acceptable')
+    @recipe.response(406, 'Recipe does not exist')
     @recipe.expect(auth_model, recipe_id_model)
     @recipe.doc(description='''
         Takes in the recipe_id, and authentication token
@@ -327,7 +308,7 @@ class Delete(Resource):
         owner_user, = res
 
         if owner_user != user:
-            abort(400, 'Invalid User')
+            abort(401, 'Invalid User')
 
         # allowing cascade deletes
         c.execute('PRAGMA foreign_keys = ON;')

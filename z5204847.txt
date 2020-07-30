@@ -42,7 +42,7 @@ Week 8
  
 Week 9 
  - Fixed up some bugs with david
- - generated some user data using python scripts
- - Tested the code a bit more
- - added more descriptive descriptions for each api call
- - Had another meeting to discuss.
+ - Generated some fake recipe data using python scripts so that search functionalities can be tested
+ - Tested the code a bit more.
+ - Added more detailed descriptions for each api call.
+ - Began the project report

@@ -66,7 +66,7 @@ const AddRecipePage = ({ history, match }) => {
       setIsLoaded(true);
       setRecipe({});
     }
-  }, [match.path]);
+  }, [match.path, match.params.id]);
 
   if (!isLoaded) {
     return (
@@ -83,7 +83,7 @@ const AddRecipePage = ({ history, match }) => {
         recipeName: recipe.recipe_name || "",
         image: recipe.image || "",
         tags: !!recipe.tags ? mapTagsObjectToArray(recipe.tags) : [],
-        ingredients: recipe.ingredients || [{ ingredient: "", quantity: "" }],
+        ingredients: recipe.ingredients || [{ name: "", quantity: "" }],
         servings: recipe.servings || "",
         instructions: recipe.method || [{ instruction: "" }],
         description: recipe.description || "",

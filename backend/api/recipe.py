@@ -34,6 +34,7 @@ class searchName(Resource):
         c = conn.cursor()
 
         # 'or' in 'where' of sql finds recipes that match any of the tags specified
+        # recipes only have to match at least one of the input tags if they exist
         sql_str = ('SELECT * from recipes r')
         if tags:
             sql_str += ' join recipe_tag t on r.id = t.recipe_id where '
@@ -67,7 +68,6 @@ class Search(Resource):
         If no tags are passed in, then it returns all recipes that can be constructed from ingredients
     ''')
     def post(self):
-        # real todo
         r = request.json
 
         if not r:
@@ -76,6 +76,7 @@ class Search(Resource):
         ingredients = get_list(r, 'ingredients', 'name')
         tags = get_list(r, 'tags', 'tag')
 
+        # 
         top_n = get_top_recipes(ingredients, tags, 21)
 
         return format_recipe(top_n)
@@ -165,43 +166,16 @@ class Add(Resource):
             vals.append((recipe_id, t['tag']))
         sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
         c.executemany(sql, vals)
-
-        # Once added in, needs to remove any requests that have been fulfilled. 
-        # checking if ingredients used in recipe meets any of the requests
-        sql = 'select r.request_id from request_has r where ' 
-        for i in ingredients:
-            sql += 'ingredient_name = "{}" or '.format(i['name'])
-        sql = sql[:-3]
-        sql += 'group by r.request_id \
-                having (count(*) = \
-                (select count(*) \
-                from request_has r1 \
-                where r1.request_id = r.request_id) \
-                and count(*) = ?)'
-
-        vals = (len(ingredients),)
-        c.execute(sql, vals)
-        res = c.fetchone()  
-
-        print(res)
-        # if there exists a request, remove it, as the new recipe has been added, fulfilling the request
-        if res:
-            request_id, = res
-
-            sql = 'delete from requests where id = ?'
-            vals = (request_id,)
-            c.execute(sql, vals)
-
-            sql = 'delete from request_has where request_id = ?'
-            vals = (request_id,)
-            c.execute(sql, vals)
-
-            conn.commit()
-        
-        # commit to db
         conn.commit()
         c.close()
         conn.close()
+
+        # Once added in, needs to remove any requests that have been fulfilled. 
+        # checking if ingredients used in recipe meets any of the requests
+
+        update_requests(ingredients)
+        # commit to db
+        
         return {
             'message': 'success'
         }
@@ -222,6 +196,8 @@ class Edit(Resource):
         Removes all methods, tags, and ingredients
         Repopulates the methods, tags and ingredients with the information that is passed in
         The recipe maintains the same id. 
+        If the list of ingredients in the recipe match any of the requests in the database,
+        then the request will be considered fulfilled and removed from the database.
     ''')
     def post(self):
         r = request.json
@@ -289,11 +265,13 @@ class Edit(Resource):
             vals.append((recipe_id, t['tag']))
         sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
         c.executemany(sql, vals)
-
         # commit to db
         conn.commit()
         c.close()
         conn.close()
+
+        update_requests(ingredients)
+
         return {
             'message': 'success'
         }

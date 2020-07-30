@@ -54,6 +54,7 @@ const TagFilter = (props) => {
               key={item.tag[0]}
               control={
                 <Checkbox
+                  color="primary"
                   checked={tagsState.includes(item.tag[0]) || false}
                   onChange={handleChange}
                   name={item.tag[0]}

@@ -10,7 +10,7 @@ import Navbar from "./components/Navbar";
 import CentreColumn from "./components/CentreColumn";
 import RecipeSearchPage from "./pages/RecipeSearchPage";
 import MyRecipesPage from "./pages/MyRecipesPage";
-import AddRecipePage from "./pages/AddRecipePageFormik";
+import AddRecipePage from "./pages/AddRecipePage";
 import LoginPage from "./pages/LoginPage";
 import Recipe from "./pages/Recipe";
 import SignUpPage from "./pages/SignUpPage";

@@ -8,36 +8,36 @@ import TagFilter from "../components/TagFilter";
 
 const AddRecipeForm = (props) => {
   const { handleSubmit, values, errors, setFieldValue, handleChange } = props;
+  const [ingredientList, setIngredientList] = useState(values.ingredients);
+  const [instructionList, setInstructionList] = useState(values.instructions);
 
-  const [ingredientList, setIngredientList] = useState([
-    { name: "", quantity: "" },
-  ]);
-
-  const [instructionList, setInstructionList] = useState([
-    { step_number: "", instruction: "" },
-  ]);
-
-  // useEffect(() => {
-  //   values.ingredients = ingredientList;
-  //   values.instructions = instructionList;
-  // }, [ingredientList, instructionList]);
+  useEffect(() => {
+    values.ingredients = ingredientList;
+    values.instructions = instructionList;
+  }, [ingredientList, instructionList]);
 
   // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
+    // values.ingredients[idx][name] = value;
+    // console.log(values.ingredients);
     const { name, value } = e.target;
-    const list = [...values.ingredients];
+    const list = [...ingredientList];
     list[idx][name] = value;
     setIngredientList(list);
   };
 
   const handleAddIngredient = () => {
-    const list = [...values.ingredients];
+    // values.ingredients.push({ name: "", quantity: "" });
+    // console.log(values.ingredients);
+    const list = [...ingredientList];
     list.push({ name: "", quantity: "" });
     setIngredientList(list);
   };
 
   const handleRemoveIngredient = (idx) => {
-    const list = [...values.ingredients];
+    // values.ingredients.splice(idx, 1);
+    // console.log(values.ingredients);
+    const list = [...ingredientList];
     list.splice(idx, 1);
     setIngredientList(list);
   };
@@ -47,20 +47,20 @@ const AddRecipeForm = (props) => {
   const handleInstrChange = (e, idx) => {
     const { name, value } = e.target;
 
-    const list = [...values.instructions];
+    const list = [...instructionList];
     list[idx][name] = value;
     setInstructionList(list);
-    values.instructions[idx].step_number = idx + 1;
+    instructionList[idx].step_number = idx + 1;
   };
 
   const handleAddInstruction = () => {
-    const list = [...values.instructions];
+    const list = [...instructionList];
     list.push({ step_number: "", instruction: "" });
     setInstructionList(list);
   };
 
   const handleRemoveInstruction = (idx) => {
-    const list = [...values.instructions];
+    const list = [...instructionList];
     list.splice(idx, 1);
     setInstructionList(list);
   };
@@ -75,6 +75,7 @@ const AddRecipeForm = (props) => {
 
   const setTags = (tags) => {
     setFieldValue("tags", tags);
+    console.log({ tags: tags });
   };
 
   return (
@@ -143,7 +144,7 @@ const AddRecipeForm = (props) => {
         Ingredients
       </Typography>
       <Grid container spacing={4}>
-        {values.ingredients.map((item, idx) => {
+        {ingredientList.map((item, idx) => {
           return (
             <Grid item xs={12}>
               <div key={idx}>
@@ -165,7 +166,7 @@ const AddRecipeForm = (props) => {
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "25%", marginLeft: "1rem" }}
                 />
-                {values.ingredients.length - 1 === idx && (
+                {ingredientList.length - 1 === idx && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -174,7 +175,7 @@ const AddRecipeForm = (props) => {
                     Add
                   </Button>
                 )}
-                {values.ingredients.length !== 1 && (
+                {ingredientList.length !== 1 && (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -193,7 +194,7 @@ const AddRecipeForm = (props) => {
         Instructions
       </Typography>
       <Grid container spacing={4}>
-        {values.instructions.map((item, idx) => {
+        {instructionList.map((item, idx) => {
           return (
             <Grid item xs={12}>
               Step {idx + 1}
@@ -207,7 +208,7 @@ const AddRecipeForm = (props) => {
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
                 />
-                {values.instructions.length - 1 === idx && (
+                {instructionList.length - 1 === idx && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -216,7 +217,7 @@ const AddRecipeForm = (props) => {
                     Add
                   </Button>
                 )}
-                {values.instructions.length !== 1 && (
+                {instructionList.length !== 1 && (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -237,9 +238,9 @@ const AddRecipeForm = (props) => {
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
       <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
+      <pre>{JSON.stringify(ingredientList, null, 1)}</pre>
       <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(instructionList, null, 1)}</pre>
       <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>

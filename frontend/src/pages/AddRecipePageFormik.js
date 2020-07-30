@@ -8,6 +8,7 @@ import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import editRecipeApi from "../apis/editRecipeApi";
 import createRecipeApi from "../apis/createRecipeApi";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { mapTagsObjectToArray } from "../utils/Mappers";
 
 const AddRecipeSchema = Yup.object().shape({
   recipeName: Yup.string().required("Recipe name required"),
@@ -23,15 +24,6 @@ const AddRecipeSchema = Yup.object().shape({
   instructions: Yup.array().of(Yup.string()),
   description: Yup.string().required("Please provide a description"),
 });
-
-// const mapTags = (tags) => {
-//   var newTags = [...tags.tag];
-//   return n;
-//   var names = items.map(function(item) {
-//     return item['name'];
-//   });
-
-// };
 
 //This page is re-used depending on context. Adding a recipe can either be from scratch, from edit or from a request.
 const AddRecipePage = ({ history, match }) => {
@@ -74,8 +66,8 @@ const AddRecipePage = ({ history, match }) => {
         initialValues={{
           recipeName: recipe.recipe_name || "",
           image: recipe.image || "",
-          tags: recipe.tags || [],
-          ingredients: recipe.ingredients || [{ ingredient: "", quantity: "" }],
+          tags: !!recipe.tags ? mapTagsObjectToArray(recipe.tags) : [],
+          ingredients: recipe.ingredients || [{ name: "", quantity: "" }],
           servings: recipe.servings || "",
           instructions: recipe.method || [{ instruction: "" }],
           description: recipe.description || "",
@@ -100,7 +92,8 @@ const AddRecipePage = ({ history, match }) => {
       >
         {(props) => <AddRecipeForm {...props} />}
       </Formik>
-      {console.log({ return: recipe })}
+      {/* {console.log({ return: recipe })} */}
+      {/* {console.log(mapTags(recipe.tags))} */}
     </React.Fragment>
   );
 };

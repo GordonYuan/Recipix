@@ -2,13 +2,10 @@ from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
 
-
 def authenticate(req):
     # get the token
     token = req.headers.get('Authorization')
-    print(req.headers.get('Authorization'))
-    # print(req.headers)
-    # print(token)
+
     if not token:
         abort(403, 'Invalid Authentication Token')
 
@@ -19,7 +16,7 @@ def authenticate(req):
     # find user
     c.execute('SELECT username from users where hash = ?', (token,))
     res = c.fetchone()
-    print(res)
+
     if not res:
         abort(403, 'Invalid Authentication Token')
     user, = res
@@ -109,9 +106,6 @@ def get_top_recipes(ingredients, tags, n):
         sql_tag += 'tag = "{}" or '.format(i)
     sql_tag = sql_tag[:-4]
     sql_tag += ')'
-    print("Sql_tag = " + sql_tag)
-
-    # print(tags)
 
     # check if top recipes from first sql statement match at least 1 of the tags
     # in the input tag list if they exist
@@ -123,7 +117,6 @@ def get_top_recipes(ingredients, tags, n):
             continue
         sql_str2 = 'SELECT * from recipe_tag where recipe_id = {} and '.format(i[0])
         sql_str2 += sql_tag
-        # print(sql_str2)
         c.execute(sql_str2)
         if (c.fetchall()):
             top_n.append(i)
@@ -143,6 +136,8 @@ def get_list(r, key, key2):
         res_list.append(x[key2])
     return res_list
 
+# Helper function for updating requests
+# If ingredient matches any requests, remove them
 def update_requests(ingredients):
     # Once added in, needs to remove any requests that have been fulfilled. 
     # checking if ingredients used in recipe meets any of the requests
@@ -178,6 +173,7 @@ def update_requests(ingredients):
 
         conn.commit()
 
+# Helper function for deleting entries with recipe_id from the database
 def delete_from_table(table, recipe_id):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -187,6 +183,8 @@ def delete_from_table(table, recipe_id):
     c.close()
     conn.close()
 
+# Helper function for adding methods into a table, associating it with a specific
+# recipe id
 def add_into_methods(methods, recipe_id):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -200,6 +198,8 @@ def add_into_methods(methods, recipe_id):
     c.close()
     conn.close()
 
+# Helper function for adding ingredients into a table
+# associating the ingredient with a specific recipe id
 def add_into_recipe_has(ingredients, recipe_id):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -213,6 +213,8 @@ def add_into_recipe_has(ingredients, recipe_id):
     c.close()
     conn.close()
 
+# Helper function for adding tags into a table
+# associating the ingredient with a specific recipe id
 def add_into_recipe_tag(tags, recipe_id):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -225,10 +227,15 @@ def add_into_recipe_tag(tags, recipe_id):
     c.close()
     conn.close()
 
-def check_owner(cursor, user, recipe_id):
-    cursor.execute('SELECT username from Recipes where id = ?', (recipe_id,))
-    res = cursor.fetchone()
-
+# Checks that the a specific user is associated with a recipe_id
+# If it does not, then it aborts 
+def check_owner(user, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    c.execute('SELECT username from Recipes where id = ?', (recipe_id,))
+    res = c.fetchone()
+    c.close()
+    conn.close()
     # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
     if not res:
         abort(406, 'Recipe does not exist')
@@ -237,3 +244,4 @@ def check_owner(cursor, user, recipe_id):
 
     if owner_user != user:
         abort(401, 'Invalid User')
+

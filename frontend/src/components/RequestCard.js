@@ -8,7 +8,7 @@ import { ADD_RECIPE } from "../constants/urlConstants";
 // clicking the request card populates add reccipe page with ingredients?
 
 const RequestCard = (props) => {
-  const { ingredients, count } = props;
+  const { request_id, ingredients, count } = props;
 
   return (
     <Card>
@@ -16,17 +16,15 @@ const RequestCard = (props) => {
         <Typography gutterBottom variant="h6">
           Ingredients
         </Typography>
-        <Typography gutterBottom variant="body1">
-          <ul>
-            {ingredients.map((ingredient) => {
-              return <li>{ingredient.name}</li>;
-            })}
-          </ul>
-        </Typography>
+        <ul>
+          {ingredients.map((ingredient) => {
+            return <li key={ingredient.name}>{ingredient.name}</li>;
+          })}
+        </ul>
         <Typography gutterBottom variant="body1">
           Times Requested: {count}
         </Typography>
-        <Link href={ADD_RECIPE} variant="body2">
+        <Link href={"/request-recipe/:" + request_id} variant="body2">
           {"Create Recipe"}
         </Link>
       </CardContent>

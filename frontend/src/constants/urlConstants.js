@@ -8,3 +8,4 @@ export const SIGNUP = "/signup";
 export const RECIPE_PAGE = "/recipe/:id";
 export const ADD_INGREDIENT = "/add-ingredient";
 export const REQUESTS = "/requests";
+export const REQUEST_RECIPE = "/request-recipe/:id";

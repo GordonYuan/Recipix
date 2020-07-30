@@ -28,17 +28,25 @@ const RequestsPage = (props) => {
     );
   }
   return (
-    <Grid container spacing={2}>
-      {requests &&
-        requests.map((request) => (
-          <Grid key={request.request_id} item xs={4}>
-            <RequestCard
-              ingredients={request.ingredients}
-              count={request.times_requested}
-            />
-          </Grid>
-        ))}
-    </Grid>
+    <>
+      <h1 style={{ textAlign: "center" }}>Requests</h1>
+      <h4 style={{ textAlign: "center" }}>
+        Ingredient lists requested by our users waiting for a recipe to be
+        created!
+      </h4>
+      <Grid container spacing={2}>
+        {requests &&
+          requests.map((request) => (
+            <Grid key={request.request_id} item xs={4}>
+              <RequestCard
+                request_id={request.request_id}
+                ingredients={request.ingredients}
+                count={request.times_requested}
+              />
+            </Grid>
+          ))}
+      </Grid>
+    </>
   );
 };
 

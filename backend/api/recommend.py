@@ -1,6 +1,7 @@
 from app import api
 from util.models import *
 from util.helper import *
+from util.checkers import *
 from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
@@ -32,18 +33,11 @@ class Recommend(Resource):
         
         # top 50 is recipe as single tuple, many tuples in list 
         top_50_recipes = get_top_recipes(ingredients, tags, 50)
-        print(top_50_recipes)
 
         # record recipe_ids as a list
         recipe_ids = []
         for recipe in top_50_recipes:
             recipe_ids.append(recipe[0])
-        
-        # # visited input_ingredients
-        # input_ingredients = {}
-        # for i in range(len(ingredients)):
-        #     input_ingredients[ingredients[i]] = 1
-
 
         # formatting return values in json
         ret_ingredients = {"ingredients": []}

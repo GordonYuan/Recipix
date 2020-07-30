@@ -35,13 +35,8 @@ class searchName(Resource):
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
-<<<<<<< HEAD
         # Creating sql string to find recipes which match 
         # any of the tags that are passed in
-=======
-        # 'or' in 'where' of sql finds recipes that match any of the tags specified
-        # recipes only have to match at least one of the input tags if they exist
->>>>>>> master
         sql_str = ('SELECT * from recipes r')
         if tags:
             sql_str += ' join recipe_tag t on r.id = t.recipe_id where '
@@ -89,11 +84,7 @@ class Search(Resource):
         # Extracting tags from the payload
         tags = get_list(r, 'tags', 'tag')
 
-<<<<<<< HEAD
         # Getting top 21 ingredients that match the ingredients and tags
-=======
-        # 
->>>>>>> master
         top_n = get_top_recipes(ingredients, tags, 21)
 
         return format_recipe(top_n)
@@ -148,7 +139,7 @@ class Add(Resource):
         image = r['image']
         servings = r['servings']
         description = r['description']
-
+        print(r)
         # connect to db
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
@@ -165,6 +156,7 @@ class Add(Resource):
         c.execute(sql, vals)
         recipe_id, = c.fetchone()
 
+        print("in add recipe_id = {}".format(recipe_id))
         # Adding method for recipe 
         add_into_methods(r['method'], recipe_id)
 
@@ -181,7 +173,7 @@ class Add(Resource):
 
         # Once added in, needs to remove any requests that have been fulfilled. 
         # checking if ingredients used in recipe meets any of the requests
-        update_requests(ingredients)
+        update_requests(r['ingredients'])
         
         return {
             'message': 'success'
@@ -274,18 +266,17 @@ class Delete(Resource):
         user = authenticate(request)
 
         r = request.json
+
         recipe_id = r['recipe_id']
+        
+        check_owner(user, recipe_id)
 
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
-        check_owner(user, recipe_id)
-
-        # allowing cascade deletes
-        c.execute('PRAGMA foreign_keys = ON;')
-
         # delete from recipes table
         delete_from_table('recipes', recipe_id)
+
 
         conn.commit()
         c.close()
@@ -313,7 +304,7 @@ class Tags(Resource):
         ret = {"tags": []}
         for x in t:
             ret['tags'].append({
-                'tag': x
+                'tag': x[0]
             })
 
         c.close()

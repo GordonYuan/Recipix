@@ -22,10 +22,10 @@ class Add(Resource):
         ### TODO 
         if not r:
             abort(400, 'Malformed Request')
-        ing_name = r['name']
-        ing_category = r['category']
+        ing_name = r['name'].lower()
+        ing_category = r['category'].lower()
         
-        conn = sqlite3.connect('database\\recipix.db')
+        conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
         sql = 'SELECT name from ingredients where name = ?'
@@ -34,10 +34,12 @@ class Add(Resource):
         existing_ingredient = c.fetchone()
 
         if existing_ingredient:
-            abort(403, 'Ingredient already exists')
+            abort(403, 'Ingredient already exists') 
 
         sql = 'INSERT INTO ingredients (name, category) VALUES (?, ?)'
         vals = (ing_name, ing_category)
+
+        print('adding {}'.format(vals))
         c.execute(sql, vals)
         conn.commit()
 

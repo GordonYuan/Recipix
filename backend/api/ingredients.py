@@ -25,7 +25,7 @@ class Add(Resource):
         ing_name = r['name']
         ing_category = r['category']
         
-        conn = sqlite3.connect('database/recipix.db')
+        conn = sqlite3.connect('database\\recipix.db')
         c = conn.cursor()
 
         sql = 'SELECT name from ingredients where name = ?'

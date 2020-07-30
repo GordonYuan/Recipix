@@ -26,7 +26,6 @@ def authenticate(req):
 
     return user
 
-
 def format_recipe(recipe_t):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -164,3 +163,63 @@ def update_requests(ingredients):
         c.execute(sql, vals)
 
         conn.commit()
+
+def delete_from_table(table, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    sql = 'DELETE FROM {} where recipe_id = ?'.format(table)
+    c.execute(sql, (recipe_id,))
+    conn.commit()
+    c.close()
+    conn.close()
+
+def add_into_methods(methods, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    vals = []
+    for m in methods:
+        vals.append((recipe_id, m['step_number'], m['instruction']))
+
+    sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)'
+    c.executemany(sql, vals)
+    conn.commit()
+    c.close()
+    conn.close()
+
+def add_into_recipe_has(ingredients, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    vals = []
+    for i in ingredients:
+        vals.append((recipe_id, i['name'], i['quantity']))
+    
+    sql = 'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)'
+    c.executemany(sql, vals)
+    conn.commit()
+    c.close()
+    conn.close()
+
+def add_into_recipe_tag(tags, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    vals = []
+    for t in tags:
+        vals.append((recipe_id, t['tag']))
+    sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
+    c.executemany(sql, vals)
+    conn.commit()
+    c.close()
+    conn.close()
+
+def check_owner(cursor, user, recipe_id):
+    cursor.execute('SELECT username from Recipes where id = ?', (recipe_id,))
+    res = cursor.fetchone()
+
+    # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
+    if not res:
+        abort(406, 'Recipe does not exist')
+
+    owner_user, = res
+
+    if owner_user != user:
+        abort(401, 'Invalid User')

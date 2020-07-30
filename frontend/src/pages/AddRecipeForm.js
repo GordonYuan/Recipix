@@ -70,7 +70,7 @@ const AddRecipeForm = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Typography variant="h4" gutterBottom>
         Create Your Recipe
       </Typography>
@@ -88,13 +88,14 @@ const AddRecipeForm = (props) => {
             error={touched.recipeName && Boolean(errors.recipeName)}
             helperText={touched.recipeName ? errors.recipeName : ""}
             onBlur={handleBlur}
+            multiline
             fullWidth
           />
         </Grid>
         {/* Upload Image field */}
         <br />
         <Grid item xs={12} sm={12}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h5" gutterBottom>
             Upload an Image of your Recipe
           </Typography>
           <FileBase64 multiple={false} onDone={getFiles} />
@@ -111,6 +112,7 @@ const AddRecipeForm = (props) => {
             error={touched.description && Boolean(errors.description)}
             helperText={touched.description ? errors.description : ""}
             onBlur={handleBlur}
+            multiline
             fullWidth
           />
         </Grid>
@@ -143,45 +145,43 @@ const AddRecipeForm = (props) => {
       <Grid container spacing={4}>
         {values.ingredients.map((item, idx) => {
           return (
-            <Grid item xs={12}>
-              <div key={idx}>
-                <TextField
-                  required
-                  id="name"
-                  name="name"
-                  label="Type in your ingredient..."
-                  value={item.name}
-                  onChange={(e) => handleIngreChange(e, idx)}
-                  style={{ width: "50%" }}
-                />
-                <TextField
-                  required
-                  id="quantity"
-                  name="quantity"
-                  label="Quantity..."
-                  value={item.quantity}
-                  onChange={(e) => handleIngreChange(e, idx)}
-                  style={{ width: "25%", marginLeft: "1rem" }}
-                />
-                {values.ingredients.length !== 1 && (
-                  <IconButton
-                    aria-label="delete"
-                    color="secondary"
-                    onClick={() => handleRemoveIngredient(idx)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                )}
-                {values.ingredients.length - 1 === idx && (
-                  <IconButton
-                    aria-label="delete"
-                    color="primary"
-                    onClick={() => handleAddIngredient()}
-                  >
-                    <AddCircleIcon />
-                  </IconButton>
-                )}
-              </div>
+            <Grid item xs={12} key={idx}>
+              <TextField
+                required
+                id="name"
+                name="name"
+                label="Type in your ingredient..."
+                value={item.name}
+                onChange={(e) => handleIngreChange(e, idx)}
+                style={{ width: "50%" }}
+              />
+              <TextField
+                required
+                id="quantity"
+                name="quantity"
+                label="Quantity..."
+                value={item.quantity}
+                onChange={(e) => handleIngreChange(e, idx)}
+                style={{ width: "25%", marginLeft: "1rem" }}
+              />
+              {values.ingredients.length !== 1 && (
+                <IconButton
+                  aria-label="delete"
+                  color="secondary"
+                  onClick={() => handleRemoveIngredient(idx)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              )}
+              {values.ingredients.length - 1 === idx && (
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => handleAddIngredient()}
+                >
+                  <AddCircleIcon />
+                </IconButton>
+              )}
             </Grid>
           );
         })}
@@ -193,9 +193,9 @@ const AddRecipeForm = (props) => {
       <Grid container spacing={4}>
         {values.instructions.map((item, idx) => {
           return (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={idx}>
               Step {idx + 1}
-              <div key={idx}>
+              <div>
                 <TextField
                   required
                   id="instruction"
@@ -240,7 +240,7 @@ const AddRecipeForm = (props) => {
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
-    </React.Fragment>
+    </>
   );
 };
 

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Formik } from "formik";
 import { withRouter } from "react-router";
-import AddRecipeForm from "./AddRecipeForm";
-import { HOME_PAGE, EDIT_RECIPE, ADD_RECIPE } from "../constants/urlConstants";
 import * as Yup from "yup";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import AddRecipeForm from "./AddRecipeForm";
+import {
+  HOME_PAGE,
+  EDIT_RECIPE,
+  REQUEST_RECIPE,
+} from "../constants/urlConstants";
 import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import editRecipeApi from "../apis/editRecipeApi";
 import createRecipeApi from "../apis/createRecipeApi";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import getRequestedIngredientsApi from "../apis/getRequestedIngredientsApi";
 
 const AddRecipeSchema = Yup.object().shape({
   recipeName: Yup.string().required("Recipe name required"),
@@ -38,7 +43,6 @@ const AddRecipePage = ({ history, match }) => {
   const [recipe, setRecipe] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [isRequest, setIsRequest] = useState(false);
 
   useEffect(() => {
     //If I'm editting a recipe, then I need to wait on the Api
@@ -50,11 +54,22 @@ const AddRecipePage = ({ history, match }) => {
       setRecipe(response.data.recipes[0]);
       setIsLoaded(true);
     }
+    async function fetchRequestedIngredients() {
+      const response = await getRequestedIngredientsApi({
+        request_id: match.params.id.substr(1),
+      });
+      //Set recipe variable to have the recipe information
+      console.log({ ingredients: response.data.ingredients });
+      setRecipe({ ingredients: response.data.ingredients });
+      setIsLoaded(true);
+    }
     //If I'm editting a recipe, then I need to wait on the
     //Else, If I'm just adding a recipe, then there is nothing to wait on so isLoaded = true
     if (match.path === EDIT_RECIPE) {
       setIsEdit(true);
       fetchRecipe();
+    } else if (match.path === REQUEST_RECIPE) {
+      fetchRequestedIngredients();
     } else {
       setIsLoaded(true);
     }
@@ -69,39 +84,36 @@ const AddRecipePage = ({ history, match }) => {
   }
 
   return (
-    <React.Fragment>
-      <Formik
-        initialValues={{
-          recipeName: recipe.recipe_name || "",
-          image: recipe.image || "",
-          tags: recipe.tags || [],
-          ingredients: recipe.ingredients || [{ ingredient: "", quantity: "" }],
-          servings: recipe.servings || "",
-          instructions: recipe.method || [{ instruction: "" }],
-          description: recipe.description || "",
-        }}
-        validationSchema={AddRecipeSchema}
-        onSubmit={async (values) => {
-          if (isEdit) {
-            const response = await editRecipeApi(
-              values,
-              match.params.id.substr(1)
-            );
-            if (response.status === 200) {
-              history.push(HOME_PAGE);
-            }
-          } else if (!isEdit) {
-            const response = await createRecipeApi(values);
-            if (response.status === 200) {
-              history.push(HOME_PAGE);
-            }
+    <Formik
+      initialValues={{
+        recipeName: recipe.recipe_name || "",
+        image: recipe.image || "",
+        tags: recipe.tags || [],
+        ingredients: recipe.ingredients || [{ ingredient: "", quantity: "" }],
+        servings: recipe.servings || "",
+        instructions: recipe.method || [{ instruction: "" }],
+        description: recipe.description || "",
+      }}
+      validationSchema={AddRecipeSchema}
+      onSubmit={async (values) => {
+        if (isEdit) {
+          const response = await editRecipeApi(
+            values,
+            match.params.id.substr(1)
+          );
+          if (response.status === 200) {
+            history.push(HOME_PAGE);
           }
-        }}
-      >
-        {(props) => <AddRecipeForm {...props} />}
-      </Formik>
-      {console.log({ return: recipe })}
-    </React.Fragment>
+        } else {
+          const response = await createRecipeApi(values);
+          if (response.status === 200) {
+            history.push(HOME_PAGE);
+          }
+        }
+      }}
+    >
+      {(props) => <AddRecipeForm {...props} />}
+    </Formik>
   );
 };
 

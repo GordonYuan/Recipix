@@ -34,6 +34,7 @@ class searchName(Resource):
         c = conn.cursor()
 
         # 'or' in 'where' of sql finds recipes that match any of the tags specified
+        # recipes only have to match at least one of the input tags if they exist
         sql_str = ('SELECT * from recipes r')
         if tags:
             sql_str += ' join recipe_tag t on r.id = t.recipe_id where '
@@ -67,7 +68,6 @@ class Search(Resource):
         If no tags are passed in, then it returns all recipes that can be constructed from ingredients
     ''')
     def post(self):
-        # real todo
         r = request.json
 
         if not r:
@@ -76,6 +76,7 @@ class Search(Resource):
         ingredients = get_list(r, 'ingredients', 'name')
         tags = get_list(r, 'tags', 'tag')
 
+        # 
         top_n = get_top_recipes(ingredients, tags, 21)
 
         return format_recipe(top_n)

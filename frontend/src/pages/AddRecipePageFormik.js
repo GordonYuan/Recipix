@@ -12,6 +12,7 @@ import {
 import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import editRecipeApi from "../apis/editRecipeApi";
 import createRecipeApi from "../apis/createRecipeApi";
+import { mapTagsObjectToArray } from "../utils/Mappers";
 import getRequestedIngredientsApi from "../apis/getRequestedIngredientsApi";
 
 const AddRecipeSchema = Yup.object().shape({
@@ -28,15 +29,6 @@ const AddRecipeSchema = Yup.object().shape({
   instructions: Yup.array().of(Yup.string()),
   description: Yup.string().required("Please provide a description"),
 });
-
-// const mapTags = (tags) => {
-//   var newTags = [...tags.tag];
-//   return n;
-//   var names = items.map(function(item) {
-//     return item['name'];
-//   });
-
-// };
 
 //This page is re-used depending on context. Adding a recipe can either be from scratch, from edit or from a request.
 const AddRecipePage = ({ history, match }) => {
@@ -59,7 +51,7 @@ const AddRecipePage = ({ history, match }) => {
         request_id: match.params.id.substr(1),
       });
       //Set recipe variable to have the recipe information
-      console.log({ ingredients: response.data.ingredients });
+      // console.log({ ingredients: response.data.ingredients });
       setRecipe({ ingredients: response.data.ingredients });
       setIsLoaded(true);
     }
@@ -72,8 +64,9 @@ const AddRecipePage = ({ history, match }) => {
       fetchRequestedIngredients();
     } else {
       setIsLoaded(true);
+      setRecipe({});
     }
-  }, []);
+  }, [match.path]);
 
   if (!isLoaded) {
     return (
@@ -85,10 +78,11 @@ const AddRecipePage = ({ history, match }) => {
 
   return (
     <Formik
+      enableReinitialize
       initialValues={{
         recipeName: recipe.recipe_name || "",
         image: recipe.image || "",
-        tags: recipe.tags || [],
+        tags: !!recipe.tags ? mapTagsObjectToArray(recipe.tags) : [],
         ingredients: recipe.ingredients || [{ ingredient: "", quantity: "" }],
         servings: recipe.servings || "",
         instructions: recipe.method || [{ instruction: "" }],

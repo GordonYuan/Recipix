@@ -1,4 +1,7 @@
 import axios from "axios";
+import { mapArrayToTagsObject } from "../utils/Mappers";
+
+// mapTags = (tags) => {};
 
 const editRecipeApi = async (values, id, setError) => {
   let baseUrl = "http://127.0.0.1:5000/recipe/edit";
@@ -7,7 +10,7 @@ const editRecipeApi = async (values, id, setError) => {
     recipe_id: id,
     recipe_name: values.recipeName,
     image: values.image,
-    tags: values.tags,
+    tags: mapArrayToTagsObject(values.tags),
     ingredients: values.ingredients,
     servings: values.servings,
     method: values.instructions,

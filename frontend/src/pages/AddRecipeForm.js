@@ -1,45 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import FileBase64 from "react-file-base64";
 import TagFilter from "../components/TagFilter";
 
 const AddRecipeForm = (props) => {
-  const { handleSubmit, values, errors, setFieldValue, handleChange } = props;
-
-  const [ingredientList, setIngredientList] = useState([
-    { name: "", quantity: "" },
-  ]);
-
-  const [instructionList, setInstructionList] = useState([
-    { step_number: "", instruction: "" },
-  ]);
-
-  // useEffect(() => {
-  //   values.ingredients = ingredientList;
-  //   values.instructions = instructionList;
-  // }, [ingredientList, instructionList]);
+  const {
+    handleSubmit,
+    values,
+    errors,
+    setFieldValue,
+    handleChange,
+    handleBlur,
+    touched,
+  } = props;
 
   // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
     const { name, value } = e.target;
     const list = [...values.ingredients];
     list[idx][name] = value;
-    setIngredientList(list);
+    setFieldValue("ingredients", list);
   };
 
   const handleAddIngredient = () => {
     const list = [...values.ingredients];
     list.push({ name: "", quantity: "" });
-    setIngredientList(list);
+    setFieldValue("ingredients", list);
   };
 
   const handleRemoveIngredient = (idx) => {
     const list = [...values.ingredients];
     list.splice(idx, 1);
-    setIngredientList(list);
+    setFieldValue("ingredients", list);
   };
 
   //Functional components needed to dynamically add instructions to the recipe
@@ -49,20 +47,19 @@ const AddRecipeForm = (props) => {
 
     const list = [...values.instructions];
     list[idx][name] = value;
-    setInstructionList(list);
-    values.instructions[idx].step_number = idx + 1;
+    setFieldValue("instructions", list);
   };
 
   const handleAddInstruction = () => {
     const list = [...values.instructions];
     list.push({ step_number: "", instruction: "" });
-    setInstructionList(list);
+    setFieldValue("instructions", list);
   };
 
   const handleRemoveInstruction = (idx) => {
     const list = [...values.instructions];
     list.splice(idx, 1);
-    setInstructionList(list);
+    setFieldValue("instructions", list);
   };
 
   const getFiles = (files) => {
@@ -70,11 +67,6 @@ const AddRecipeForm = (props) => {
       var regex = /[^,"]+$/;
       values.image = files.base64.match(regex)[0];
     }
-    // console.log(values.image);
-  };
-
-  const setTags = (tags) => {
-    setFieldValue("tags", tags);
   };
 
   return (
@@ -93,8 +85,9 @@ const AddRecipeForm = (props) => {
             label="Recipe Name"
             onChange={handleChange}
             value={values.recipeName}
-            error={Boolean(errors.recipeName)}
-            helperText={errors.recipeName}
+            error={touched.recipeName && Boolean(errors.recipeName)}
+            helperText={touched.recipeName ? errors.recipeName : ""}
+            onBlur={handleBlur}
             fullWidth
           />
         </Grid>
@@ -115,14 +108,18 @@ const AddRecipeForm = (props) => {
             label="Description"
             onChange={handleChange}
             value={values.description}
-            error={Boolean(errors.description)}
-            helperText={errors.description}
+            error={touched.description && Boolean(errors.description)}
+            helperText={touched.description ? errors.description : ""}
+            onBlur={handleBlur}
             fullWidth
           />
         </Grid>
         {/* Tags field */}
         <Grid item xs={12} sm={12}>
-          <TagFilter tagsState={values.tags} setTagsState={setTags} />
+          <TagFilter
+            tagsState={values.tags}
+            setTagsState={(tags) => setFieldValue("tags", tags)}
+          />
         </Grid>
         {/* Servings field */}
         <Grid item xs={12} sm={12}>
@@ -133,8 +130,9 @@ const AddRecipeForm = (props) => {
             label="Servings"
             onChange={handleChange}
             value={values.servings}
-            error={Boolean(errors.servings)}
-            helperText={errors.servings}
+            error={touched.servings && Boolean(errors.servings)}
+            helperText={touched.servings ? errors.servings : ""}
+            onBlur={handleBlur}
           />
         </Grid>
       </Grid>
@@ -165,23 +163,23 @@ const AddRecipeForm = (props) => {
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "25%", marginLeft: "1rem" }}
                 />
-                {values.ingredients.length - 1 === idx && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleAddIngredient}
-                  >
-                    Add
-                  </Button>
-                )}
                 {values.ingredients.length !== 1 && (
-                  <Button
-                    variant="contained"
+                  <IconButton
+                    aria-label="delete"
                     color="secondary"
                     onClick={() => handleRemoveIngredient(idx)}
                   >
-                    Remove
-                  </Button>
+                    <DeleteIcon />
+                  </IconButton>
+                )}
+                {values.ingredients.length - 1 === idx && (
+                  <IconButton
+                    aria-label="delete"
+                    color="primary"
+                    onClick={() => handleAddIngredient()}
+                  >
+                    <AddCircleIcon />
+                  </IconButton>
                 )}
               </div>
             </Grid>
@@ -207,23 +205,23 @@ const AddRecipeForm = (props) => {
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
                 />
-                {values.instructions.length - 1 === idx && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleAddInstruction}
-                  >
-                    Add
-                  </Button>
-                )}
                 {values.instructions.length !== 1 && (
-                  <Button
-                    variant="contained"
+                  <IconButton
+                    aria-label="delete"
                     color="secondary"
                     onClick={() => handleRemoveInstruction(idx)}
                   >
-                    Remove
-                  </Button>
+                    <DeleteIcon />
+                  </IconButton>
+                )}
+                {values.instructions.length - 1 === idx && (
+                  <IconButton
+                    aria-label="delete"
+                    color="primary"
+                    onClick={() => handleAddInstruction()}
+                  >
+                    <AddCircleIcon />
+                  </IconButton>
                 )}
               </div>
             </Grid>
@@ -237,10 +235,10 @@ const AddRecipeForm = (props) => {
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
       <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
+      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre> */}
+      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
-      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
-      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
+      {/* <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>
   );

@@ -13,7 +13,7 @@ class Add(Resource):
     @ingredients.response(403, 'ingredient already exists')
     @ingredients.expect(ingredient_detail_model)
     @ingredients.doc(description='''
-    	takes in category, and ingredient_name
+    	Takes in category, and ingredient_name
         Sending the ingredient into this endpoint will result in the ingredient being added to the database.
         Once added to the database, the ingredient will show up when searched for
     ''')
@@ -22,8 +22,8 @@ class Add(Resource):
         ### TODO 
         if not r:
             abort(400, 'Malformed Request')
-        ing_name = r['name']
-        ing_category = r['category']
+        ing_name = r['name'].lower()
+        ing_category = r['category'].lower()
         
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
@@ -34,10 +34,11 @@ class Add(Resource):
         existing_ingredient = c.fetchone()
 
         if existing_ingredient:
-            abort(403, 'Ingredient already exists')
+            abort(403, 'Ingredient already exists') 
 
         sql = 'INSERT INTO ingredients (name, category) VALUES (?, ?)'
         vals = (ing_name, ing_category)
+
         c.execute(sql, vals)
         conn.commit()
 
@@ -51,7 +52,6 @@ class Add(Resource):
 class All(Resource):
     @ingredients.response(200, 'Success', categories_model)
     @ingredients.doc(description='''
-    	Takes in nothing
         Returns a list of all the existing ingredients that is stored in the database.
     ''')
     def get(self):
@@ -60,12 +60,14 @@ class All(Resource):
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
+        # get all ingredients from database
         c.execute('SELECT * from ingredients;')
         t = c.fetchall()
         
         c.close()
         conn.close()
 
+        # formats the ingredients into specific categories
         ret = {"categories": []}
         ing = {}
         for x,y in t:
@@ -85,4 +87,5 @@ class All(Resource):
                 cat['ingredients'].append(ingred)
             ret['categories'].append(cat)
         
+        # returns the ingredients in a specified format
         return ret

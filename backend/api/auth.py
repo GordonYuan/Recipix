@@ -21,31 +21,43 @@ class Login(Resource):
     	Authentication token verifies the user
     ''')
     def post(self):
-        j = request.json
-        username = j['username']
-        password = j['password']
+        r = request.json
+
+        if not r: 
+            abort(400, 'Malformed Request')
+
+        username = r['username']
+        password = r['password']
 
         if not username or not password:
             abort(400, 'Malformed Request')
 
-        # check if user is in database
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        user_exist_sql = 'SELECT username, salt, hash FROM users where username = "{}"'.format(username)
-        c.execute(user_exist_sql)
-        res = c.fetchall()
-        if not res:
-            abort(403, 'Invalid Username/Password')
-        [(username, salt, stored_hash)] = res
 
-        salted_password = password + salt
-        gen_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+        # get user information from database
+        sql = 'SELECT username, salt, hash FROM users where username = ?'
+        vals = (username,)
+        c.execute(sql, vals)
 
-        if stored_hash != gen_hash:
-            abort(403, 'Invalid Username/Password')
+        res = c.fetchone()
 
         c.close()
         conn.close()
+        if not res:
+            abort(403, 'Invalid Username/Password')
+
+        (username, salt, stored_hash) = res
+
+        # compute the hash of password passed in 
+        salted_password = password + salt
+        gen_hash = hashlib.sha256(salted_password.encode()).hexdigest()
+
+        # compare the computed hash and stored hash
+        if stored_hash != gen_hash:
+            abort(403, 'Invalid Username/Password')
+
+        # it if falls through then they are the proper user
 
         return {
             'token': stored_hash
@@ -71,23 +83,28 @@ class Register(Resource):
         if not username or not password:
             abort(400, 'Malformed Request')
 
-        # check if user is in database
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-        user_exist_sql = 'SELECT username FROM users where username = "{}"'.format(username)
-        c.execute(user_exist_sql)
+
+        sql = 'SELECT username FROM users where username = ?'
+        vals = (username,)
+        c.execute(sql, vals)
+
+        # checking if user exists already
         user_exists = c.fetchall()
         if user_exists:
             abort(409, 'Username Taken, Registered user already exists')
 
+        # generate salt
         salt = secrets.token_hex(4)
         salted_password = password + salt
 
+        # generate hash of salt appended password
         hash = hashlib.sha256(salted_password.encode()).hexdigest()
         sql = 'INSERT INTO users (username, salt, hash) VALUES ("{}", "{}", "{}")'.format(username, salt, hash)
         c.execute(sql)
-        conn.commit()
 
+        conn.commit()
         c.close()
         conn.close()
         

@@ -2,13 +2,10 @@ from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
 
-
 def authenticate(req):
     # get the token
     token = req.headers.get('Authorization')
-    print(req.headers.get('Authorization'))
-    # print(req.headers)
-    # print(token)
+
     if not token:
         abort(403, 'Invalid Authentication Token')
 
@@ -19,7 +16,7 @@ def authenticate(req):
     # find user
     c.execute('SELECT username from users where hash = ?', (token,))
     res = c.fetchone()
-    print(res)
+
     if not res:
         abort(403, 'Invalid Authentication Token')
     user, = res
@@ -33,16 +30,20 @@ def format_recipe(recipe_t):
     c = conn.cursor()
     ret = {"recipes": []}
     for i, t in enumerate(recipe_t):
+        # get tags for each recipe_id, store in tag_t
         c.execute(
             'SELECT tag from Recipe_Tag where recipe_id = {}'.format(t[0]))
         tag_t = c.fetchall()
+        # get ingredients for each recipe_id, store in ingredient_t
         c.execute(
             'SELECT ingredient_name, quantity from Recipe_Has where recipe_id = {}'.format(t[0]))
         ingredient_t = c.fetchall()
+        # get methods for each recipe_id, store in method_t
         c.execute(
             'SELECT step, instruction from Methods where recipe_id = {}'.format(t[0]))
         method_t = c.fetchall()
 
+        # setting up json model format
         ret["recipes"].append({})
         curr = ret["recipes"][i]
         curr["recipe_id"] = t[0]
@@ -56,6 +57,7 @@ def format_recipe(recipe_t):
         curr["ingredients"] = []
         curr["method"] = []
 
+        # extracting information from tuples into json model format
         for i, t in enumerate(tag_t):
             curr["tags"].append({})
             curr_tag = curr["tags"][i]
@@ -105,9 +107,6 @@ def get_top_recipes(ingredients, tags, n):
         sql_tag += 'tag = "{}" or '.format(i)
     sql_tag = sql_tag[:-4]
     sql_tag += ')'
-    print("Sql_tag = " + sql_tag)
-
-    # print(tags)
 
     # check if top recipes from first sql statement match at least 1 of the tags
     # in the input tag list if they exist
@@ -119,7 +118,6 @@ def get_top_recipes(ingredients, tags, n):
             continue
         sql_str2 = 'SELECT * from recipe_tag where recipe_id = {} and '.format(i[0])
         sql_str2 += sql_tag
-        # print(sql_str2)
         c.execute(sql_str2)
         if (c.fetchall()):
             top_n.append(i)
@@ -139,6 +137,8 @@ def get_list(r, key, key2):
         res_list.append(x[key2])
     return res_list
 
+# Helper function for updating requests
+# If ingredient matches any requests, remove them
 def update_requests(ingredients):
     # Once added in, needs to remove any requests that have been fulfilled. 
     # checking if ingredients used in recipe meets any of the requests
@@ -173,3 +173,88 @@ def update_requests(ingredients):
         c.execute(sql, vals)
 
         conn.commit()
+
+# Helper function for deleting entries with recipe_id from the database
+def delete_from_table(table, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+
+    # allowing cascade deletes
+    c.execute('PRAGMA foreign_keys = ON')
+
+    column_name = 'recipe_id'
+    if table == 'recipes':
+        column_name = 'id'
+
+    sql = 'DELETE FROM {} where {} = ?'.format(table, column_name)
+
+    c.execute(sql, (recipe_id,))
+    conn.commit()
+    c.close()
+    conn.close()
+
+# Helper function for adding methods into a table, associating it with a specific
+# recipe id
+def add_into_methods(methods, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    vals = []
+    for m in methods:
+        vals.append((recipe_id, m['step_number'], m['instruction']))
+
+    print(vals)
+    sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)'
+    c.executemany(sql, vals)
+    conn.commit()
+    c.close()
+    conn.close()
+
+# Helper function for adding ingredients into a table
+# associating the ingredient with a specific recipe id
+def add_into_recipe_has(ingredients, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    vals = []
+    for i in ingredients:
+        vals.append((recipe_id, i['name'], i['quantity']))
+    
+    sql = 'INSERT INTO recipe_has(recipe_id, ingredient_name, quantity) VALUES (?, ?, ?)'
+    c.executemany(sql, vals)
+    conn.commit()
+    c.close()
+    conn.close()
+
+# Helper function for adding tags into a table
+# associating the ingredient with a specific recipe id
+def add_into_recipe_tag(tags, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    vals = []
+    for t in tags:
+        vals.append((recipe_id, t['tag']))
+    
+    print(vals)  
+    sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
+    c.executemany(sql, vals)
+    conn.commit()
+    c.close()
+    conn.close()
+
+# Checks that the a specific user is associated with a recipe_id
+# If it does not, then it aborts 
+def check_owner(user, recipe_id):
+    conn = sqlite3.connect('database/recipix.db')
+    c = conn.cursor()
+    c.execute('SELECT username from Recipes where id = ?', (recipe_id,))
+    res = c.fetchone()
+    c.close()
+    conn.close()
+    # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
+    if not res:
+        abort(406, 'Recipe does not exist')
+
+    owner_user, = res
+
+    if owner_user != user:
+        abort(401, 'Invalid User')
+

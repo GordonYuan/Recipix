@@ -39,7 +39,6 @@ class Add(Resource):
         sql = 'INSERT INTO ingredients (name, category) VALUES (?, ?)'
         vals = (ing_name, ing_category)
 
-        print('adding {}'.format(vals))
         c.execute(sql, vals)
         conn.commit()
 

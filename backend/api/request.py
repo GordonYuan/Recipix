@@ -24,9 +24,7 @@ class Request(Resource):
         if not r:
             abort(400, 'Malformed Request')
         
-        ingredients = get_list(r, 'ingredients', 'name') 
-
-        print(ingredients)
+        ingredients = get_list(r, 'ingredients', 'name')
 
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
@@ -118,7 +116,7 @@ class Find(Resource):
         ret = {'ingredients': []}
         for i in res:
             _, ingredient = i
-            print(i)
+
             ret['ingredients'].append({
                 'name': ingredient
             })
@@ -155,7 +153,6 @@ class All(Resource):
             ingredients = []
             for j in ingred_res:
                 ingredient, = j
-                print()
                 ingredients.append({
                     'name' : ingredient
                 })

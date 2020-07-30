@@ -133,7 +133,7 @@ for id in range(1, 151):
 rec_tags = list(set(rec_tags))
 
 print("##################################")
-print("ingredients brother")
+print("recipes brother")
 for x in recipes:
     print(x)
 

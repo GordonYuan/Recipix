@@ -201,22 +201,11 @@ class Edit(Resource):
         r = request.json
         user = authenticate(request)
         recipe_id = r['recipe_id']
-
+        check_owner(user, recipe_id)
+        
         # connect to db
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
-
-        c.execute('SELECT username from Recipes where id = ?', (recipe_id,))
-        res = c.fetchone()
-
-        # if it doesnt return anything, then recipe doesnt exist, cannot edit it.
-        if not res:
-            abort(406, 'Recipe does not exist')
-
-        owner_user, = res
-        # checks if owner of recipe is same as person from token
-        if owner_user != user:
-            abort(401, 'Unauthorized')
 
         name = r['recipe_name']
         image = r['image']
@@ -281,7 +270,7 @@ class Delete(Resource):
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
-        check_owner(c, user, recipe_id)
+        check_owner(user, recipe_id)
 
         # allowing cascade deletes
         c.execute('PRAGMA foreign_keys = ON;')

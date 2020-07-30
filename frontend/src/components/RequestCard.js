@@ -3,7 +3,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
-import { ADD_RECIPE } from "../constants/urlConstants";
 
 // clicking the request card populates add reccipe page with ingredients?
 

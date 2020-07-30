@@ -51,16 +51,16 @@ const TagFilter = (props) => {
           </FormLabel>
           {tags.map((item) => (
             <FormControlLabel
-              key={item.tag[0]}
+              key={item.tag}
               control={
                 <Checkbox
                   color="primary"
-                  checked={tagsState.includes(item.tag[0]) || false}
+                  checked={tagsState.includes(item.tag) || false}
                   onChange={handleChange}
-                  name={item.tag[0]}
+                  name={item.tag}
                 />
               }
-              label={item.tag[0]}
+              label={item.tag}
             />
           ))}
         </FormGroup>

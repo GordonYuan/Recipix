@@ -25,21 +25,27 @@ def authenticate(req):
 
     return user
 
+# format recipe tuples input in recipe_t into suitable json return type 
+# to be passed back into the front end
 def format_recipe(recipe_t):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
     ret = {"recipes": []}
     for i, t in enumerate(recipe_t):
+        # get tags for each recipe_id, store in tag_t
         c.execute(
             'SELECT tag from Recipe_Tag where recipe_id = {}'.format(t[0]))
         tag_t = c.fetchall()
+        # get ingredients for each recipe_id, store in ingredient_t
         c.execute(
             'SELECT ingredient_name, quantity from Recipe_Has where recipe_id = {}'.format(t[0]))
         ingredient_t = c.fetchall()
+        # get methods for each recipe_id, store in method_t
         c.execute(
             'SELECT step, instruction from Methods where recipe_id = {}'.format(t[0]))
         method_t = c.fetchall()
 
+        # setting up json model format
         ret["recipes"].append({})
         curr = ret["recipes"][i]
         curr["recipe_id"] = t[0]
@@ -53,6 +59,7 @@ def format_recipe(recipe_t):
         curr["ingredients"] = []
         curr["method"] = []
 
+        # extracting information from tuples into json model format
         for i, t in enumerate(tag_t):
             curr["tags"].append({})
             curr_tag = curr["tags"][i]
@@ -69,11 +76,14 @@ def format_recipe(recipe_t):
             curr_method = curr["method"][i]
             curr_method["step_number"] = t[0]
             curr_method["instruction"] = t[1]
+
     c.close()
     conn.close()
     return ret
 
 # get n top recipes from ingredients and tags lists
+# top recipes refers to recipes that have the most number 
+# of ingredient matches to the input ingredients list
 def get_top_recipes(ingredients, tags, n):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
@@ -89,9 +99,10 @@ def get_top_recipes(ingredients, tags, n):
     c.execute(sql_str)
     recipe_t = c.fetchall()
 
-    # get top 20 recipes that match tags
+    # get top n recipes that match tags
     top_n = []
 
+    # formatting sql_tag query for input list of tags
     sql_tag = '('
     for i in tags:
         sql_tag += 'tag = "{}" or '.format(i)
@@ -101,6 +112,8 @@ def get_top_recipes(ingredients, tags, n):
 
     # print(tags)
 
+    # check if top recipes from first sql statement match at least 1 of the tags
+    # in the input tag list if they exist
     for i in recipe_t:
         if len(top_n) == n:
             break
@@ -119,7 +132,8 @@ def get_top_recipes(ingredients, tags, n):
 
     return top_n
 
-# get ingredients and tags into a two lists from the json request r
+# formats particular input (e.g. ingredients list) 
+# from the json request r into a list
 def get_list(r, key, key2):
     res_list = []
     for x in r[key]:

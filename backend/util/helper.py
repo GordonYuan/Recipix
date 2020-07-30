@@ -72,7 +72,6 @@ def format_recipe(recipe_t):
         for i, t in enumerate(method_t):
             curr["method"].append({})
             curr_method = curr["method"][i]
-            curr_method["step_number"] = t[0]
             curr_method["instruction"] = t[1]
 
     c.close()
@@ -94,7 +93,6 @@ def get_top_recipes(ingredients, tags, n):
     sql_str = sql_str[:-3]
     sql_str += 'group by recipe_id order by count(*) desc'
 
-    print(sql_str)
     c.execute(sql_str)
     recipe_t = c.fetchall()
 
@@ -195,14 +193,15 @@ def delete_from_table(table, recipe_id):
 
 # Helper function for adding methods into a table, associating it with a specific
 # recipe id
-def add_into_methods(methods, recipe_id):
+def add_into_methods(method, recipe_id):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
     vals = []
-    for m in methods:
-        vals.append((recipe_id, m['step_number'], m['instruction']))
+    i = 1
+    for m in method:
+        vals.append((recipe_id, i, m['instruction']))
+        i += 1
 
-    print(vals)
     sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)'
     c.executemany(sql, vals)
     conn.commit()
@@ -232,29 +231,9 @@ def add_into_recipe_tag(tags, recipe_id):
     vals = []
     for t in tags:
         vals.append((recipe_id, t['tag']))
-    
-    print(vals)  
+     
     sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
     c.executemany(sql, vals)
     conn.commit()
     c.close()
     conn.close()
-
-# Checks that the a specific user is associated with a recipe_id
-# If it does not, then it aborts 
-def check_owner(user, recipe_id):
-    conn = sqlite3.connect('database/recipix.db')
-    c = conn.cursor()
-    c.execute('SELECT username from Recipes where id = ?', (recipe_id,))
-    res = c.fetchone()
-    c.close()
-    conn.close()
-    # if it doesnt return anything, then recipe doesnt exist, cannot delete it.
-    if not res:
-        abort(406, 'Recipe does not exist')
-
-    owner_user, = res
-
-    if owner_user != user:
-        abort(401, 'Invalid User')
-

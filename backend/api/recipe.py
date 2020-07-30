@@ -1,6 +1,7 @@
 from app import api
 from util.models import *
 from util.helper import *
+from util.checkers import *
 from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
@@ -133,13 +134,17 @@ class Add(Resource):
     def post(self):
         user = authenticate(request)
         r = request.json
+        
+        check_recipe(r)
 
         # Extracting information from payload
         name = r['recipe_name']
         image = r['image']
         servings = r['servings']
         description = r['description']
-        print(r)
+
+        # Checking the input being passed in 
+
         # connect to db
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
@@ -156,7 +161,6 @@ class Add(Resource):
         c.execute(sql, vals)
         recipe_id, = c.fetchone()
 
-        print("in add recipe_id = {}".format(recipe_id))
         # Adding method for recipe 
         add_into_methods(r['method'], recipe_id)
 
@@ -200,6 +204,9 @@ class Edit(Resource):
     ''')
     def post(self):
         r = request.json
+
+        check_recipe(r)
+
         user = authenticate(request)
         recipe_id = r['recipe_id']
         check_owner(user, recipe_id)
@@ -263,10 +270,9 @@ class Delete(Resource):
     ''')
     def post(self):
         # get the user associated with token
-        user = authenticate(request)
-
         r = request.json
 
+        user = authenticate(request)
         recipe_id = r['recipe_id']
         
         check_owner(user, recipe_id)
@@ -276,7 +282,6 @@ class Delete(Resource):
 
         # delete from recipes table
         delete_from_table('recipes', recipe_id)
-
 
         conn.commit()
         c.close()
@@ -317,6 +322,7 @@ class Find(Resource):
     @recipe.response(200, 'Success', recipe_list_model)
     @recipe.response(400, 'Malformed Request')
     @recipe.expect(recipe_id_model)
+    @recipe.response(406, 'Recipe does not exist')
     @recipe.doc(description='''
         Takes in a recipe_id 
         Returns the detail of the recipe associated with that recipe_id
@@ -328,6 +334,8 @@ class Find(Resource):
         if not r:
             abort(400, 'Malformed Request')
 
+        check_id_recipe(r)
+
         recipe_id = r['recipe_id']
     
         conn = sqlite3.connect('database/recipix.db')
@@ -335,6 +343,9 @@ class Find(Resource):
 
         c.execute('SELECT * from recipes where id = ?', (recipe_id, ))
         recipe_t = c.fetchall()
+
+        if not recipe_t:
+            abort(406, 'Recipe id does not exist')
 
         c.close()
         conn.close()

@@ -65,19 +65,18 @@ recipe_name_tags_model = api.model('recipe_name_tags_model', {
 })
 
 recipe_method_model = api.model('recipe_method_model', {
-  'step_number' : fields.Integer(required=True, min=1),
   'instruction' : fields.String(required=True, example='Boil the water for 50 minutes until evaporated')
 })
 
 recipe_complete_model = api.model('recipe_complete_model', {
   'recipe_id' : fields.Integer(required=True, min=0), 
   'recipe_name' : fields.String(required=True, example='eggs and Cheese ham'),
+  'servings' : fields.Integer(required=True, min=0),
+  'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings'),
   'image' : fields.String(required=True, example='base64String'),
   'tags' : fields.List(fields.Nested(tag_model)),
   'ingredients' : fields.List(fields.Nested(ingredients_recipe_model)),
-  'servings' : fields.Integer(required=True, min=0),
-  'method' : fields.List(fields.Nested(recipe_method_model)),
-  'description' : fields.String(required=True, example='Eggs and cheese ham is a deluxe meal served for kings')
+  'method' : fields.List(fields.Nested(recipe_method_model))
 })
 
 recipe_id_model = api.model('recipe_id_model', {

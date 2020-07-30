@@ -1,5 +1,7 @@
 from app import api
 from util.models import *
+from util.helper import *
+from util.checkers import *
 from flask_restplus import Resource, fields, abort
 from flask import request
 import sqlite3
@@ -22,6 +24,9 @@ class Add(Resource):
         ### TODO 
         if not r:
             abort(400, 'Malformed Request')
+
+        check_ingredients_category(r)
+
         ing_name = r['name'].lower()
         ing_category = r['category'].lower()
         

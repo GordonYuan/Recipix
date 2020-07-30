@@ -7,6 +7,8 @@ import RecipeCard from "../components/RecipeCard";
 
 const MyRecipesPage = (props) => {
   //Login check already done
+  // TODO: make isLoading variable which shows loading icon. If user has no
+  // recipes, it should render another ui component
   const [recipes, setRecipes] = useState([]);
   useEffect(() => {
     async function fetchRecipes() {

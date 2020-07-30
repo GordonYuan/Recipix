@@ -93,4 +93,7 @@ refactoring all code.
 
 Week 9
 Monday
-sclean up some backend bugs by andrew, and implemented another api call.
+clean up some backend bugs by andrew, and implemented another api call.
+
+Tuesday-Wednesday
+Discussion about functionality with group, Andrew, fixing bugs with Andrew, adding additional test data, final cleanup of backend

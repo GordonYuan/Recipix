@@ -10,6 +10,7 @@ import {
   ADD_RECIPE,
   LOGIN,
   MY_RECIPES,
+  REQUESTS,
 } from "../constants/urlConstants";
 
 const NavBar = ({ history }) => {
@@ -29,14 +30,23 @@ const NavBar = ({ history }) => {
           </Grid>
           <Grid item>
             {signedIn && (
-              <Button color="inherit" onClick={() => history.push(MY_RECIPES)}>
-                MY RECIPES
-              </Button>
-            )}
-            {signedIn && (
-              <Button color="inherit" onClick={() => history.push(ADD_RECIPE)}>
-                ADD RECIPE
-              </Button>
+              <>
+                <Button
+                  color="inherit"
+                  onClick={() => history.push(MY_RECIPES)}
+                >
+                  MY RECIPES
+                </Button>
+                <Button
+                  color="inherit"
+                  onClick={() => history.push(ADD_RECIPE)}
+                >
+                  ADD RECIPE
+                </Button>
+                <Button color="inherit" onClick={() => history.push(REQUESTS)}>
+                  REQUESTS
+                </Button>
+              </>
             )}
             <Button color="inherit" onClick={() => history.push(RECIPE_SEARCH)}>
               SEARCH RECIPES

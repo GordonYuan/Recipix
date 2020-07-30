@@ -35,8 +35,13 @@ class searchName(Resource):
         conn = sqlite3.connect('database/recipix.db')
         c = conn.cursor()
 
+<<<<<<< HEAD
         # Creating sql string to find recipes which match 
         # any of the tags that are passed in
+=======
+        # 'or' in 'where' of sql finds recipes that match any of the tags specified
+        # recipes only have to match at least one of the input tags if they exist
+>>>>>>> master
         sql_str = ('SELECT * from recipes r')
         if tags:
             sql_str += ' join recipe_tag t on r.id = t.recipe_id where '
@@ -84,7 +89,11 @@ class Search(Resource):
         # Extracting tags from the payload
         tags = get_list(r, 'tags', 'tag')
 
+<<<<<<< HEAD
         # Getting top 21 ingredients that match the ingredients and tags
+=======
+        # 
+>>>>>>> master
         top_n = get_top_recipes(ingredients, tags, 21)
 
         return format_recipe(top_n)

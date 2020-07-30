@@ -86,7 +86,7 @@ def get_top_recipes(ingredients, tags, n):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
 
-    # form the sql string dynamically based on
+    # form the sql string dynamically based on input list of ingredients
     sql_str = ('SELECT id, username, name, servings, description, thumbnail, '
                 'count(*) from recipe_has h join recipes r on id = recipe_id where ')
     for i in ingredients:
@@ -94,6 +94,7 @@ def get_top_recipes(ingredients, tags, n):
     sql_str = sql_str[:-3]
     sql_str += 'group by recipe_id order by count(*) desc'
 
+    print(sql_str)
     c.execute(sql_str)
     recipe_t = c.fetchall()
 

@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import deleteRecipeApi from "../apis/deleteRecipeApi";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { withRouter } from "react-router";
 
 const useStyles = makeStyles({
   media: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
 // -> when searching, it will filter for recipes
 
 const RecipeCard = (props) => {
-  const { title, imagePath, recipeId, canEdit } = props;
+  const { title, imagePath, recipeId, canEdit, history } = props;
   // console.log(imagePath);
   const classes = useStyles();
 
@@ -63,7 +64,7 @@ const RecipeCard = (props) => {
                 aria-label="edit"
                 size="small"
                 onClick={() => {
-                  //
+                  history.push("/edit-recipe/:" + recipeId);
                 }}
               >
                 <EditIcon fontSize="small" />
@@ -90,4 +91,4 @@ const RecipeCard = (props) => {
   );
 };
 
-export default RecipeCard;
+export default withRouter(RecipeCard);

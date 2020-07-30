@@ -7,7 +7,7 @@ import FileBase64 from "react-file-base64";
 import TagFilter from "../components/TagFilter";
 
 const AddRecipeForm = (props) => {
-  const { handleSubmit, values, errors, setFieldValue } = props;
+  const { handleSubmit, values, errors, setFieldValue, handleChange } = props;
 
   const [ingredientList, setIngredientList] = useState([
     { name: "", quantity: "" },
@@ -17,27 +17,27 @@ const AddRecipeForm = (props) => {
     { step_number: "", instruction: "" },
   ]);
 
-  useEffect(() => {
-    values.ingredients = ingredientList;
-    values.instructions = instructionList;
-  }, [ingredientList, instructionList]);
+  // useEffect(() => {
+  //   values.ingredients = ingredientList;
+  //   values.instructions = instructionList;
+  // }, [ingredientList, instructionList]);
 
   // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
     const { name, value } = e.target;
-    const list = [...ingredientList];
+    const list = [...values.ingredients];
     list[idx][name] = value;
     setIngredientList(list);
   };
 
   const handleAddIngredient = () => {
-    const list = [...ingredientList];
+    const list = [...values.ingredients];
     list.push({ name: "", quantity: "" });
     setIngredientList(list);
   };
 
   const handleRemoveIngredient = (idx) => {
-    const list = [...ingredientList];
+    const list = [...values.ingredients];
     list.splice(idx, 1);
     setIngredientList(list);
   };
@@ -47,20 +47,20 @@ const AddRecipeForm = (props) => {
   const handleInstrChange = (e, idx) => {
     const { name, value } = e.target;
 
-    const list = [...instructionList];
+    const list = [...values.instructions];
     list[idx][name] = value;
     setInstructionList(list);
-    instructionList[idx].step_number = idx + 1;
+    values.instructions[idx].step_number = idx + 1;
   };
 
   const handleAddInstruction = () => {
-    const list = [...instructionList];
+    const list = [...values.instructions];
     list.push({ step_number: "", instruction: "" });
     setInstructionList(list);
   };
 
   const handleRemoveInstruction = (idx) => {
-    const list = [...instructionList];
+    const list = [...values.instructions];
     list.splice(idx, 1);
     setInstructionList(list);
   };
@@ -91,6 +91,7 @@ const AddRecipeForm = (props) => {
             id="recipeName"
             name="recipeName"
             label="Recipe Name"
+            onChange={handleChange}
             value={values.recipeName}
             error={Boolean(errors.recipeName)}
             helperText={errors.recipeName}
@@ -112,6 +113,7 @@ const AddRecipeForm = (props) => {
             id="description"
             name="description"
             label="Description"
+            onChange={handleChange}
             value={values.description}
             error={Boolean(errors.description)}
             helperText={errors.description}
@@ -129,6 +131,7 @@ const AddRecipeForm = (props) => {
             id="servings"
             name="servings"
             label="Servings"
+            onChange={handleChange}
             value={values.servings}
             error={Boolean(errors.servings)}
             helperText={errors.servings}
@@ -140,16 +143,16 @@ const AddRecipeForm = (props) => {
         Ingredients
       </Typography>
       <Grid container spacing={4}>
-        {ingredientList.map((item, idx) => {
+        {values.ingredients.map((item, idx) => {
           return (
             <Grid item xs={12}>
               <div key={idx}>
                 <TextField
                   required
-                  id="ingredient"
+                  id="name"
                   name="name"
                   label="Type in your ingredient..."
-                  value={item.ingredient}
+                  value={item.name}
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "50%" }}
                 />
@@ -162,7 +165,7 @@ const AddRecipeForm = (props) => {
                   onChange={(e) => handleIngreChange(e, idx)}
                   style={{ width: "25%", marginLeft: "1rem" }}
                 />
-                {ingredientList.length - 1 === idx && (
+                {values.ingredients.length - 1 === idx && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -171,7 +174,7 @@ const AddRecipeForm = (props) => {
                     Add
                   </Button>
                 )}
-                {ingredientList.length !== 1 && (
+                {values.ingredients.length !== 1 && (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -190,7 +193,7 @@ const AddRecipeForm = (props) => {
         Instructions
       </Typography>
       <Grid container spacing={4}>
-        {instructionList.map((item, idx) => {
+        {values.instructions.map((item, idx) => {
           return (
             <Grid item xs={12}>
               Step {idx + 1}
@@ -204,7 +207,7 @@ const AddRecipeForm = (props) => {
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
                 />
-                {instructionList.length - 1 === idx && (
+                {values.instructions.length - 1 === idx && (
                   <Button
                     variant="contained"
                     color="primary"
@@ -213,7 +216,7 @@ const AddRecipeForm = (props) => {
                     Add
                   </Button>
                 )}
-                {instructionList.length !== 1 && (
+                {values.instructions.length !== 1 && (
                   <Button
                     variant="contained"
                     color="secondary"
@@ -236,8 +239,8 @@ const AddRecipeForm = (props) => {
       <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
       {/* <pre>{JSON.stringify(ingredientList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
-      <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
+      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
       {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </React.Fragment>
   );

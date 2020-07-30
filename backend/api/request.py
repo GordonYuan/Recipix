@@ -11,7 +11,7 @@ req = api.namespace('req', description='Requesting for Recipes to be made with i
 class Request(Resource):
     @req.response(200, 'Success')
     @req.response(400, 'Malformed Request')
-    @req.expect(auth_model, ingredient_list_model)
+    @req.expect(ingredient_list_model)
     @req.doc(description='''
         Request takes in a list of ingredient_names. 
         Once passed into this endpoint, a 'request' will be added into the database if a request with the exact same ingredients doesnt exist already.
@@ -23,8 +23,6 @@ class Request(Resource):
         r = request.json
         if not r:
             abort(400, 'Malformed Request')
-            
-        # user = authenticate(request)
         
         ingredients = [] 
         for i in r['ingredients']:
@@ -91,7 +89,7 @@ class Find(Resource):
     @req.response(200, 'Success', ingredient_list_model)
     @req.response(400, 'Malformed Request')
     @req.response(403, 'Invalid Authentication Token')
-    @req.expect(auth_model, request_id_model)
+    @req.expect(request_id_model)
     @req.doc(description='''
         find takes in a request_id which corresponds to a particular request.
         This endpoint will return the corresponding ingredients list back.
@@ -99,10 +97,9 @@ class Find(Resource):
     ''')
     def post(self):
         r = request.json
+
         if not (r):
             abort(400, 'Malformed Request')
-        # get user associated with token
-        # user = authenticate(request)
 
         request_id = r['request_id']
 
@@ -133,7 +130,6 @@ class Find(Resource):
 class All(Resource):
     @req.response(200, 'Success', request_list_model)
     @req.response(400, 'Malformed Request')
-    @req.response(403, 'Invalid Authentication Token')
     @req.doc(description='''
         All returns the unfulfilled requests that are currently in the database
         It will return the id of the request, the amount of times its been requested, as well as the ingredients in each request

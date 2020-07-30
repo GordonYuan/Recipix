@@ -26,6 +26,7 @@ import {
   RECIPE_PAGE,
   ADD_INGREDIENT,
   REQUESTS,
+  EDIT_RECIPE,
 } from "./constants/urlConstants";
 
 const theme = createMuiTheme({
@@ -44,6 +45,7 @@ const App = (
           <Route exact path={HOME_PAGE} component={HomePage} />
           <Route exact path={RECIPE_SEARCH} component={RecipeSearchPage} />
           <Route exact path={ADD_RECIPE} component={AddRecipePage} />
+          <Route exact path={EDIT_RECIPE} component={AddRecipePage} />
           <Route exact path={MY_RECIPES} component={MyRecipesPage} />
           <Route exact path={LOGIN} component={LoginPage} />
           <Route exact path={SIGNUP} component={SignUpPage} />

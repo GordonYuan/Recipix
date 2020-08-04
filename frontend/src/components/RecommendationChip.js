@@ -17,7 +17,12 @@ const useStyles = makeStyles((theme) => ({
 
 const RecommendationChip = (props) => {
   const classes = useStyles();
-  const { recommendations, setIngredientsList } = props;
+  const {
+    recommendations,
+    setRecommendations,
+    ingredientsList,
+    setIngredientsList,
+  } = props;
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
@@ -25,6 +30,12 @@ const RecommendationChip = (props) => {
       setIsDisabled(false);
     }
   }, [recommendations]);
+
+  useEffect(() => {
+    if (ingredientsList.length === 0) {
+      setRecommendations([]);
+    }
+  }, [ingredientsList]);
 
   return (
     <div className={classes.root}>

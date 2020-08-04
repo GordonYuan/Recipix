@@ -86,6 +86,7 @@ const HomePage = () => {
         ingredientsList={ingredientsList}
         recommendations={recommendations}
         setIngredientsList={setIngredientsList}
+        setRecommendations={setRecommendations}
       ></RecommendationChip>
       <Grid
         container

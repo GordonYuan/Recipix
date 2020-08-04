@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import FileBase64 from "react-file-base64";
 import TagFilter from "../components/TagFilter";
+import IngredientSearchBar from "../components/IngredientSearchBar";
+import getIngredientsApi from "../apis/getIngredientsApi";
+import { mapToOptions } from "../utils/Mappers";
 
 const AddRecipeForm = (props) => {
   const {
@@ -20,11 +23,30 @@ const AddRecipeForm = (props) => {
     touched,
   } = props;
 
+  const [ingredients, setIngredients] = useState([]);
+
+  useEffect(() => {
+    async function fetchIngredients() {
+      const response = await getIngredientsApi();
+      setIngredients(mapToOptions(response.data.categories));
+    }
+    fetchIngredients();
+  }, []);
+
   // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
     const { name, value } = e.target;
     const list = [...values.ingredients];
     list[idx][name] = value;
+    console.log({ list });
+    setFieldValue("ingredients", list);
+  };
+
+  const handleSearchChange = (e, idx) => {
+    const { value } = e;
+    const list = [...values.ingredients];
+    list[idx]["name"] = value;
+    console.log({ list });
     setFieldValue("ingredients", list);
   };
 
@@ -138,23 +160,24 @@ const AddRecipeForm = (props) => {
           />
         </Grid>
       </Grid>
-      <br />
-      <Typography variant="h5" gutterBottom>
+
+      <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
         Ingredients
       </Typography>
-      <Grid container spacing={4}>
-        {values.ingredients.map((item, idx) => {
-          return (
-            <Grid item xs={12} key={idx}>
-              <TextField
-                required
-                id="name"
-                name="name"
-                label="Type in your ingredient..."
-                value={item.name}
-                onChange={(e) => handleIngreChange(e, idx)}
-                style={{ width: "50%" }}
+
+      {values.ingredients.map((item, idx) => {
+        return (
+          <Grid container spacing={4} key={idx}>
+            <Grid item xs={6} style={{ paddingTop: "24px" }}>
+              <IngredientSearchBar
+                isMulti={false}
+                closeMenuOnSelect={true}
+                options={ingredients}
+                placeholder={"Enter your ingredient..."}
+                onChange={(e) => handleSearchChange(e, idx)}
               />
+            </Grid>
+            <Grid item xs={3}>
               <TextField
                 required
                 id="quantity"
@@ -162,32 +185,31 @@ const AddRecipeForm = (props) => {
                 label="Quantity..."
                 value={item.quantity}
                 onChange={(e) => handleIngreChange(e, idx)}
-                style={{ width: "25%", marginLeft: "1rem" }}
               />
-              {values.ingredients.length !== 1 && (
-                <IconButton
-                  aria-label="delete"
-                  color="secondary"
-                  onClick={() => handleRemoveIngredient(idx)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              )}
-              {values.ingredients.length - 1 === idx && (
-                <IconButton
-                  aria-label="delete"
-                  color="primary"
-                  onClick={() => handleAddIngredient()}
-                >
-                  <AddCircleIcon />
-                </IconButton>
-              )}
             </Grid>
-          );
-        })}
-      </Grid>
-      <br />
-      <Typography variant="h5" gutterBottom>
+            {values.ingredients.length !== 1 && (
+              <IconButton
+                aria-label="delete"
+                color="secondary"
+                onClick={() => handleRemoveIngredient(idx)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
+            {values.ingredients.length - 1 === idx && (
+              <IconButton
+                aria-label="add"
+                color="primary"
+                onClick={() => handleAddIngredient()}
+              >
+                <AddCircleIcon />
+              </IconButton>
+            )}
+          </Grid>
+        );
+      })}
+
+      <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
         Instructions
       </Typography>
       <Grid container spacing={4}>
@@ -200,7 +222,7 @@ const AddRecipeForm = (props) => {
                   required
                   id="instruction"
                   name="instruction"
-                  label="Type in your instruction..."
+                  label="Enter your instruction..."
                   value={item.instruction}
                   onChange={(e) => handleInstrChange(e, idx)}
                   style={{ width: "75%" }}
@@ -216,7 +238,7 @@ const AddRecipeForm = (props) => {
                 )}
                 {values.instructions.length - 1 === idx && (
                   <IconButton
-                    aria-label="delete"
+                    aria-label="add"
                     color="primary"
                     onClick={() => handleAddInstruction()}
                   >

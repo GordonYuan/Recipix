@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import makeAnimated from "react-select/animated";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
@@ -14,65 +12,16 @@ import requestRecipeApi from "../apis/requestRecipeApi";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import getRecommendationsApi from "../apis/getRecommendationsApi";
 import RecommendationChip from "../components/RecommendationChip";
-
-const groupStyles = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-const groupBadgeStyles = {
-  backgroundColor: "#EBECF0",
-  borderRadius: "2em",
-  color: "#172B4D",
-  display: "inline-block",
-  fontSize: 12,
-  fontWeight: "normal",
-  lineHeight: "1",
-  minWidth: 1,
-  padding: "0.16666666666667em 0.5em",
-  textAlign: "center",
-};
-
-const formatGroupLabel = (data) => (
-  <div style={groupStyles}>
-    <span>{data.label}</span>
-    <span style={groupBadgeStyles}>{data.options.length}</span>
-  </div>
-);
-
-export const titleCase = (str) => {
-  var splitStr = str.toLowerCase().split(" ");
-  for (var i = 0; i < splitStr.length; i++) {
-    // You do not need to check if i is larger than splitStr length, as your for does that for you
-    // Assign it back to the array
-    splitStr[i] =
-      splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-  }
-  // Directly return the joined string
-  return splitStr.join(" ");
-};
-
-const mapToOptions = (data) => {
-  // console.log({ data });
-  if (!!data) {
-    return data.map((entry) => {
-      return {
-        label: entry.category,
-        options: entry.ingredients.map((ingredient) => {
-          return { value: ingredient.name, label: titleCase(ingredient.name) };
-        }),
-      };
-    });
-  }
-};
+import IngredientSearchBar from "../components/IngredientSearchBar";
+import { mapToOptions } from "../utils/Mappers";
 
 const HomePage = () => {
   const [recipes, setRecipes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [ingredientsList, setIngredientsList] = useState([]);
   const [tagsState, setTagsState] = useState([]);
-  const [open, setOpen] = useState(false);
   const [recommendations, setRecommendations] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const signedIn = !!window.localStorage.getItem("token");
 
@@ -101,35 +50,11 @@ const HomePage = () => {
           tagsState
         );
         setRecommendations(response.data.ingredients);
-        console.log(recommendations);
       }
     }
     fetchRecipes();
     fetchRecommendations();
   }, [tagsState, ingredientsList]);
-
-  const filterOption = ({ label, value }, string) => {
-    label = label.toLocaleLowerCase();
-    string = string.toLocaleLowerCase();
-    // default search
-    if (label.includes(string) || value.includes(string)) return true;
-
-    // check if a group as the filter string as label
-    const groupOptions = ingredients.filter((group) =>
-      group.label.toLocaleLowerCase().includes(string)
-    );
-
-    if (groupOptions) {
-      for (const groupOption of groupOptions) {
-        // Check if current option is in group
-        const option = groupOption.options.find((opt) => opt.value === value);
-        if (option) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -138,32 +63,29 @@ const HomePage = () => {
     setOpen(false);
   };
 
+  const handleIngredientChange = (currentList) => {
+    if (!!currentList) {
+      setIngredientsList(currentList);
+    } else {
+      setIngredientsList([]);
+    }
+  };
+
   return (
     <>
       <h1 style={{ textAlign: "center" }}>ADD INGREDIENTS, GET RECIPES</h1>
-
-      <Select
-        isMulti
-        defaultValue={""}
+      <IngredientSearchBar
+        isMulti={true}
         closeMenuOnSelect={false}
-        components={makeAnimated()}
         options={ingredients}
-        formatGroupLabel={formatGroupLabel}
-        filterOption={filterOption}
         value={ingredientsList}
-        onChange={async (currentList) => {
-          if (!!currentList) {
-            setIngredientsList(currentList);
-          } else {
-            setIngredientsList([]);
-          }
-        }}
+        onChange={(currentList) => handleIngredientChange(currentList)}
       />
       <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
       <RecommendationChip
         ingredientsList={ingredientsList}
         recommendations={recommendations}
-        setIngredients={setIngredientsList}
+        setIngredientsList={setIngredientsList}
       ></RecommendationChip>
       <Grid
         container

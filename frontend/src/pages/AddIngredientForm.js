@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import Select from "react-select";
-import { titleCase } from "./HomePage";
+import { mapToCategories } from "../utils/Mappers";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -27,18 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapToCategories = (data) => {
-  // console.log({ data });
-  if (!!data) {
-    return data.map((entry) => {
-      return {
-        label: titleCase(entry.category),
-        value: entry.category,
-      };
-    });
-  }
-};
-const LoginForm = (props) => {
+const AddIngredientForm = (props) => {
   const classes = useStyles();
   const { handleSubmit, handleChange, values, setFieldValue } = props;
   const [categories, setCategories] = useState([]);
@@ -46,7 +36,7 @@ const LoginForm = (props) => {
   useEffect(() => {
     async function fetchCategories() {
       const response = await getIngredientsApi();
-      console.log(response);
+      console.log({ ingredients: response.data });
       setCategories(mapToCategories(response.data.categories));
     }
     fetchCategories();
@@ -98,4 +88,4 @@ const LoginForm = (props) => {
   );
 };
 
-export default LoginForm;
+export default AddIngredientForm;

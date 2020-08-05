@@ -43,6 +43,7 @@ python3 backend_server.py
 ```
 
 To terminate the process, simply enter into the terminal that the process is running in and press ctrl C. 
+
 Once you are finished with running the backend, you can deactivate the sandbox using
 ```bash
 deactivate

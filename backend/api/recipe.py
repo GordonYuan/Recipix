@@ -57,7 +57,8 @@ class searchName(Resource):
         # and adding into the new list
         if search_term:
             for recipe in recipe_t:
-                if recipe[2].find(search_term.lower()) != -1:
+
+                if recipe[2].lower().find(search_term.lower()) != -1:
                     new_recipes.append(recipe)
 
         return format_recipe(new_recipes)

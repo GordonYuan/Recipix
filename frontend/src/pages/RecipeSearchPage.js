@@ -26,38 +26,41 @@ const RecipeSearchPage = () => {
       const response = await searchRecipesByNameApi(input, tagsState);
       const data = response.data;
       setRecipes(data.recipes);
-      // console.log(data);
     }
   };
 
   return (
-    <div>
-      <p>Recipe Search Page</p>
-      <React.Fragment>
-        <TextField
-          fullWidth
-          id="recipeSearch"
-          name="recipeSearch"
-          placeholder="Search for a Recipe..."
-          variant="outlined"
-          onKeyDown={(e) => handleKeyDown(e)}
-        />
-        <br />
-        <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
-        <Grid container spacing={2}>
-          {recipes &&
-            recipes.map((recipe) => (
-              <Grid key={recipe.recipe_id} item xs={4}>
-                <RecipeCard
-                  title={recipe.recipe_name}
-                  imagePath={recipe.image}
-                  recipeId={recipe.recipe_id}
-                />
-              </Grid>
-            ))}
-        </Grid>
-      </React.Fragment>
-    </div>
+    <>
+      <h1
+        style={{
+          textAlign: "center",
+        }}
+      >
+        Recipe Search
+      </h1>
+      <TextField
+        fullWidth
+        id="recipeSearch"
+        name="recipeSearch"
+        placeholder="Search for a Recipe..."
+        variant="outlined"
+        onKeyDown={(e) => handleKeyDown(e)}
+      />
+      <br />
+      <TagFilter tagsState={tagsState} setTagsState={setTagsState} />
+      <Grid container spacing={2}>
+        {recipes &&
+          recipes.map((recipe) => (
+            <Grid key={recipe.recipe_id} item xs={4}>
+              <RecipeCard
+                title={recipe.recipe_name}
+                imagePath={recipe.image}
+                recipeId={recipe.recipe_id}
+              />
+            </Grid>
+          ))}
+      </Grid>
+    </>
   );
 };
 

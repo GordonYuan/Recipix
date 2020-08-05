@@ -7,7 +7,7 @@ const searchRecipesByNameApi = async (recipeName, tags) => {
     search_term: recipeName,
     tags: tags.map((tag) => ({ tag: tag })),
   };
-  console.log(payload);
+  // console.log({recipesByName: payload});
   const config = {
     headers: {
       Accept: "application/json",

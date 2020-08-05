@@ -29,6 +29,12 @@ const NavBar = ({ history }) => {
             />
           </Grid>
           <Grid item>
+            <Button color="inherit" onClick={() => history.push(HOME_PAGE)}>
+              HOME
+            </Button>
+            <Button color="inherit" onClick={() => history.push(RECIPE_SEARCH)}>
+              SEARCH RECIPES
+            </Button>
             {signedIn && (
               <>
                 <Button
@@ -48,9 +54,6 @@ const NavBar = ({ history }) => {
                 </Button>
               </>
             )}
-            <Button color="inherit" onClick={() => history.push(RECIPE_SEARCH)}>
-              SEARCH RECIPES
-            </Button>
             {signedIn ? (
               <Button
                 color="inherit"

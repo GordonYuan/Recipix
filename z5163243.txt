@@ -51,3 +51,8 @@ Week 9
 - Implemented tag filtering for searching recipes both with ingredients and without
 - Created request button at bottom of home page which takes current list of ingredients and sends them to the backend
 - Created request page which displays all requested combinations of ingredients that users would like to see put in a recipe
+
+Week 10
+- added ingredient dropdown selection in the add recipe form
+- fixed the recommendation double clicking would add multiple ingredients to the ingredient list, breaking the api
+- implemented request snackbar to show user successfully created a  recipe

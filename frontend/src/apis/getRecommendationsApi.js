@@ -6,7 +6,7 @@ const getRecommendationsApi = async (ingredients, tags) => {
     ingredients: ingredients.map((ingredient) => ({ name: ingredient.value })),
     tags: tags.map((tag) => ({ tag: tag })),
   };
-  console.log(payload);
+  // console.log({recommendationsPayload: payload});
   const config = {
     headers: {
       Accept: "application/json",

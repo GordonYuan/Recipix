@@ -8,30 +8,16 @@ import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+  heading: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
+    fontWeight: "bold",
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  list: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
   },
 }));
-
-// const callRecipeApi = async (recipeId) => {
-//   const response = await getRecipeByIdApi({ recipe_id: recipeId });
-//   console.log(response);
-//   return response.data.recipe;
-// };
 
 const Recipe = ({ match }) => {
   const recipeId = match.params.id.substr(1);
@@ -48,60 +34,104 @@ const Recipe = ({ match }) => {
     fetchRecipe();
   }, [recipeId]);
 
-  // console.log({recipe,recipeId});
-
   if (recipe == null) {
     return (
-      <div className={classes.root} align="center">
+      <div align="center">
         <CircularProgress />
       </div>
     );
   }
   return (
     <Container component="main">
-      <Typography component="h1" variant="h5" align="center">
+      <Typography
+        variant="h4"
+        align="center"
+        style={{ paddingTop: "10px", paddingBottom: "10px" }}
+      >
         {recipe.recipe_name}
       </Typography>
-      <Typography
-        component="h1"
-        variant="h5"
-        align="center"
-      >{`Contributed by ${recipe.recipe_creator}`}</Typography>
       <CardMedia
         style={{ height: 400 }}
         className={classes.media}
         image={"data:image/png;base64," + recipe.image}
       />
-      <Grid item xs={12}>
-        <h1>Description</h1>
+
+      {/* Recipe Contributor */}
+      <Typography
+        variant="body"
+        style={{
+          fontWeight: "bold",
+        }}
+      >
+        Contributor:
+      </Typography>
+      <Typography
+        variant="body"
+        style={{
+          paddingLeft: "20px",
+        }}
+      >
+        {recipe.recipe_creator}
+      </Typography>
+
+      {/* Recipe Description */}
+      <div className={classes.list}>
+        <Typography variant="h5" className={classes.heading}>
+          Description
+        </Typography>
         <Typography>{recipe.description}</Typography>
-        <h2>Tags </h2>
-        <Grid container spacing={3}>
-          {recipe.tags.map((tag) => (
-            <Grid item xs={2}>
-              {tag.tag}
-            </Grid>
-          ))}
-        </Grid>
-      </Grid>
-      <hr></hr>
+      </div>
+
+      {/* Recipe Categories */}
+      <Typography variant="h5" className={classes.heading}>
+        Category
+      </Typography>
       <Grid container spacing={3}>
+        {recipe.tags.map((tag) => (
+          <Grid item xs={2}>
+            {tag.tag}
+          </Grid>
+        ))}
+      </Grid>
+
+      <hr></hr>
+
+      <Grid
+        container
+        spacing={3}
+        style={{
+          paddingTop: "10px",
+        }}
+      >
         <Grid item xs={4}>
-          <h1>Ingredients</h1>
-          <Typography>
-            {recipe.ingredients.map((ingredients) => (
-              <li>{`${ingredients.quantity} ${ingredients.name}`}</li>
-            ))}
+          <Typography
+            variant="h5"
+            style={{
+              paddingTop: "10px",
+              fontWeight: "bold",
+            }}
+          >
+            Ingredients
           </Typography>
+          <ul>
+            {recipe.ingredients.map((ingredients) => (
+              <li
+                className={classes.list}
+              >{`${ingredients.quantity} ${ingredients.name}`}</li>
+            ))}
+          </ul>
         </Grid>
         <Grid item xs={8}>
-          <h1>Instructions</h1>
+          <Typography variant="h5" className={classes.heading}>
+            Cooking Instructions
+          </Typography>
+          <Typography variant="subtitle2">
+            Servings: {recipe.servings}
+          </Typography>
           <ol>
-            <Typography>
-              {recipe.method.map((method) => (
-                <li>{`${method.instruction}`}</li>
-              ))}
-            </Typography>
+            {recipe.method.map((method) => (
+              <li className={classes.list}>{`${method.instruction}`}</li>
+            ))}
           </ol>
         </Grid>
       </Grid>

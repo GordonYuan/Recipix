@@ -17,6 +17,8 @@ import SignUpPage from "./pages/SignUpPage";
 import AddIngredientPage from "./pages/AddIngredientPage";
 import RequestsPage from "./pages/RequestsPage";
 import AuthErrorPage from "./pages/AuthErrorPage";
+import PrivateRoute from "./components/PrivateRoute";
+
 import {
   HOME_PAGE,
   RECIPE_SEARCH,
@@ -47,16 +49,18 @@ const App = (
         <Switch>
           <Route exact path={HOME_PAGE} component={HomePage} />
           <Route exact path={RECIPE_SEARCH} component={RecipeSearchPage} />
-          <Route exact path={ADD_RECIPE} component={AddRecipePage} />
-          <Route exact path={EDIT_RECIPE} component={AddRecipePage} />
-          <Route exact path={REQUEST_RECIPE} component={AddRecipePage} />
-          <Route exact path={MY_RECIPES} component={MyRecipesPage} />
+          <Route exact path={RECIPE_PAGE} component={Recipe} />
           <Route exact path={LOGIN} component={LoginPage} />
           <Route exact path={SIGNUP} component={SignUpPage} />
-          <Route exact path={RECIPE_PAGE} component={Recipe} />
           <Route exact path={ADD_INGREDIENT} component={AddIngredientPage} />
-          <Route exact path={REQUESTS} component={RequestsPage} />
           <Route exact path={UNAUTH_USER} component={AuthErrorPage} />
+
+          <PrivateRoute exact path={ADD_RECIPE} component={AddRecipePage} />
+          <PrivateRoute exact path={EDIT_RECIPE} component={AddRecipePage} />
+          <PrivateRoute exact path={REQUEST_RECIPE} component={AddRecipePage} />
+          <PrivateRoute exact path={MY_RECIPES} component={MyRecipesPage} />
+          <PrivateRoute exact path={REQUESTS} component={RequestsPage} />
+
           <Route component={Notfound} />
         </Switch>
       </CentreColumn>

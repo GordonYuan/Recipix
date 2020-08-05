@@ -1,3 +1,6 @@
+# Recipix Backend
+The backend server is a REST API that is responsible for handling http requests from the frontend application. Thus it must be ran before the frontend will be functional.
+
 # Dependencies
 
 Running this backend requires the following to be installed: 

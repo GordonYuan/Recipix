@@ -21,9 +21,12 @@ const AddRecipeForm = (props) => {
     handleChange,
     handleBlur,
     touched,
+    isSubmitting,
+    setSubmitting,
   } = props;
 
   const [ingredients, setIngredients] = useState([]);
+  //const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -166,6 +169,7 @@ const AddRecipeForm = (props) => {
       </Typography>
 
       {values.ingredients.map((item, idx) => {
+        console.log(values.ingredients[0].name);
         return (
           <Grid container spacing={4} key={idx}>
             <Grid item xs={6} style={{ paddingTop: "24px" }}>
@@ -173,6 +177,7 @@ const AddRecipeForm = (props) => {
                 isMulti={false}
                 closeMenuOnSelect={true}
                 options={ingredients}
+                value={{ value: item.name, label: item.name }}
                 placeholder={"Enter your ingredient..."}
                 onChange={(e) => handleSearchChange(e, idx)}
               />
@@ -251,7 +256,15 @@ const AddRecipeForm = (props) => {
         })}
       </Grid>
       <br />
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          handleSubmit();
+          setSubmitting(true);
+        }}
+        disabled={isSubmitting}
+      >
         Create Recipe
       </Button>
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>

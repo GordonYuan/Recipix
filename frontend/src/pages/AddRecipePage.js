@@ -5,9 +5,9 @@ import * as Yup from "yup";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AddRecipeForm from "./AddRecipeForm";
 import {
-  HOME_PAGE,
   EDIT_RECIPE,
   REQUEST_RECIPE,
+  MY_RECIPES,
 } from "../constants/urlConstants";
 import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import editRecipeApi from "../apis/editRecipeApi";
@@ -96,12 +96,12 @@ const AddRecipePage = ({ history, match }) => {
             match.params.id.substr(1)
           );
           if (response.status === 200) {
-            history.push(HOME_PAGE);
+            history.push(MY_RECIPES);
           }
         } else {
           const response = await createRecipeApi(values);
           if (response.status === 200) {
-            history.push(HOME_PAGE);
+            history.push(MY_RECIPES);
           }
         }
       }}

@@ -40,7 +40,7 @@ class Login(Resource):
         vals = (username,)
         c.execute(sql, vals)
 
-        res = c.fetchall()
+        res = c.fetchone()
 
         c.close()
         conn.close()

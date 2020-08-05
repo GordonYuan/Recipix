@@ -178,7 +178,16 @@ def update_requests(ingredients):
 def delete_from_table(table, recipe_id):
     conn = sqlite3.connect('database/recipix.db')
     c = conn.cursor()
-    sql = 'DELETE FROM {} where recipe_id = ?'.format(table)
+
+    # allowing cascade deletes
+    c.execute('PRAGMA foreign_keys = ON')
+
+    column_name = 'recipe_id'
+    if table == 'recipes':
+        column_name = 'id'
+
+    sql = 'DELETE FROM {} where {} = ?'.format(table, column_name)
+
     c.execute(sql, (recipe_id,))
     conn.commit()
     c.close()
@@ -193,6 +202,7 @@ def add_into_methods(methods, recipe_id):
     for m in methods:
         vals.append((recipe_id, m['step_number'], m['instruction']))
 
+    print(vals)
     sql = 'INSERT INTO methods(recipe_id, step, instruction) VALUES (?, ?, ?)'
     c.executemany(sql, vals)
     conn.commit()
@@ -222,6 +232,8 @@ def add_into_recipe_tag(tags, recipe_id):
     vals = []
     for t in tags:
         vals.append((recipe_id, t['tag']))
+    
+    print(vals)  
     sql = 'INSERT INTO recipe_tag(recipe_id, tag) VALUES (?, ?)'
     c.executemany(sql, vals)
     conn.commit()

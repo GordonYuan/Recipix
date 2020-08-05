@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 
-#
-# DO NOT CHANGE THIS FILE
-#
-
-import os, sys, sqlite3
+import sys
 
 def main(host='127.0.0.1', port=None):
     try:

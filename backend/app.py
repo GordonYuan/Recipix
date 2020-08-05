@@ -1,4 +1,3 @@
-import os
 from flask import Flask
 from flask_restplus import Api
 from flask_cors import CORS

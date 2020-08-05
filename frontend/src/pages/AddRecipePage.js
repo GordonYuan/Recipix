@@ -99,8 +99,7 @@ const AddRecipePage = ({ history, match }) => {
           );
           if (response.status === 200) {
             history.push(MY_RECIPES);
-          }
-          if (response.status === 401) {
+          } else {
             history.push(UNAUTH_USER);
           }
         } else {

@@ -13,7 +13,7 @@ const createRecipeApi = async (values, setError) => {
     method: values.instructions,
     description: values.description,
   };
-  console.log(payload);
+  // console.log({createRecipe: payload});
   const config = {
     headers: {
       Authorization: localStorage.getItem("token"),

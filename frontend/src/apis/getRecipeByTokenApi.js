@@ -9,8 +9,8 @@ const getRecipeByTokenApi = async () => {
       Authorization: localStorage["token"],
     },
   };
-  console.log(config);
-  console.log(localStorage["token"]);
+  // console.log(config);
+  // console.log(localStorage["token"]);
   return axios
     .post(baseUrl, payload, config)
     .then((response) => response)

@@ -99,7 +99,6 @@ const AddRecipeForm = (props) => {
       <Typography variant="h4" gutterBottom>
         Create Your Recipe
       </Typography>
-      {/* {console.log({ recipeName: errors.recipeName })} */}
       {/* Recipe Name field */}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -169,7 +168,7 @@ const AddRecipeForm = (props) => {
       </Typography>
 
       {values.ingredients.map((item, idx) => {
-        console.log(values.ingredients[0].name);
+        // console.log({ ingredientName: values.ingredients[0].name});
         return (
           <Grid container spacing={4} key={idx}>
             <Grid item xs={6} style={{ paddingTop: "24px" }}>

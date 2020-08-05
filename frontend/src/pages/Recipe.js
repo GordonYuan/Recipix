@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   heading: {
     paddingTop: "10px",
     paddingBottom: "10px",
@@ -27,8 +27,8 @@ const Recipe = ({ match }) => {
   useEffect(() => {
     async function fetchRecipe() {
       const response = await getRecipeByIdApi({ recipe_id: recipeId });
-      console.log({ response });
-      console.log(response.data);
+      // console.log({ response });
+      // console.log(response.data);
       setRecipe(response.data.recipes[0]);
     }
     fetchRecipe();
@@ -43,15 +43,11 @@ const Recipe = ({ match }) => {
   }
   return (
     <Container component="main">
-      <Typography
-        variant="h4"
-        align="center"
-        style={{ paddingTop: "10px", paddingBottom: "10px" }}
-      >
+      <Typography variant="h4" align="center" className={classes.list}>
         {recipe.recipe_name}
       </Typography>
       <CardMedia
-        style={{ height: 400 }}
+        style={{ height: 400, marginTop: "10px", marginBottom: "20px" }}
         className={classes.media}
         image={"data:image/png;base64," + recipe.image}
       />
@@ -83,7 +79,7 @@ const Recipe = ({ match }) => {
       </div>
 
       {/* Recipe Categories */}
-      <Typography variant="h5" className={classes.heading}>
+      <Typography variant="h6" className={classes.heading}>
         Category
       </Typography>
       <Grid container spacing={3}>
@@ -103,6 +99,7 @@ const Recipe = ({ match }) => {
           paddingTop: "10px",
         }}
       >
+        {/* Ingredients */}
         <Grid item xs={4}>
           <Typography
             variant="h5"
@@ -120,7 +117,10 @@ const Recipe = ({ match }) => {
               >{`${ingredients.quantity} ${ingredients.name}`}</li>
             ))}
           </ul>
+          <hr />
         </Grid>
+
+        {/* Cooking Instructions */}
         <Grid item xs={8}>
           <Typography variant="h5" className={classes.heading}>
             Cooking Instructions

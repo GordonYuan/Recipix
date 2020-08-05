@@ -30,6 +30,7 @@ VALUES
     ("blueberry", "fruit"),
     ("raspberry", "fruit"),
     ("mango", "fruit"),
+    ("avocado", "fruit"),
     ("rice", "grains"),
     ("pasta", "grains"),
     ("flour", "grains"),

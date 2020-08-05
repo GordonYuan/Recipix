@@ -16,6 +16,7 @@ const useStyles = makeStyles(() => ({
   list: {
     paddingTop: "10px",
     paddingBottom: "10px",
+    lineHeight: "40px",
   },
 }));
 

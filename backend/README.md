@@ -7,19 +7,29 @@ Running this backend requires the following to be installed:
  - sqlite3 (If you want to remake the database)
 
 ## python3 
-To install python3, run
+To install python3:
 ```bash
 sudo apt-get install python3
 ```
-To install pip, run
+
+## pip
+To install pip:
 ```bash
 sudo apt-get install pip3
 ```
-to install venv, run
+
+## venv
+To install venv:
 ```bash
 pip install virtualenv
 ```
 
+## sqlite3
+To initialize the database, you must have sqlite3 installed.
+To install sqlite3:
+```bash
+sudo apt-get install sqlite3
+```
 
 # Running the backend
 
@@ -54,11 +64,6 @@ deactivate
 ## Overview
 The database is located in the backend/database directory. 
 In this directory, there exists a schema. 
-
-## Dependencies
-To initialize the database, you must have sqlite3 installed.
-To do so, you can run:
-`sudo apt-get install sqlite3`
 
 ## Database
 Initially in the repo, the database should exist by itself already, populated with synthetic data. 

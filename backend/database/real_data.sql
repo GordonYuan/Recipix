@@ -211,7 +211,6 @@ VALUES
     (8, "lemon", "25 grams"),
     (8, "crab", "500 grams"),
     (8, "egg", "3 whole"),
-    (8, "lemon", "25 grams"),
     (8, "spinach", "50 grams"),
     (8, "sour cream", "300 grams"),
     (8, "flour", "250 grams"),

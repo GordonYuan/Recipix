@@ -64,12 +64,8 @@ deactivate
 
 # Database
 
-## Overview
-The database is located in the backend/database directory. 
-In this directory, there exists a schema. 
-
 ## Database
-Initially in the repo, the database should exist by itself already, populated with synthetic data. 
+Initially in the repo, the database should exist, populated with synthetic data as recipix.db
 
 ### Removing the database
 If there are issues with the database, you may choose to rebuild the database. 

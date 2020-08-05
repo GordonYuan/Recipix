@@ -133,21 +133,21 @@ for id in range(1, 151):
 rec_tags = list(set(rec_tags))
 
 print("##################################")
-print("recipes brother")
+print("recipes")
 for x in recipes:
     print(x)
 
 print("##################################")
-print("methods brother")
+print("methods")
 for x in methods:
     print(x)
 
 print("##################################")
-print("rec_tags brother")
+print("rec_tags")
 for x in sorted(rec_tags):
     print(x)
 
 print("##################################")
-print("rec_hass brother")
+print("rec_has")
 for x in rec_hass:
     print(x)

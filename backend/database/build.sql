@@ -1,6 +1,6 @@
 --
 -- Invokes other scripts to build and populate the database
 
-.read ./database/rmdb.sql
-.read ./database/schema.sql
-.read ./database/data.sql
+.read rmdb.sql
+.read schema.sql
+.read data.sql

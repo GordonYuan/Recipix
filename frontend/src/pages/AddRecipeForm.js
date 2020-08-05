@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Link from "@material-ui/core/Link";
 import FileBase64 from "react-file-base64";
 import TagFilter from "../components/TagFilter";
 import IngredientSearchBar from "../components/IngredientSearchBar";
@@ -207,9 +208,24 @@ const AddRecipeForm = (props) => {
       </Grid>
 
       {/* Ingredients field */}
-      <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
-        Ingredients
-      </Typography>
+      <Grid
+        container
+        spacing={2}
+        justify="space-between"
+        alignItems="center"
+        style={{ paddingTop: "30px" }}
+      >
+        <Grid item>
+          <Typography variant="h5" gutterBottom>
+            Ingredients
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Link href="/add-ingredient" variant="body2">
+            {"Don't see an ingredient? Add an ingredient"}
+          </Link>
+        </Grid>
+      </Grid>
       {values.ingredients.map((item, idx) => {
         return (
           <Grid container spacing={4} key={idx}>
@@ -256,6 +272,7 @@ const AddRecipeForm = (props) => {
           </Grid>
         );
       })}
+
       {/* Error checking for ingredients field */}
       {isEmptyIngredient ? (
         <Typography style={{ color: "red" }} variant="subtitle2">

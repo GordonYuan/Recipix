@@ -95,5 +95,10 @@ Week 9
 Monday
 clean up some backend bugs by andrew, and implemented another api call.
 
-Tuesday-Wednesday
+Tuesday-Thursday
 Discussion about functionality with group, Andrew, fixing bugs with Andrew, adding additional test data, final cleanup of backend
+
+Week 10
+Wednesday
+Contributed to report writing, adding real recipes to database, adding images to sample test data, last final checks with group, preparation for presentation 
+

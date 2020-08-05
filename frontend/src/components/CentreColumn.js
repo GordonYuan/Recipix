@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CentreColumn = ({ children, ...props }) => {
+const CentreColumn = ({ children }) => {
   const classes = useStyles();
   return (
     <Grid container spacing={3}>

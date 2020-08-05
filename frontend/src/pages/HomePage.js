@@ -115,7 +115,7 @@ const HomePage = () => {
           ))}
       </Grid>
       {ingredientsList.length !== 0 && signedIn && (
-        <Grid container justify="center">
+        <Grid container justify="center" style={{ paddingTop: "20px" }}>
           <Button
             style={{ align: "center" }}
             color="inherit"

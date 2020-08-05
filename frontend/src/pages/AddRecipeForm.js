@@ -25,8 +25,12 @@ const AddRecipeForm = (props) => {
     setSubmitting,
   } = props;
 
+  //Ingredients used for options in the select bar
   const [ingredients, setIngredients] = useState([]);
-  //const [isDisabled, setIsDisabled] = useState(false);
+  //Error checking flags for if there is duplicate ingredients, empty ingredients or empty instructions respectively
+  const [isDupeIngredient, setIsDupeIngredient] = useState(false);
+  const [isEmptyIngredient, setIsEmptyIngredient] = useState(false);
+  const [isEmptyInstruction, setIsEmptyInstruction] = useState(false);
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -35,6 +39,33 @@ const AddRecipeForm = (props) => {
     }
     fetchIngredients();
   }, []);
+
+  // Error checking for duplicate and empty ingredients and empty instructions
+  const checkInstructionsAndIngredients = () => {
+    var i;
+    var j;
+    setIsDupeIngredient(false);
+    setIsEmptyIngredient(false);
+    setIsEmptyInstruction(false);
+    for (i = 0; i < values.ingredients.length; i++) {
+      for (j = 0; j < values.ingredients.length; j++) {
+        if (
+          values.ingredients[i].name === values.ingredients[j].name &&
+          i !== j
+        ) {
+          setIsDupeIngredient(true);
+        }
+      }
+      if (values.ingredients[i].name === "") {
+        setIsEmptyIngredient(true);
+      }
+    }
+    for (i = 0; i < values.instructions.length; i++) {
+      if (values.instructions[i].instruction === "") {
+        setIsEmptyInstruction(true);
+      }
+    }
+  };
 
   // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
@@ -164,10 +195,10 @@ const AddRecipeForm = (props) => {
         </Grid>
       </Grid>
 
+      {/* Ingredients field */}
       <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
         Ingredients
       </Typography>
-
       {values.ingredients.map((item, idx) => {
         console.log(values.ingredients[0].name);
         return (
@@ -213,7 +244,20 @@ const AddRecipeForm = (props) => {
           </Grid>
         );
       })}
+      {/* Error checking for ingredients field */}
+      {isEmptyIngredient ? (
+        <Typography style={{ color: "red" }} variant="subtitle2">
+          Please make sure you have no empty Ingredients
+        </Typography>
+      ) : (
+        isDupeIngredient && (
+          <Typography style={{ color: "red" }} variant="subtitle2">
+            Please make sure you have no duplicate Ingredients
+          </Typography>
+        )
+      )}
 
+      {/* Instructions field */}
       <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
         Instructions
       </Typography>
@@ -255,18 +299,29 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
+      {/* Error checking for instructions */}
+      {isEmptyInstruction && (
+        <Typography style={{ color: "red" }} variant="subtitle2">
+          Please make sure you have no empty Instructions
+        </Typography>
+      )}
       <br />
       <Button
         variant="contained"
         color="primary"
         onClick={() => {
           handleSubmit();
+          checkInstructionsAndIngredients();
           setSubmitting(true);
         }}
         disabled={isSubmitting}
       >
         Create Recipe
       </Button>
+      <pre>{JSON.stringify(isEmptyIngredient, null, 1)}</pre>
+      <pre>{JSON.stringify(isEmptyInstruction, null, 1)}</pre>
+      <pre>{JSON.stringify(isDupeIngredient, null, 1)}</pre>
+      {/* if error then display "duplicate ingredient" */}
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
       <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}

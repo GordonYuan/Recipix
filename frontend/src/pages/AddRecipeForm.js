@@ -11,6 +11,7 @@ import TagFilter from "../components/TagFilter";
 import IngredientSearchBar from "../components/IngredientSearchBar";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import { mapToOptions } from "../utils/Mappers";
+import { withRouter } from "react-router";
 
 const AddRecipeForm = (props) => {
   const {
@@ -25,8 +26,12 @@ const AddRecipeForm = (props) => {
     setSubmitting,
   } = props;
 
+  //Ingredients used for options in the select bar
   const [ingredients, setIngredients] = useState([]);
-  //const [isDisabled, setIsDisabled] = useState(false);
+  //Error checking flags for if there is duplicate ingredients, empty ingredients or empty instructions respectively
+  const [isDupeIngredient, setIsDupeIngredient] = useState(false);
+  const [isEmptyIngredient, setIsEmptyIngredient] = useState(false);
+  const [isEmptyInstruction, setIsEmptyInstruction] = useState(false);
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -35,6 +40,36 @@ const AddRecipeForm = (props) => {
     }
     fetchIngredients();
   }, []);
+
+  // Error checking for duplicate and empty ingredients and empty instructions
+  const checkInstructionsAndIngredients = () => {
+    var i;
+    var j;
+    setIsDupeIngredient(false);
+    setIsEmptyIngredient(false);
+    setIsEmptyInstruction(false);
+    for (i = 0; i < values.ingredients.length; i++) {
+      for (j = 0; j < values.ingredients.length; j++) {
+        if (
+          values.ingredients[i].name === values.ingredients[j].name &&
+          i !== j
+        ) {
+          setIsDupeIngredient(true);
+        }
+      }
+      if (
+        values.ingredients[i].name === "" ||
+        values.ingredients[i].quantity === ""
+      ) {
+        setIsEmptyIngredient(true);
+      }
+    }
+    for (i = 0; i < values.instructions.length; i++) {
+      if (values.instructions[i].instruction === "") {
+        setIsEmptyInstruction(true);
+      }
+    }
+  };
 
   // Functional components needed to dynamically add ingredients to the recipe
   const handleIngreChange = (e, idx) => {
@@ -99,7 +134,7 @@ const AddRecipeForm = (props) => {
           textAlign: "center",
         }}
       >
-        Create Your Recipe
+        {values.isEdit ? "Edit" : "Create"} Your Recipe
       </h1>
 
       {/* Recipe Name field */}
@@ -171,12 +206,11 @@ const AddRecipeForm = (props) => {
         </Grid>
       </Grid>
 
+      {/* Ingredients field */}
       <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
         Ingredients
       </Typography>
-
       {values.ingredients.map((item, idx) => {
-        // console.log({ ingredientName: values.ingredients[0].name});
         return (
           <Grid container spacing={4} key={idx}>
             <Grid item xs={6} style={{ paddingTop: "24px" }}>
@@ -222,7 +256,20 @@ const AddRecipeForm = (props) => {
           </Grid>
         );
       })}
+      {/* Error checking for ingredients field */}
+      {isEmptyIngredient ? (
+        <Typography style={{ color: "red" }} variant="subtitle2">
+          Please make sure you have no empty fields in Ingredients
+        </Typography>
+      ) : (
+        isDupeIngredient && (
+          <Typography style={{ color: "red" }} variant="subtitle2">
+            Please make sure you have no duplicate Ingredients
+          </Typography>
+        )
+      )}
 
+      {/* Instructions field */}
       <Typography variant="h5" style={{ paddingTop: "30px" }} gutterBottom>
         Instructions
       </Typography>
@@ -264,18 +311,23 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
-
+      {isEmptyInstruction && (
+        <Typography style={{ color: "red" }} variant="subtitle2">
+          Please make sure you have no empty Instructions
+        </Typography>
+      )}
       <Grid container justify="center" style={{ paddingTop: "30px" }}>
         <Button
           variant="contained"
           color="primary"
           onClick={() => {
             handleSubmit();
+            checkInstructionsAndIngredients();
             setSubmitting(true);
           }}
           disabled={isSubmitting}
         >
-          Create Recipe
+          {values.isEdit ? "Edit" : "Create"} Recipe
         </Button>
       </Grid>
 
@@ -291,4 +343,4 @@ const AddRecipeForm = (props) => {
   );
 };
 
-export default AddRecipeForm;
+export default withRouter(AddRecipeForm);

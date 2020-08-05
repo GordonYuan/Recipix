@@ -68,3 +68,7 @@ I managed to get add ingredient working although there was a problem with me not
 
 Tuesday
 I finished implementing the form validation for adding ingredient. I also, along with Gordon and Kevin, managed to implement the search by recipe name page, for which my main contribution was adding the ability to filter by tag.
+
+Week 10
+Wednesday
+We fixed some bugs to ready ourselves for the demo. I made sure that the user cannot create the same recipe twice by clicking the add recipe button too quickly.

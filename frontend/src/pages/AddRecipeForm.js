@@ -41,7 +41,6 @@ const AddRecipeForm = (props) => {
     const { name, value } = e.target;
     const list = [...values.ingredients];
     list[idx][name] = value;
-    console.log({ list });
     setFieldValue("ingredients", list);
   };
 
@@ -49,7 +48,6 @@ const AddRecipeForm = (props) => {
     const { value } = e;
     const list = [...values.ingredients];
     list[idx]["name"] = value;
-    console.log({ list });
     setFieldValue("ingredients", list);
   };
 

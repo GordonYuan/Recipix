@@ -34,4 +34,12 @@ This was Flex week and most of us (me included) spent the week focusing on other
 
 Week 7
 
-…
+I started work on the recipe creation. The form was a lot more complicated than I initially thought it would. Getting the recipe creation working took most of my time for the week.
+
+Week 8
+
+I tidied up the code and made the form a reusable component so that I could implement edit recipe. I found a bug as well regarding the need to use callbacks because otherwise, every time I added an ingredient to the form, it would be one step behind. I also implemented the recipe search page.
+
+Week 9 + 10
+
+Leading up to the final submission, we finished all the core features of our website. However, there were many small bugs and UI improvements which were compiled into a google doc. Andy, Gordon and I spent the remaining time till the submission making improvements and removing bugs.

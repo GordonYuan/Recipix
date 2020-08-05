@@ -7,7 +7,7 @@ const searchRecipesApi = async (ingredients, tags) => {
     ingredients: ingredients.map((ingredient) => ({ name: ingredient.value })),
     tags: tags.map((tag) => ({ tag: tag })),
   };
-  console.log({ searchRecipePayload: payload });
+  // console.log({ searchRecipePayload: payload });
   const config = {
     headers: {
       Accept: "application/json",

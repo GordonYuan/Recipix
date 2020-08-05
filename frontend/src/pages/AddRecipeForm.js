@@ -57,7 +57,10 @@ const AddRecipeForm = (props) => {
           setIsDupeIngredient(true);
         }
       }
-      if (values.ingredients[i].name === "") {
+      if (
+        values.ingredients[i].name === "" ||
+        values.ingredients[i].quantity === ""
+      ) {
         setIsEmptyIngredient(true);
       }
     }
@@ -73,7 +76,6 @@ const AddRecipeForm = (props) => {
     const { name, value } = e.target;
     const list = [...values.ingredients];
     list[idx][name] = value;
-    // console.log({ list });
     setFieldValue("ingredients", list);
   };
 
@@ -81,7 +83,6 @@ const AddRecipeForm = (props) => {
     const { value } = e;
     const list = [...values.ingredients];
     list[idx]["name"] = value;
-    // console.log({ list });
     setFieldValue("ingredients", list);
   };
 
@@ -128,10 +129,14 @@ const AddRecipeForm = (props) => {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      <h1
+        style={{
+          textAlign: "center",
+        }}
+      >
         {values.isEdit ? "Edit" : "Create"} Your Recipe
-      </Typography>
-      {/* {console.log({ recipeName: errors.recipeName })} */}
+      </h1>
+
       {/* Recipe Name field */}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -152,7 +157,12 @@ const AddRecipeForm = (props) => {
         {/* Upload Image field */}
         <br />
         <Grid item xs={12} sm={12}>
-          <Typography variant="h5" gutterBottom>
+          <Typography
+            variant="h5"
+            style={{
+              paddingBottom: "15px",
+            }}
+          >
             Upload an Image of your Recipe
           </Typography>
           <FileBase64 multiple={false} onDone={getFiles} />
@@ -201,7 +211,6 @@ const AddRecipeForm = (props) => {
         Ingredients
       </Typography>
       {values.ingredients.map((item, idx) => {
-        // console.log(values.ingredients[0].name);
         return (
           <Grid container spacing={4} key={idx}>
             <Grid item xs={6} style={{ paddingTop: "24px" }}>
@@ -209,7 +218,9 @@ const AddRecipeForm = (props) => {
                 isMulti={false}
                 closeMenuOnSelect={true}
                 options={ingredients}
-                value={{ value: item.name, label: item.name }}
+                value={
+                  !!item.name ? { value: item.name, label: item.name } : ""
+                }
                 placeholder={"Enter your ingredient..."}
                 onChange={(e) => handleSearchChange(e, idx)}
               />
@@ -248,7 +259,7 @@ const AddRecipeForm = (props) => {
       {/* Error checking for ingredients field */}
       {isEmptyIngredient ? (
         <Typography style={{ color: "red" }} variant="subtitle2">
-          Please make sure you have no empty Ingredients
+          Please make sure you have no empty fields in Ingredients
         </Typography>
       ) : (
         isDupeIngredient && (
@@ -300,37 +311,34 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
-      {/* Error checking for instructions */}
       {isEmptyInstruction && (
         <Typography style={{ color: "red" }} variant="subtitle2">
           Please make sure you have no empty Instructions
         </Typography>
       )}
-      <br />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          handleSubmit();
-          checkInstructionsAndIngredients();
-          setSubmitting(true);
-        }}
-        disabled={isSubmitting}
-      >
-        {values.isEdit ? "Edit" : "Create"} Recipe
-      </Button>
-      <pre>{JSON.stringify(isEmptyIngredient, null, 1)}</pre>
-      <pre>{JSON.stringify(isEmptyInstruction, null, 1)}</pre>
-      <pre>{JSON.stringify(isDupeIngredient, null, 1)}</pre>
-      {/* if error then display "duplicate ingredient" */}
+      <Grid container justify="center" style={{ paddingTop: "30px" }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleSubmit();
+            checkInstructionsAndIngredients();
+            setSubmitting(true);
+          }}
+          disabled={isSubmitting}
+        >
+          {values.isEdit ? "Edit" : "Create"} Recipe
+        </Button>
+      </Grid>
+
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
-      <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
+      <pre>{JSON.stringify(values.servings, null, 1)}</pre>
+      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(instructionList, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
+      <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </>
   );
 };

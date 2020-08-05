@@ -15,7 +15,6 @@ const SignUpPage = ({ history }) => {
           window.localStorage.setItem("token", response.data.token);
           history.push(HOME_PAGE);
         } else if (response.status === 409) {
-          console.log("Username taken");
           values.error = "Username taken";
         } else {
           values.error = "Please enter username and password";

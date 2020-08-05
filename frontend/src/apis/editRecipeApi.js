@@ -16,7 +16,7 @@ const editRecipeApi = async (values, id, setError) => {
     method: values.instructions,
     description: values.description,
   };
-  console.log(payload);
+  // console.log({ editRecipe: payload });
   const config = {
     headers: {
       Authorization: localStorage.getItem("token"),

@@ -10,9 +10,8 @@ const SignIn = ({ history }) => {
     <Formik
       initialValues={{ username: "", password: "", valid: true }}
       onSubmit={async (values) => {
-        console.log(values);
         const response = await loginApi(values);
-        console.log(response);
+        // console.log({loginResponse: response});
         if (response.status === 200) {
           window.localStorage.setItem("token", response.data.token);
           history.push("/");

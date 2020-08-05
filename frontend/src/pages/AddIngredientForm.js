@@ -36,7 +36,7 @@ const AddIngredientForm = (props) => {
   useEffect(() => {
     async function fetchCategories() {
       const response = await getIngredientsApi();
-      console.log({ ingredients: response.data });
+      // console.log({ ingredients: response.data });
       setCategories(mapToCategories(response.data.categories));
     }
     fetchCategories();
@@ -69,7 +69,6 @@ const AddIngredientForm = (props) => {
               if (!!e) {
                 setFieldValue("category", e);
               }
-              console.log(e);
             }}
           />
           <Button

@@ -6,28 +6,25 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import deleteRecipeApi from "../apis/deleteRecipeApi";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { withRouter } from "react-router";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles({
+  root: {
+    height: "100%",
+  },
   media: {
     height: 140,
   },
 });
 
-// useEffects -> runs a function when the page loads
-// -> calling the api for all recipes and ingredients
-// -> populate the search bar
-// -> when searching, it will filter for recipes
-
 const RecipeCard = (props) => {
   const { title, imagePath, recipeId, canEdit, history } = props;
-  // console.log(imagePath);
   const classes = useStyles();
 
   return (
@@ -44,17 +41,16 @@ const RecipeCard = (props) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions disableSpacing>
-        <Link href={"/recipe/:" + recipeId} variant="body2">
-          {"View Recipe"}
-        </Link>
-        <Grid
-          container
-          spacing={2}
-          alignItems="flex-start"
-          justify="flex-end"
-          direction="row"
-        >
+      <CardActions>
+        <Grid container spacing={2} justify="space-between" alignItems="center">
+          <Grid item>
+            <Button
+              onClick={() => history.push(`/recipe/:${recipeId}`)}
+              color="primary"
+            >
+              View Recipe
+            </Button>
+          </Grid>
           <Grid item>
             {canEdit && (
               <IconButton

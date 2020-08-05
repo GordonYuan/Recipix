@@ -21,9 +21,12 @@ const AddRecipeForm = (props) => {
     handleChange,
     handleBlur,
     touched,
+    isSubmitting,
+    setSubmitting,
   } = props;
 
   const [ingredients, setIngredients] = useState([]);
+  //const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -251,7 +254,15 @@ const AddRecipeForm = (props) => {
         })}
       </Grid>
       <br />
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          handleSubmit();
+          setSubmitting(true);
+        }}
+        disabled={isSubmitting}
+      >
         Create Recipe
       </Button>
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>

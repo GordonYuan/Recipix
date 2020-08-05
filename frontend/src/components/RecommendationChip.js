@@ -35,7 +35,7 @@ const RecommendationChip = (props) => {
     if (ingredientsList.length === 0) {
       setRecommendations([]);
     }
-  }, [ingredientsList]);
+  }, [ingredientsList, setRecommendations]);
 
   return (
     <div className={classes.root}>

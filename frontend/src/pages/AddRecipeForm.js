@@ -94,9 +94,14 @@ const AddRecipeForm = (props) => {
 
   return (
     <>
-      <Typography variant="h4" gutterBottom>
+      <h1
+        style={{
+          textAlign: "center",
+        }}
+      >
         Create Your Recipe
-      </Typography>
+      </h1>
+
       {/* Recipe Name field */}
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -117,7 +122,12 @@ const AddRecipeForm = (props) => {
         {/* Upload Image field */}
         <br />
         <Grid item xs={12} sm={12}>
-          <Typography variant="h5" gutterBottom>
+          <Typography
+            variant="h5"
+            style={{
+              paddingBottom: "15px",
+            }}
+          >
             Upload an Image of your Recipe
           </Typography>
           <FileBase64 multiple={false} onDone={getFiles} />
@@ -174,7 +184,9 @@ const AddRecipeForm = (props) => {
                 isMulti={false}
                 closeMenuOnSelect={true}
                 options={ingredients}
-                value={{ value: item.name, label: item.name }}
+                value={
+                  !!item.name ? { value: item.name, label: item.name } : ""
+                }
                 placeholder={"Enter your ingredient..."}
                 onChange={(e) => handleSearchChange(e, idx)}
               />
@@ -252,26 +264,29 @@ const AddRecipeForm = (props) => {
           );
         })}
       </Grid>
-      <br />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          handleSubmit();
-          setSubmitting(true);
-        }}
-        disabled={isSubmitting}
-      >
-        Create Recipe
-      </Button>
+
+      <Grid container justify="center" style={{ paddingTop: "30px" }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            handleSubmit();
+            setSubmitting(true);
+          }}
+          disabled={isSubmitting}
+        >
+          Create Recipe
+        </Button>
+      </Grid>
+
       {/* <pre>{JSON.stringify(values.recipeName, null, 1)}</pre>
       <pre>{JSON.stringify(values.description, null, 1)}</pre>
-      <pre>{JSON.stringify(values.servings, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.ingredients, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(instructionList, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(values.instructions, null, 1)}</pre> */}
-      {/* <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
+      <pre>{JSON.stringify(values.servings, null, 1)}</pre>
+      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(values.ingredients, null, 1)}</pre>
+      <pre>{JSON.stringify(instructionList, null, 1)}</pre>
+      <pre>{JSON.stringify(values.instructions, null, 1)}</pre>
+      <pre>{JSON.stringify(recipeName, null, 1)}</pre>  */}
     </>
   );
 };

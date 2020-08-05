@@ -11,6 +11,7 @@ import TagFilter from "../components/TagFilter";
 import IngredientSearchBar from "../components/IngredientSearchBar";
 import getIngredientsApi from "../apis/getIngredientsApi";
 import { mapToOptions } from "../utils/Mappers";
+import { withRouter } from "react-router";
 
 const AddRecipeForm = (props) => {
   const {
@@ -72,7 +73,7 @@ const AddRecipeForm = (props) => {
     const { name, value } = e.target;
     const list = [...values.ingredients];
     list[idx][name] = value;
-    console.log({ list });
+    // console.log({ list });
     setFieldValue("ingredients", list);
   };
 
@@ -80,7 +81,7 @@ const AddRecipeForm = (props) => {
     const { value } = e;
     const list = [...values.ingredients];
     list[idx]["name"] = value;
-    console.log({ list });
+    // console.log({ list });
     setFieldValue("ingredients", list);
   };
 
@@ -128,7 +129,7 @@ const AddRecipeForm = (props) => {
   return (
     <>
       <Typography variant="h4" gutterBottom>
-        Create Your Recipe
+        {values.isEdit ? "Edit" : "Create"} Your Recipe
       </Typography>
       {/* {console.log({ recipeName: errors.recipeName })} */}
       {/* Recipe Name field */}
@@ -200,7 +201,7 @@ const AddRecipeForm = (props) => {
         Ingredients
       </Typography>
       {values.ingredients.map((item, idx) => {
-        console.log(values.ingredients[0].name);
+        // console.log(values.ingredients[0].name);
         return (
           <Grid container spacing={4} key={idx}>
             <Grid item xs={6} style={{ paddingTop: "24px" }}>
@@ -316,7 +317,7 @@ const AddRecipeForm = (props) => {
         }}
         disabled={isSubmitting}
       >
-        Create Recipe
+        {values.isEdit ? "Edit" : "Create"} Recipe
       </Button>
       <pre>{JSON.stringify(isEmptyIngredient, null, 1)}</pre>
       <pre>{JSON.stringify(isEmptyInstruction, null, 1)}</pre>
@@ -334,4 +335,4 @@ const AddRecipeForm = (props) => {
   );
 };
 
-export default AddRecipeForm;
+export default withRouter(AddRecipeForm);

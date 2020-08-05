@@ -8,6 +8,7 @@ import {
   EDIT_RECIPE,
   REQUEST_RECIPE,
   MY_RECIPES,
+  UNAUTH_USER,
 } from "../constants/urlConstants";
 import getRecipeByIdApi from "../apis/getRecipeByIdApi";
 import editRecipeApi from "../apis/editRecipeApi";
@@ -55,7 +56,7 @@ const AddRecipePage = ({ history, match }) => {
       setRecipe({ ingredients: response.data.ingredients });
       setIsLoaded(true);
     }
-    //If I'm editting a recipe, then I need to wait on the
+    //If I'm editting a recipe, then I need to wait on the api call
     //Else, If I'm just adding a recipe, then there is nothing to wait on so isLoaded = true
     if (match.path === EDIT_RECIPE) {
       setIsEdit(true);
@@ -87,6 +88,7 @@ const AddRecipePage = ({ history, match }) => {
         servings: recipe.servings || "",
         instructions: recipe.method || [{ instruction: "" }],
         description: recipe.description || "",
+        isEdit: isEdit,
       }}
       validationSchema={AddRecipeSchema}
       onSubmit={async (values) => {
@@ -97,6 +99,9 @@ const AddRecipePage = ({ history, match }) => {
           );
           if (response.status === 200) {
             history.push(MY_RECIPES);
+          }
+          if (response.status === 401) {
+            history.push(UNAUTH_USER);
           }
         } else {
           const response = await createRecipeApi(values);

@@ -45,7 +45,8 @@ const RecipeCard = (props) => {
         <Grid container spacing={2} justify="space-between" alignItems="center">
           <Grid item>
             <Button
-              onClick={() => history.push(`/recipe/:${recipeId}`)}
+              onClick={() => window.open(`/recipe/:${recipeId}`)}
+              target="_blank"
               color="primary"
             >
               View Recipe
